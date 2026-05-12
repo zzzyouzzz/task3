@@ -1,0 +1,228 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "Common",
+					"jsonFile" : "directory-Common-Debug-93d5e0f2d095a202fb49.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Common",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "client/service",
+					"jsonFile" : "directory-client.service-Debug-bba9523961a8be8f8e05.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "client/service",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "server",
+					"jsonFile" : "directory-server-Debug-ca16530337ce509e32d1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "server",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "client/cli",
+					"jsonFile" : "directory-client.cli-Debug-1d39bf02722601d9cbae.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "client/cli",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "client/qt_ui",
+					"jsonFile" : "directory-client.qt_ui-Debug-11fa4ba30d2bee690b1c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "client/qt_ui",
+					"targetIndexes" : 
+					[
+						5,
+						6
+					]
+				},
+				{
+					"build" : "tests",
+					"jsonFile" : "directory-tests-Debug-70e4927a02b591d5c1f8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					],
+					"name" : "task3",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "Common::@13b50f4fff9a3833e1fc",
+					"jsonFile" : "target-Common-Debug-9bbbb24ed980e45eb9c6.json",
+					"name" : "Common",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "CommonTests::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-CommonTests-Debug-6c62541ccd5a67f94822.json",
+					"name" : "CommonTests",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "DataSetTests::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-DataSetTests-Debug-735e3278a76c816b6449.json",
+					"name" : "DataSetTests",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "ServerTests::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-ServerTests-Debug-ecc803414fb408642b59.json",
+					"name" : "ServerTests",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "client_cli::@2d086698d7ee46204e03",
+					"jsonFile" : "target-client_cli-Debug-3ac0d7ef4ce3a18ac018.json",
+					"name" : "client_cli",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "client_qt::@f51e66a1b8ba53a4bb62",
+					"jsonFile" : "target-client_qt-Debug-202b9655fd13ca27a864.json",
+					"name" : "client_qt",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "client_qt_autogen::@f51e66a1b8ba53a4bb62",
+					"jsonFile" : "target-client_qt_autogen-Debug-19900f135c85808e9021.json",
+					"name" : "client_qt_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "client_service::@462d2b81e3fa2ffaed06",
+					"jsonFile" : "target-client_service-Debug-1cfb058b33c286ab67d3.json",
+					"name" : "client_service",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "server::@d19778d2e34a1e3ddfc0",
+					"jsonFile" : "target-server-Debug-49779908b3d8e5cadc09.json",
+					"name" : "server",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/c/vsc_pro/task3/build",
+		"source" : "D:/c/vsc_pro/task3"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

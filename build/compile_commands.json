@@ -1,0 +1,164 @@
+[
+{
+  "directory": "D:/c/vsc_pro/task3/build/Common",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/Common.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\Common.dir\\src\\Logger.cpp.obj -c D:\\c\\vsc_pro\\task3\\Common\\src\\Logger.cpp",
+  "file": "D:/c/vsc_pro/task3/Common/src/Logger.cpp",
+  "output": "Common/CMakeFiles/Common.dir/src/Logger.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/Common",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/Common.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\Common.dir\\src\\common.cpp.obj -c D:\\c\\vsc_pro\\task3\\Common\\src\\common.cpp",
+  "file": "D:/c/vsc_pro/task3/Common/src/common.cpp",
+  "output": "Common/CMakeFiles/Common.dir/src/common.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/service",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/client_service.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\client_service.dir\\src\\Communication.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\service\\src\\Communication.cpp",
+  "file": "D:/c/vsc_pro/task3/client/service/src/Communication.cpp",
+  "output": "client/service/CMakeFiles/client_service.dir/src/Communication.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/server",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\FileManager.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\FileManager.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/FileManager.cpp",
+  "output": "server/CMakeFiles/server.dir/src/FileManager.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/server",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\LogisticsSystem.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\LogisticsSystem.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/LogisticsSystem.cpp",
+  "output": "server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/server",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\main.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\main.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/main.cpp",
+  "output": "server/CMakeFiles/server.dir/src/main.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/server",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\server.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\server.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/server.cpp",
+  "output": "server/CMakeFiles/server.dir/src/server.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/cli",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/client_cli.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\client_cli.dir\\Cli.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\cli\\Cli.cpp",
+  "file": "D:/c/vsc_pro/task3/client/cli/Cli.cpp",
+  "output": "client/cli/CMakeFiles/client_cli.dir/Cli.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/cli",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/client_cli.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\client_cli.dir\\main.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\cli\\main.cpp",
+  "file": "D:/c/vsc_pro/task3/client/cli/main.cpp",
+  "output": "client/cli/CMakeFiles/client_cli.dir/main.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\client_qt_autogen\\mocs_compilation.cpp.obj -c D:\\c\\vsc_pro\\task3\\build\\client\\qt_ui\\client_qt_autogen\\mocs_compilation.cpp",
+  "file": "D:/c/vsc_pro/task3/build/client/qt_ui/client_qt_autogen/mocs_compilation.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/client_qt_autogen/mocs_compilation.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\AccountPage.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\AccountPage.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/AccountPage.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/AccountPage.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\CourierPage.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\CourierPage.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/CourierPage.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/CourierPage.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\CourierWindow.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\CourierWindow.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/CourierWindow.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/CourierWindow.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\LoginWindow.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\LoginWindow.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/LoginWindow.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/LoginWindow.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\QueryPage.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\QueryPage.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/QueryPage.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/QueryPage.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\ReceivePage.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\ReceivePage.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/ReceivePage.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/ReceivePage.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\RegisterWindow.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\RegisterWindow.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/RegisterWindow.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/RegisterWindow.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\SendPage.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\SendPage.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/SendPage.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/SendPage.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\UserWindow.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\UserWindow.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/UserWindow.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/UserWindow.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\main.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\main.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/main.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/main.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/client/qt_ui",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/client_qt.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\client_qt.dir\\src\\new.cpp.obj -c D:\\c\\vsc_pro\\task3\\client\\qt_ui\\src\\new.cpp",
+  "file": "D:/c/vsc_pro/task3/client/qt_ui/src/new.cpp",
+  "output": "client/qt_ui/CMakeFiles/client_qt.dir/src/new.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/tests",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/CommonTests.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\CommonTests.dir\\common_tests.cpp.obj -c D:\\c\\vsc_pro\\task3\\tests\\common_tests.cpp",
+  "file": "D:/c/vsc_pro/task3/tests/common_tests.cpp",
+  "output": "tests/CMakeFiles/CommonTests.dir/common_tests.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/tests",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/ServerTests.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\ServerTests.dir\\server_tests.cpp.obj -c D:\\c\\vsc_pro\\task3\\tests\\server_tests.cpp",
+  "file": "D:/c/vsc_pro/task3/tests/server_tests.cpp",
+  "output": "tests/CMakeFiles/ServerTests.dir/server_tests.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/tests",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/ServerTests.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\ServerTests.dir\\__\\server\\src\\FileManager.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\FileManager.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/FileManager.cpp",
+  "output": "tests/CMakeFiles/ServerTests.dir/__/server/src/FileManager.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/tests",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/ServerTests.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\ServerTests.dir\\__\\server\\src\\LogisticsSystem.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\LogisticsSystem.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/LogisticsSystem.cpp",
+  "output": "tests/CMakeFiles/ServerTests.dir/__/server/src/LogisticsSystem.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/tests",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/DataSetTests.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\DataSetTests.dir\\dataset_tests.cpp.obj -c D:\\c\\vsc_pro\\task3\\tests\\dataset_tests.cpp",
+  "file": "D:/c/vsc_pro/task3/tests/dataset_tests.cpp",
+  "output": "tests/CMakeFiles/DataSetTests.dir/dataset_tests.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/tests",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/DataSetTests.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\DataSetTests.dir\\__\\server\\src\\FileManager.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\FileManager.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/FileManager.cpp",
+  "output": "tests/CMakeFiles/DataSetTests.dir/__/server/src/FileManager.cpp.obj"
+}
+]

@@ -1,0 +1,40 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/client_qt.dir/client_qt_autogen/mocs_compilation.cpp.obj"
+  "CMakeFiles/client_qt.dir/client_qt_autogen/mocs_compilation.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/AccountPage.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/AccountPage.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/CourierPage.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/CourierPage.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/CourierWindow.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/CourierWindow.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/LoginWindow.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/LoginWindow.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/QueryPage.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/QueryPage.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/ReceivePage.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/ReceivePage.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/RegisterWindow.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/RegisterWindow.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/SendPage.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/SendPage.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/UserWindow.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/UserWindow.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/main.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/main.cpp.obj.d"
+  "CMakeFiles/client_qt.dir/src/new.cpp.obj"
+  "CMakeFiles/client_qt.dir/src/new.cpp.obj.d"
+  "CMakeFiles/client_qt_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/client_qt_autogen.dir/ParseCache.txt"
+  "client_qt_autogen"
+  "D:/c/vsc_pro/task3/output/client/client_qt.exe"
+  "D:/c/vsc_pro/task3/output/client/client_qt.exe.manifest"
+  "D:/c/vsc_pro/task3/output/client/client_qt.pdb"
+  "client_qt_autogen/mocs_compilation.cpp"
+  "client_qt_autogen/timestamp"
+  "libclient_qt.dll.a"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/client_qt.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

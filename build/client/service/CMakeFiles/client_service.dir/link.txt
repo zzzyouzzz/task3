@@ -1,0 +1,2 @@
+C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ar.exe qc libclient_service.a CMakeFiles/client_service.dir/src/Communication.cpp.obj
+C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ranlib.exe libclient_service.a

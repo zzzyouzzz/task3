@@ -1,0 +1,2 @@
+C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ar.exe qc libcommunication.a CMakeFiles/communication.dir/src/Communication.cpp.obj
+C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ranlib.exe libcommunication.a
