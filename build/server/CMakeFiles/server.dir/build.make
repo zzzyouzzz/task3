@@ -71,11 +71,26 @@ include server/CMakeFiles/server.dir/flags.make
 server/CMakeFiles/server.dir/codegen:
 .PHONY : server/CMakeFiles/server.dir/codegen
 
+server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj: server/CMakeFiles/server.dir/flags.make
+server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj: server/CMakeFiles/server.dir/includes_CXX.rsp
+server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj: D:/c/vsc_pro/task3/server/src/ClientHandler.cpp
+server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj: server/CMakeFiles/server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj"
+	cd /d D:\c\vsc_pro\task3\build\server && C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj -MF CMakeFiles\server.dir\src\ClientHandler.cpp.obj.d -o CMakeFiles\server.dir\src\ClientHandler.cpp.obj -c D:\c\vsc_pro\task3\server\src\ClientHandler.cpp
+
+server/CMakeFiles/server.dir/src/ClientHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/src/ClientHandler.cpp.i"
+	cd /d D:\c\vsc_pro\task3\build\server && C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\c\vsc_pro\task3\server\src\ClientHandler.cpp > CMakeFiles\server.dir\src\ClientHandler.cpp.i
+
+server/CMakeFiles/server.dir/src/ClientHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/src/ClientHandler.cpp.s"
+	cd /d D:\c\vsc_pro\task3\build\server && C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\c\vsc_pro\task3\server\src\ClientHandler.cpp -o CMakeFiles\server.dir\src\ClientHandler.cpp.s
+
 server/CMakeFiles/server.dir/src/FileManager.cpp.obj: server/CMakeFiles/server.dir/flags.make
 server/CMakeFiles/server.dir/src/FileManager.cpp.obj: server/CMakeFiles/server.dir/includes_CXX.rsp
 server/CMakeFiles/server.dir/src/FileManager.cpp.obj: D:/c/vsc_pro/task3/server/src/FileManager.cpp
 server/CMakeFiles/server.dir/src/FileManager.cpp.obj: server/CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object server/CMakeFiles/server.dir/src/FileManager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object server/CMakeFiles/server.dir/src/FileManager.cpp.obj"
 	cd /d D:\c\vsc_pro\task3\build\server && C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/server.dir/src/FileManager.cpp.obj -MF CMakeFiles\server.dir\src\FileManager.cpp.obj.d -o CMakeFiles\server.dir\src\FileManager.cpp.obj -c D:\c\vsc_pro\task3\server\src\FileManager.cpp
 
 server/CMakeFiles/server.dir/src/FileManager.cpp.i: cmake_force
@@ -90,7 +105,7 @@ server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj: server/CMakeFiles/serv
 server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj: server/CMakeFiles/server.dir/includes_CXX.rsp
 server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj: D:/c/vsc_pro/task3/server/src/LogisticsSystem.cpp
 server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj: server/CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj"
 	cd /d D:\c\vsc_pro\task3\build\server && C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj -MF CMakeFiles\server.dir\src\LogisticsSystem.cpp.obj.d -o CMakeFiles\server.dir\src\LogisticsSystem.cpp.obj -c D:\c\vsc_pro\task3\server\src\LogisticsSystem.cpp
 
 server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.i: cmake_force
@@ -105,7 +120,7 @@ server/CMakeFiles/server.dir/src/main.cpp.obj: server/CMakeFiles/server.dir/flag
 server/CMakeFiles/server.dir/src/main.cpp.obj: server/CMakeFiles/server.dir/includes_CXX.rsp
 server/CMakeFiles/server.dir/src/main.cpp.obj: D:/c/vsc_pro/task3/server/src/main.cpp
 server/CMakeFiles/server.dir/src/main.cpp.obj: server/CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object server/CMakeFiles/server.dir/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object server/CMakeFiles/server.dir/src/main.cpp.obj"
 	cd /d D:\c\vsc_pro\task3\build\server && C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/server.dir/src/main.cpp.obj -MF CMakeFiles\server.dir\src\main.cpp.obj.d -o CMakeFiles\server.dir\src\main.cpp.obj -c D:\c\vsc_pro\task3\server\src\main.cpp
 
 server/CMakeFiles/server.dir/src/main.cpp.i: cmake_force
@@ -120,7 +135,7 @@ server/CMakeFiles/server.dir/src/server.cpp.obj: server/CMakeFiles/server.dir/fl
 server/CMakeFiles/server.dir/src/server.cpp.obj: server/CMakeFiles/server.dir/includes_CXX.rsp
 server/CMakeFiles/server.dir/src/server.cpp.obj: D:/c/vsc_pro/task3/server/src/server.cpp
 server/CMakeFiles/server.dir/src/server.cpp.obj: server/CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object server/CMakeFiles/server.dir/src/server.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object server/CMakeFiles/server.dir/src/server.cpp.obj"
 	cd /d D:\c\vsc_pro\task3\build\server && C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT server/CMakeFiles/server.dir/src/server.cpp.obj -MF CMakeFiles\server.dir\src\server.cpp.obj.d -o CMakeFiles\server.dir\src\server.cpp.obj -c D:\c\vsc_pro\task3\server\src\server.cpp
 
 server/CMakeFiles/server.dir/src/server.cpp.i: cmake_force
@@ -133,6 +148,7 @@ server/CMakeFiles/server.dir/src/server.cpp.s: cmake_force
 
 # Object files for target server
 server_OBJECTS = \
+"CMakeFiles/server.dir/src/ClientHandler.cpp.obj" \
 "CMakeFiles/server.dir/src/FileManager.cpp.obj" \
 "CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj" \
 "CMakeFiles/server.dir/src/main.cpp.obj" \
@@ -141,6 +157,7 @@ server_OBJECTS = \
 # External object files for target server
 server_EXTERNAL_OBJECTS =
 
+D:/c/vsc_pro/task3/output/server/server.exe: server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj
 D:/c/vsc_pro/task3/output/server/server.exe: server/CMakeFiles/server.dir/src/FileManager.cpp.obj
 D:/c/vsc_pro/task3/output/server/server.exe: server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj
 D:/c/vsc_pro/task3/output/server/server.exe: server/CMakeFiles/server.dir/src/main.cpp.obj
@@ -150,7 +167,7 @@ D:/c/vsc_pro/task3/output/server/server.exe: Common/libCommon.a
 D:/c/vsc_pro/task3/output/server/server.exe: server/CMakeFiles/server.dir/linkLibs.rsp
 D:/c/vsc_pro/task3/output/server/server.exe: server/CMakeFiles/server.dir/objects1.rsp
 D:/c/vsc_pro/task3/output/server/server.exe: server/CMakeFiles/server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable D:\c\vsc_pro\task3\output\server\server.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\c\vsc_pro\task3\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable D:\c\vsc_pro\task3\output\server\server.exe"
 	cd /d D:\c\vsc_pro\task3\build\server && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\server.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

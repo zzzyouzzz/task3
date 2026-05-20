@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/server.dir/src/ClientHandler.cpp.obj"
+  "CMakeFiles/server.dir/src/ClientHandler.cpp.obj.d"
   "CMakeFiles/server.dir/src/FileManager.cpp.obj"
   "CMakeFiles/server.dir/src/FileManager.cpp.obj.d"
   "CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj"

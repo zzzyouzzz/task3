@@ -19,6 +19,12 @@
 },
 {
   "directory": "D:/c/vsc_pro/task3/build/server",
+  "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\ClientHandler.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\ClientHandler.cpp",
+  "file": "D:/c/vsc_pro/task3/server/src/ClientHandler.cpp",
+  "output": "server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj"
+},
+{
+  "directory": "D:/c/vsc_pro/task3/build/server",
   "command": "C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\FileManager.cpp.obj -c D:\\c\\vsc_pro\\task3\\server\\src\\FileManager.cpp",
   "file": "D:/c/vsc_pro/task3/server/src/FileManager.cpp",
   "output": "server/CMakeFiles/server.dir/src/FileManager.cpp.obj"

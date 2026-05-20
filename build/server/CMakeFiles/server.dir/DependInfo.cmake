@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "D:/c/vsc_pro/task3/server/src/ClientHandler.cpp" "server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj" "gcc" "server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj.d"
   "D:/c/vsc_pro/task3/server/src/FileManager.cpp" "server/CMakeFiles/server.dir/src/FileManager.cpp.obj" "gcc" "server/CMakeFiles/server.dir/src/FileManager.cpp.obj.d"
   "D:/c/vsc_pro/task3/server/src/LogisticsSystem.cpp" "server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj" "gcc" "server/CMakeFiles/server.dir/src/LogisticsSystem.cpp.obj.d"
   "D:/c/vsc_pro/task3/server/src/main.cpp" "server/CMakeFiles/server.dir/src/main.cpp.obj" "gcc" "server/CMakeFiles/server.dir/src/main.cpp.obj.d"

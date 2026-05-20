@@ -143,7 +143,7 @@
 				{
 					"directoryIndex" : 5,
 					"id" : "client_qt::@f51e66a1b8ba53a4bb62",
-					"jsonFile" : "target-client_qt-Debug-224368965a8b46417d55.json",
+					"jsonFile" : "target-client_qt-Debug-202b9655fd13ca27a864.json",
 					"name" : "client_qt",
 					"projectIndex" : 0
 				},
@@ -164,7 +164,7 @@
 				{
 					"directoryIndex" : 3,
 					"id" : "server::@d19778d2e34a1e3ddfc0",
-					"jsonFile" : "target-server-Debug-49779908b3d8e5cadc09.json",
+					"jsonFile" : "target-server-Debug-3e731bb03af454f80b12.json",
 					"name" : "server",
 					"projectIndex" : 0
 				}

@@ -22,7 +22,7 @@ void LogisticsSystem::autoAssignCourier(std::string parcelId) {
     }
 }
 
-// 构造函数：加载数据文件 + 初始化默认管理员 + 计算单号计数器 + 快递员负载
+// 构造函数：加载数据文件 + 初始化默认管理员 + 计算单号计数器 + 快递员负载 + 系统运行标志
 LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string& parcelFile, const std::string& configFile, bool autoAssignCourier)
     : m_adminTotalBalance(0.0), m_nextParcelId(1), m_autoAssignCourier(autoAssignCourier),
         m_userFile(userFile), m_parcelFile(parcelFile), m_configFile(configFile) {
@@ -59,6 +59,8 @@ LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string&
 
 // 析构：保存数据 → 释放所有 User 和 Parcel 动态内存
 LogisticsSystem::~LogisticsSystem() {
+    // 注销所有用户
+    for (auto& pair : m_users) pair.second->logout();
     saveData();
     for (auto& pair : m_users) delete pair.second;
     for (auto& p : m_parcels) delete p.second;
@@ -72,12 +74,16 @@ void LogisticsSystem::saveData() {
 }
 
 // 用户登录：校验用户名存在 → 身份类型匹配 → 密码正确 → 返回用户指针
-std::pair<ErrorCode, User*> LogisticsSystem::loginUser(const std::string& username, const std::string& password, UserType type) {
+ErrorCode LogisticsSystem::loginUser(const std::string& username, const std::string& password, UserType type) {
     auto it = m_users.find(username);
-    if (it == m_users.end()) return {ErrorCode::USER_NOT_FOUND, nullptr};
-    if (it->second->getUserType() != type) return {ErrorCode::LOGIN_FAILED, nullptr};
-    if (!it->second->login(password)) return {ErrorCode::LOGIN_FAILED, nullptr};
-    return {ErrorCode::SUCCESS, it->second};
+    if (it == m_users.end()) return ErrorCode::USER_NOT_FOUND;
+    if (it->second->getUserType() != type) return ErrorCode::LOGIN_FAILED;
+    if (!it->second->login(password)) return ErrorCode::LOGIN_FAILED;
+    if (it->second->isLogin()) return ErrorCode::USER_ALREADY_LOGIN;
+    // 登录成功后，设置用户状态为已登录
+    it->second->login();
+    saveData();
+    return ErrorCode::SUCCESS;
 }
 
 // 注册用户：检查用户名唯一性 → 创建对应用户对象 → 持久化
@@ -96,6 +102,17 @@ ErrorCode LogisticsSystem::registerUser(const std::string& username, const std::
     saveData();
     return ErrorCode::SUCCESS;
 }
+
+// 注销登录：校验用户存在 → 校验是否登录 → 重置登录状态 → 持久化
+ErrorCode LogisticsSystem::logoutUser(const std::string& username) {
+    auto it = m_users.find(username);
+    if (it == m_users.end()) return ErrorCode::USER_NOT_FOUND;
+    if (!it->second->isLogin()) return ErrorCode::USER_NOT_LOGIN;
+    it->second->logout();
+    saveData();
+    return ErrorCode::SUCCESS;
+}
+
 
 
 // 发送快递：校验收件人存在 → 生成单号 → 扣款 → 自动分配快递员 → 持久化

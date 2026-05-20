@@ -139,6 +139,30 @@ server/fast:
 	cd /d D:\c\vsc_pro\task3\build && $(MAKE) $(MAKESILENT) -f server\CMakeFiles\server.dir\build.make server/CMakeFiles/server.dir/build
 .PHONY : server/fast
 
+src/ClientHandler.obj: src/ClientHandler.cpp.obj
+.PHONY : src/ClientHandler.obj
+
+# target to build an object file
+src/ClientHandler.cpp.obj:
+	cd /d D:\c\vsc_pro\task3\build && $(MAKE) $(MAKESILENT) -f server\CMakeFiles\server.dir\build.make server/CMakeFiles/server.dir/src/ClientHandler.cpp.obj
+.PHONY : src/ClientHandler.cpp.obj
+
+src/ClientHandler.i: src/ClientHandler.cpp.i
+.PHONY : src/ClientHandler.i
+
+# target to preprocess a source file
+src/ClientHandler.cpp.i:
+	cd /d D:\c\vsc_pro\task3\build && $(MAKE) $(MAKESILENT) -f server\CMakeFiles\server.dir\build.make server/CMakeFiles/server.dir/src/ClientHandler.cpp.i
+.PHONY : src/ClientHandler.cpp.i
+
+src/ClientHandler.s: src/ClientHandler.cpp.s
+.PHONY : src/ClientHandler.s
+
+# target to generate assembly for a file
+src/ClientHandler.cpp.s:
+	cd /d D:\c\vsc_pro\task3\build && $(MAKE) $(MAKESILENT) -f server\CMakeFiles\server.dir\build.make server/CMakeFiles/server.dir/src/ClientHandler.cpp.s
+.PHONY : src/ClientHandler.cpp.s
+
 src/FileManager.obj: src/FileManager.cpp.obj
 .PHONY : src/FileManager.obj
 
@@ -245,6 +269,9 @@ help:
 	@echo ... rebuild_cache
 	@echo ... test
 	@echo ... server
+	@echo ... src/ClientHandler.obj
+	@echo ... src/ClientHandler.i
+	@echo ... src/ClientHandler.s
 	@echo ... src/FileManager.obj
 	@echo ... src/FileManager.i
 	@echo ... src/FileManager.s

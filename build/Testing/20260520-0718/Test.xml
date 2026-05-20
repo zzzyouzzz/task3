@@ -22,14 +22,14 @@
 	TotalVirtualMemory="28381"
 	TotalPhysicalMemory="24029"
 	LogicalProcessorsPerPhysical="1"
-	ProcessorClockFrequency="2998"
+	ProcessorClockFrequency="2995"
 	>
 	<Testing>
-		<StartDateTime>May 20 18:55 中国标准时间</StartDateTime>
-		<StartTestTime>1779274551</StartTestTime>
+		<StartDateTime>May 20 21:22 中国标准时间</StartDateTime>
+		<StartTestTime>1779283362</StartTestTime>
 		<TestList/>
-		<EndDateTime>May 20 18:55 中国标准时间</EndDateTime>
-		<EndTestTime>1779274551</EndTestTime>
+		<EndDateTime>May 20 21:22 中国标准时间</EndDateTime>
+		<EndTestTime>1779283362</EndTestTime>
 		<ElapsedMinutes>0</ElapsedMinutes>
 	</Testing>
 </Site>

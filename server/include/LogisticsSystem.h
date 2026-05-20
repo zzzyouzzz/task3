@@ -33,8 +33,12 @@ public:
     // 持久化当前所有数据到文件
     void saveData();
 
-    // 用户登录 → {SUCCESS, user} 或 {错误码, nullptr}
-    std::pair<ErrorCode, User*> loginUser(const std::string& username, const std::string& password, UserType type);
+
+    // 用户登录 → SUCCESS 或 错误码
+    ErrorCode loginUser(const std::string& username, const std::string& password, UserType type);
+
+    // 注销登录 → SUCCESS 或 USER_NOT_LOGIN / USER_NOT_FOUND
+    ErrorCode logoutUser(const std::string& username);
 
     // 注册用户 → SUCCESS 或 USER_EXISTS / INVALID_ARGS
     ErrorCode registerUser(const std::string& username, const std::string& password,

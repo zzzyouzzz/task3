@@ -59,6 +59,7 @@ BOOL WINAPI ConsoleCtrlHandler(DWORD ctrlType) {
 }
 
 Logger g_logger;
+LogisticsSystem *m_system;
 
 int main() {
     std::string listenIp = "0.0.0.0";
@@ -96,7 +97,14 @@ int main() {
     g_logger.info("Data files: users=" + userFile + ", parcels=" + parcelFile + ", config=" + configFile);
     g_logger.info("Auto-assign courier: " + std::string(autoAssignCourier ? "enabled" : "disabled"));
 
-    server = new Server(userFile, parcelFile, configFile, autoAssignCourier);
+    try {
+        m_system = new LogisticsSystem(userFile, parcelFile, configFile, autoAssignCourier);
+        server = new Server();
+    } catch (const std::exception& e) {
+        g_logger.error("Failed to initialize logistics system: " + std::string(e.what()));
+        return 1;
+    }
+
     SetConsoleCtrlHandler(ConsoleCtrlHandler, TRUE);
 
     server->start(listenIp, listenPort);

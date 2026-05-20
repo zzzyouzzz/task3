@@ -25,6 +25,7 @@ server/CMakeFiles/server.dir/src/server.cpp.obj: \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/x86_64-w64-mingw32/include/stddef.h \
+ D:/c/vsc_pro/task3/server/include/ClientHandler.h \
  D:/c/vsc_pro/task3/Common/include/Logger.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/string \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/requires_hosted.h \

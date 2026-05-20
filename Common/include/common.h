@@ -45,6 +45,8 @@ enum class ErrorCode {
     NO_RESULT            = 12,  // 查询结果为空或无数据可操作
     DELETE_BLOCKED       = 13,  // 删除被阻塞（有未完成业务或权限）
     PARCEL_STATUS_INVALID = 14, // 快递状态无效
+    USER_NOT_LOGIN       = 15,  // 用户未登录
+    USER_ALREADY_LOGIN   = 16,  // 用户已登录
     UNKNOWN              = 99   // 未知错误
 };
 

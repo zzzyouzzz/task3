@@ -19,6 +19,7 @@ protected:
     std::string m_phone;      // 电话
     std::string m_address;    // 地址
     double m_balance;         // 余额
+    bool m_isLogin;            // 是否登录
 
 public:
     User() = default;
@@ -26,7 +27,7 @@ public:
     User(const std::string& uname, const std::string& pwd, const std::string& name,
          const std::string& phone, const std::string& addr, double balance = 0.0)
         : m_username(uname), m_password(pwd), m_name(name), m_phone(phone),
-          m_address(addr), m_balance(balance) {}
+          m_address(addr), m_balance(balance), m_isLogin(false) {}
 
     virtual ~User() = default;
 
@@ -49,8 +50,10 @@ public:
     std::string getName() const { return m_name; }
     std::string getPhone() const { return m_phone; }
     std::string getAddress() const { return m_address; }
-
     virtual UserType getUserType() const { return UserType::CUSTOMER; }
+    bool isLogin() const { return m_isLogin; }
+    void logout() { m_isLogin = false; }
+    void login() { m_isLogin = true; }
 
     virtual std::string serialize() const {
         std::ostringstream oss;
