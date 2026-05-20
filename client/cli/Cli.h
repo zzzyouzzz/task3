@@ -41,4 +41,5 @@ private:
     void deleteAccountUI();          // 注销账户
     void deleteParcelUI();           // 删除快递
     void logoutUI();                 // 注销登录
+    void getStatisticsUI();          // 获取统计信息
 };

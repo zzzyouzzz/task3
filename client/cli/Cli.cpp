@@ -219,11 +219,12 @@ void LogisticsClient::mainMenu(UserType type) {
         std::cout << "8. 揽收快递" << std::endl;
         std::cout << "9. 查询用户" << std::endl;
         std::cout << "10. 注销账户" << std::endl;
-        std::cout << "11. 删除快递" << std::endl;          
+        std::cout << "11. 删除快递" << std::endl;  
+        std::cout << "12. 获取统计信息" << std::endl;
         std::cout << "0. 注销登录" << std::endl;
         
         int op;
-        if (!readInt("请选择: ", op, 0, 11)) {
+        if (!readInt("请选择: ", op, 0, 12)) {
             std::cout << "输入无效，请重新选择。" << std::endl;
             continue;
         }
@@ -266,7 +267,7 @@ void LogisticsClient::mainMenu(UserType type) {
                 if (type == UserType::COURIER) {
                     collectParcelUI();
                 } else {
-                    std::cout << "您没有权限收快递。" << std::endl;
+                    std::cout << "您没有权限揽收快递。" << std::endl;
                 }
                 break;
             case 9: 
@@ -288,6 +289,13 @@ void LogisticsClient::mainMenu(UserType type) {
                     deleteParcelUI();
                 } else {
                     std::cout << "您没有权限删除快递。" << std::endl;
+                }
+                break;
+            case 12: 
+                if (type == UserType::ADMINISTRATOR) {
+                    getStatisticsUI();
+                } else {
+                    std::cout << "您没有权限获取统计信息。" << std::endl;
                 }
                 break;
             case 0: 
@@ -486,7 +494,7 @@ void LogisticsClient::collectParcelUI() {
     std::vector<std::string> ids;
     std::istringstream iss(line);
     std::string token;
-    while (std::getline(iss, token, ',')) ids.push_back(token);
+    while (std::getline(iss, token, ',')) ids.push_back(trimString(token));
     
     std::vector<std::string> collected; 
     
@@ -582,3 +590,17 @@ void LogisticsClient::logoutUI() {
     } 
 }
     
+void LogisticsClient::getStatisticsUI() {
+    int totalUsers = 0, totalParcels = 0, pendingCollection = 0, collected = 0, Signed = 0;
+    double adminTotalBalance = 0.0;
+    if (!m_system.getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance)) {
+        std::cout << "获取统计信息失败。" << std::endl;
+        return;
+    }
+    std::cout << "总用户数: " << totalUsers << std::endl;
+    std::cout << "总快递数: " << totalParcels << std::endl;
+    std::cout << "待揽收数: " << pendingCollection << std::endl;
+    std::cout << "已揽收数: " << collected << std::endl;
+    std::cout << "已签收数: " << Signed << std::endl;
+    std::cout << "管理员总余额: " << adminTotalBalance << std::endl;
+}

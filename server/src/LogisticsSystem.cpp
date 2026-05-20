@@ -286,10 +286,17 @@ ErrorCode LogisticsSystem::deleteParcel(const std::string& parcelId) {
 }
 
 // 获取统计信息
-std::pair<ErrorCode, std::map<std::string, double>> LogisticsSystem::getStatistics() const {
-    std::map<std::string, double> stats;
-    stats["totalParcels"] = static_cast<double>(m_parcels.size());
-    stats["totalUsers"] = static_cast<double>(m_users.size());
-    stats["totalBalance"] = m_adminTotalBalance;
-    return {ErrorCode::SUCCESS, stats};
+ErrorCode LogisticsSystem::getStatistics(int& totalUsers, int& totalParcels, int& pendingCollection, int& collected, int& Signed, double& adminTotalBalance) const {
+    totalUsers = m_users.size();
+    totalParcels = m_parcels.size();
+    pendingCollection = 0;
+    collected = 0;
+    Signed = 0;
+    adminTotalBalance = m_adminTotalBalance;
+    for (const auto& parcel : m_parcels) {
+        if (parcel.second->getStatus() == ParcelStatus::PENDING_COLLECTION) pendingCollection++;
+        if (parcel.second->getStatus() == ParcelStatus::PENDING_SIGN) collected++;
+        if (parcel.second->getStatus() == ParcelStatus::SIGNED) Signed++;
+    }
+    return ErrorCode::SUCCESS;
 }

@@ -154,8 +154,8 @@ client/service/CMakeFiles/client_service.dir/src/Communication.cpp.obj: \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/stl_tempbuf.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/pstl/glue_algorithm_defs.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/pstl/execution_defs.h \
- D:/c/vsc_pro/task3/Common/include/Logger.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/iostream \
+ D:/c/vsc_pro/task3/Common/include/Logger.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/mutex \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/chrono.h \
  C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/ratio \

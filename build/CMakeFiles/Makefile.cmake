@@ -232,7 +232,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "D:/c/vsc_pro/task3/client/qt_ui/CMakeLists.txt"
   "D:/c/vsc_pro/task3/client/service/CMakeLists.txt"
   "D:/c/vsc_pro/task3/server/CMakeLists.txt"
-  "D:/c/vsc_pro/task3/tests/CMakeLists.txt"
   )
 
 # The corresponding makefile is:
@@ -252,7 +251,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "client/qt_ui/CMakeFiles/client_qt_autogen.dir/AutogenInfo.json"
   ".qt/QtDeploySupport.cmake"
   "client/qt_ui/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "tests/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -263,7 +261,4 @@ set(CMAKE_DEPEND_INFO_FILES
   "client/cli/CMakeFiles/client_cli.dir/DependInfo.cmake"
   "client/qt_ui/CMakeFiles/client_qt.dir/DependInfo.cmake"
   "client/qt_ui/CMakeFiles/client_qt_autogen.dir/DependInfo.cmake"
-  "tests/CMakeFiles/CommonTests.dir/DependInfo.cmake"
-  "tests/CMakeFiles/ServerTests.dir/DependInfo.cmake"
-  "tests/CMakeFiles/DataSetTests.dir/DependInfo.cmake"
   )

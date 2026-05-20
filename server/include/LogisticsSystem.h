@@ -77,6 +77,6 @@ public:
     ErrorCode deleteParcel(const std::string& parcelId);
 
     // 获取统计信息 → {SUCCESS, stats}
-    std::pair<ErrorCode, std::map<std::string, double>> getStatistics() const;
+    ErrorCode getStatistics(int& totalUsers, int& totalParcels, int& pendingCollection, int& collected, int& Signed, double& adminTotalBalance) const;
 
 };

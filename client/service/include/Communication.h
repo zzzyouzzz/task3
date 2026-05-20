@@ -101,6 +101,6 @@ public:
     bool logout();
 
     // 获取统计信息（管理员功能）
-    bool getStatistics(std::vector<std::string>& stats);
+    bool getStatistics(int& totalUsers, int& totalParcels, int& pendingCollection, int& collected, int& Signed, double& adminTotalBalance);
 
 };

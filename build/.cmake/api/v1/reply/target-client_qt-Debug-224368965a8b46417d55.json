@@ -359,16 +359,16 @@
 	"dependencies" : 
 	[
 		{
+			"backtrace" : 0,
+			"id" : "client_qt_autogen::@f51e66a1b8ba53a4bb62"
+		},
+		{
 			"backtrace" : 2,
 			"id" : "Common::@13b50f4fff9a3833e1fc"
 		},
 		{
 			"backtrace" : 2,
 			"id" : "client_service::@462d2b81e3fa2ffaed06"
-		},
-		{
-			"backtrace" : 0,
-			"id" : "client_qt_autogen::@f51e66a1b8ba53a4bb62"
 		}
 	],
 	"id" : "client_qt::@f51e66a1b8ba53a4bb62",

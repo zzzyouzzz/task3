@@ -71,17 +71,22 @@ private:
     void add_user();              // 新增用户
 };
 
-// 管理员—统计信息页面
-class AdminStatisticsPage : public QWidget {
+// ------------------------------
+// 管理员 - 统计页面
+// ------------------------------
+class AdminStatsPage : public QWidget {
     Q_OBJECT
-    QTableWidget *infoTable;      // 统计信息表格
-    std::string username;          // 管理员用户名
+    QTableWidget* table;        // 统计数据表格
+    std::string username;       // 当前管理员用户名
     Communication* system;        // 通信对象
 public:
-    AdminStatisticsPage(QWidget *p=nullptr, std::string username="", Communication* sys=nullptr);
-    void refresh() { load_statistics(); }
+    // 构造函数：初始化统计页面
+    AdminStatsPage(QWidget* p = nullptr, std::string username = "", Communication* sys = nullptr);
+    // 刷新页面
+    void refresh() { load_stats(); }
+
 private:
-    void load_statistics();       // 加载统计数据
+    void load_stats();   // 加载统计数据
 };
 
 

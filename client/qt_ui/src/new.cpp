@@ -283,59 +283,67 @@ void AdminUserPage::add_user() {
     registerDlg->exec();  // 模态显示注册窗口
 }
 
-AdminStatisticsPage::AdminStatisticsPage(QWidget *p, std::string username, Communication* sys) : QWidget(p), username(username), system(sys) {
+// ------------------------------
+// 管理员 - 统计页面
+// ------------------------------
+// 构造函数：创建管理员统计页面
+AdminStatsPage::AdminStatsPage(QWidget *p, std::string username, Communication* sys) : QWidget(p), username(username), system(sys) {
     setStyleSheet("background:#F5F7FA;");
     auto lay = new QVBoxLayout(this);
-    lay->setContentsMargins(40,30,40,30);
-    lay->setSpacing(18);
+    lay->setContentsMargins(30,30,30,30);
+    lay->setSpacing(20);
 
-    auto title = new QLabel("👤 统计信息");
+    auto title = new QLabel("📊 系统统计数据");
     title->setStyleSheet("font-size:20px; font-weight:bold; color:#2C3E50;");
 
-    infoTable = new QTableWidget;
-    infoTable->setColumnCount(1);  // 融合当前值和修改值
-    infoTable->horizontalHeader()->setVisible(false);  // 取消水平表头显示
-    infoTable->setRowCount(3);  // 用户数, 快递数, 销售额
-    infoTable->verticalHeader()->setVisible(true);
-    infoTable->setVerticalHeaderLabels({"用户数", "快递数", "销售额"});
-    infoTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    infoTable->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    infoTable->setStyleSheet(R"(
-        QTableWidget{
-            background:white;
-            border:1px solid #DCDFE6;
-            border-radius:6px;
-            font-size:14px;
-        }
-        QHeaderView::section{
-            background-color:#E8EDF2;
-            padding:8px;
-            font-weight:bold;
-        }
-        QTableWidget::item{
-            padding:8px;
-        }
-        QTableCornerButton::section{
-            background-color:#E8EDF2;
-        }
-    )");
+    auto refreshBtn = new QPushButton("刷新统计");
+    refreshBtn->setStyleSheet("background:#27AE60;color:white;border-radius:6px;padding:8px;");
+    refreshBtn->setMaximumWidth(150);
+
+    table = new QTableWidget;
+    table->setColumnCount(2);
+    table->setHorizontalHeaderLabels({"统计项","数值"});
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    table->setStyleSheet("QTableWidget{background:white;border:1px solid #DCDFE6;border-radius:6px;}");
+    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    table->setRowCount(6);
 
     lay->addWidget(title);
-    lay->addWidget(infoTable);
+    lay->addWidget(refreshBtn);
+    lay->addWidget(table);
 
-    load_statistics();
+    connect(refreshBtn, &QPushButton::clicked, this, &AdminStatsPage::load_stats);
+
+    load_stats();
 }
 
-void AdminStatisticsPage::load_statistics() {
-    std::vector<std::string> stats;
-    if (!system->getStatistics(stats)) {
+// 加载统计数据
+void AdminStatsPage::load_stats() {
+    int totalUsers, totalParcels, pendingCollection, collected, Signed;
+    double adminTotalBalance;
+
+    if (!system->getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance)) {
         QMessageBox::critical(this, "失败", "获取统计信息失败");
         return;
     }
-    for (size_t i = 0; i < stats.size(); i++) {
-        infoTable->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(stats[i])));
-        infoTable->item(i, 0)->setFlags(Qt::NoItemFlags);  // 设置为不可编辑
-    }
+    
+    table->setItem(0, 0, new QTableWidgetItem("总用户数"));
+    table->setItem(0, 1, new QTableWidgetItem(QString::number(totalUsers)));
+
+    table->setItem(1, 0, new QTableWidgetItem("总快递数"));
+    table->setItem(1, 1, new QTableWidgetItem(QString::number(totalParcels)));
+
+    table->setItem(2, 0, new QTableWidgetItem("待揽收快递数"));
+    table->setItem(2, 1, new QTableWidgetItem(QString::number(pendingCollection)));
+
+    table->setItem(3, 0, new QTableWidgetItem("已揽收快递数"));
+    table->setItem(3, 1, new QTableWidgetItem(QString::number(collected)));
+
+    table->setItem(4, 0, new QTableWidgetItem("已签收快递数"));
+    table->setItem(4, 1, new QTableWidgetItem(QString::number(Signed)));
+
+    table->setItem(5, 0, new QTableWidgetItem("公司资金池余额"));
+    table->setItem(5, 1, new QTableWidgetItem(QString("¥%1").arg(adminTotalBalance, 0, 'f', 2)));
 }
 
 
@@ -366,7 +374,7 @@ AdminWindow::AdminWindow(std::string username, Communication* sys) : username(us
     auto stack = new QStackedWidget;
     auto express_page = new AdminExpressPage(this, username, system);
     auto user_page = new AdminUserPage(this, username, system);
-    auto stats_page = new AdminStatisticsPage(this, username, system);
+    auto stats_page = new AdminStatsPage(this, username, system);
     stack->addWidget(express_page);
     stack->addWidget(user_page);
     stack->addWidget(stats_page);

@@ -1459,6 +1459,7 @@ D:/c/vsc_pro/task3/client/qt_ui/include/CourierPage.h
  mdp:D:/c/vsc_pro/task3/client/service/include/Communication.h
 D:/c/vsc_pro/task3/client/qt_ui/include/UserWindow.h
 D:/c/vsc_pro/task3/client/qt_ui/include/CourierWindow.h
+D:/c/vsc_pro/task3/client/qt_ui/include/LoginWindow.h
 D:/c/vsc_pro/task3/client/qt_ui/include/SendPage.h
  mmc:Q_OBJECT
  mdp:C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/adxintrin.h
@@ -2196,7 +2197,6 @@ D:/c/vsc_pro/task3/client/qt_ui/include/SendPage.h
  mdp:D:/c/vsc_pro/task3/client/qt_ui/include/QueryPage.h
  mdp:D:/c/vsc_pro/task3/client/qt_ui/include/SendPage.h
  mdp:D:/c/vsc_pro/task3/client/service/include/Communication.h
-D:/c/vsc_pro/task3/client/qt_ui/include/LoginWindow.h
 D:/c/vsc_pro/task3/client/qt_ui/include/QueryPage.h
  mmc:Q_OBJECT
  mdp:C:/Users/tank.NO-GOOD-NO-BAD/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/adxintrin.h

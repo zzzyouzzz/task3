@@ -293,12 +293,35 @@ bool Communication::logout() {
     return status == "OK";
 }
 
-bool Communication::getStatistics(std::vector<std::string>& stats) {
+bool Communication::getStatistics(int& totalUsers, int& totalParcels, int& pendingCollection, int& collected, int& Signed, double& adminTotalBalance) {
     std::string resp;
     if (!sendRequest(Command::GET_STATISTICS, {}, resp)) return false;
     std::string status;
     std::vector<std::string> data;
     if (!parseResponse(resp, status, data) || status != "OK" || data.empty()) return false;
-    stats = data;
+    if (!parseInt(data[0], totalUsers)) {
+        std::cout << "获取用户总数失败。" << std::endl;
+        return false;
+    }
+    if (!parseInt(data[1], totalParcels)) {
+        std::cout << "获取快递总数失败。" << std::endl;
+        return false;
+    }
+    if (!parseInt(data[2], pendingCollection)) {
+        std::cout << "获取待收快递总数失败。" << std::endl;
+        return false;
+    }   
+    if (!parseInt(data[3], collected)) {
+        std::cout << "获取已收快递总数失败。" << std::endl;
+        return false;
+    }
+    if (!parseInt(data[4], Signed)) {
+        std::cout << "获取已签收快递总数失败。" << std::endl;
+        return false;
+    }
+    if (!parseDouble(data[5], adminTotalBalance)) {
+        std::cout << "获取管理员总余额失败。" << std::endl;
+        return false;
+    }
     return true;
 }

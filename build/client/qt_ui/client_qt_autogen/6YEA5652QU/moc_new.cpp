@@ -146,14 +146,14 @@ int AdminUserPage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     return _id;
 }
 namespace {
-struct qt_meta_tag_ZN19AdminStatisticsPageE_t {};
+struct qt_meta_tag_ZN14AdminStatsPageE_t {};
 } // unnamed namespace
 
-template <> constexpr inline auto AdminStatisticsPage::qt_create_metaobjectdata<qt_meta_tag_ZN19AdminStatisticsPageE_t>()
+template <> constexpr inline auto AdminStatsPage::qt_create_metaobjectdata<qt_meta_tag_ZN14AdminStatsPageE_t>()
 {
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
-        "AdminStatisticsPage"
+        "AdminStatsPage"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -162,42 +162,42 @@ template <> constexpr inline auto AdminStatisticsPage::qt_create_metaobjectdata<
     };
     QtMocHelpers::UintData qt_enums {
     };
-    return QtMocHelpers::metaObjectData<AdminStatisticsPage, qt_meta_tag_ZN19AdminStatisticsPageE_t>(QMC::MetaObjectFlag{}, qt_stringData,
+    return QtMocHelpers::metaObjectData<AdminStatsPage, qt_meta_tag_ZN14AdminStatsPageE_t>(QMC::MetaObjectFlag{}, qt_stringData,
             qt_methods, qt_properties, qt_enums);
 }
-Q_CONSTINIT const QMetaObject AdminStatisticsPage::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject AdminStatsPage::staticMetaObject = { {
     QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN19AdminStatisticsPageE_t>.stringdata,
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN19AdminStatisticsPageE_t>.data,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14AdminStatsPageE_t>.stringdata,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14AdminStatsPageE_t>.data,
     qt_static_metacall,
     nullptr,
-    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN19AdminStatisticsPageE_t>.metaTypes,
+    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN14AdminStatsPageE_t>.metaTypes,
     nullptr
 } };
 
-void AdminStatisticsPage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void AdminStatsPage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    auto *_t = static_cast<AdminStatisticsPage *>(_o);
+    auto *_t = static_cast<AdminStatsPage *>(_o);
     (void)_t;
     (void)_c;
     (void)_id;
     (void)_a;
 }
 
-const QMetaObject *AdminStatisticsPage::metaObject() const
+const QMetaObject *AdminStatsPage::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *AdminStatisticsPage::qt_metacast(const char *_clname)
+void *AdminStatsPage::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN19AdminStatisticsPageE_t>.strings))
+    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14AdminStatsPageE_t>.strings))
         return static_cast<void*>(this);
     return QWidget::qt_metacast(_clname);
 }
 
-int AdminStatisticsPage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int AdminStatsPage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     return _id;

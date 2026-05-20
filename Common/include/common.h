@@ -3,6 +3,7 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
+#include <iostream>
 
 // ================== 协议命令常量 ==================
 namespace Command {
@@ -85,7 +86,7 @@ static bool parseDouble(const std::string& str, double& value) {
     try {
         size_t idx = 0;
         value = std::stod(str, &idx);
-        return idx == str.size();
+        return idx;
     } catch (...) {
         return false;
     }

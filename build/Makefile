@@ -203,45 +203,6 @@ client_qt_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f client\qt_ui\CMakeFiles\client_qt_autogen.dir\build.make client/qt_ui/CMakeFiles/client_qt_autogen.dir/build
 .PHONY : client_qt_autogen/fast
 
-#=============================================================================
-# Target rules for targets named CommonTests
-
-# Build rule for target.
-CommonTests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CommonTests
-.PHONY : CommonTests
-
-# fast build rule for target.
-CommonTests/fast:
-	$(MAKE) $(MAKESILENT) -f tests\CMakeFiles\CommonTests.dir\build.make tests/CMakeFiles/CommonTests.dir/build
-.PHONY : CommonTests/fast
-
-#=============================================================================
-# Target rules for targets named ServerTests
-
-# Build rule for target.
-ServerTests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 ServerTests
-.PHONY : ServerTests
-
-# fast build rule for target.
-ServerTests/fast:
-	$(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ServerTests.dir\build.make tests/CMakeFiles/ServerTests.dir/build
-.PHONY : ServerTests/fast
-
-#=============================================================================
-# Target rules for targets named DataSetTests
-
-# Build rule for target.
-DataSetTests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 DataSetTests
-.PHONY : DataSetTests
-
-# fast build rule for target.
-DataSetTests/fast:
-	$(MAKE) $(MAKESILENT) -f tests\CMakeFiles\DataSetTests.dir\build.make tests/CMakeFiles/DataSetTests.dir/build
-.PHONY : DataSetTests/fast
-
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -253,9 +214,6 @@ help:
 	@echo ... test
 	@echo ... client_qt_autogen
 	@echo ... Common
-	@echo ... CommonTests
-	@echo ... DataSetTests
-	@echo ... ServerTests
 	@echo ... client_cli
 	@echo ... client_qt
 	@echo ... client_service

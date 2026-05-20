@@ -22,9 +22,3 @@ D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/test.dir
 D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/edit_cache.dir
 D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/rebuild_cache.dir
 D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/client_qt_autogen.dir
-D:/c/vsc_pro/task3/build/tests/CMakeFiles/CommonTests.dir
-D:/c/vsc_pro/task3/build/tests/CMakeFiles/ServerTests.dir
-D:/c/vsc_pro/task3/build/tests/CMakeFiles/DataSetTests.dir
-D:/c/vsc_pro/task3/build/tests/CMakeFiles/test.dir
-D:/c/vsc_pro/task3/build/tests/CMakeFiles/edit_cache.dir
-D:/c/vsc_pro/task3/build/tests/CMakeFiles/rebuild_cache.dir

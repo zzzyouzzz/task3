@@ -689,15 +689,20 @@ std::string Server::handleDeleteParcel(const User* m_currentUser, const std::vec
 
 std::string Server::handleGetStatistics(const User* m_currentUser, const std::vector<std::string>& args) {
     g_logger.info("GetStatistics request - Admin: " + m_currentUser->getUsername());  
-    auto [ecStats, stats] = m_system.getStatistics();
+    int totalUsers = 0, totalParcels = 0, pendingCollection = 0, collected = 0, Signed = 0;
+    double adminTotalBalance = 0.0;
+    ErrorCode ec = m_system.getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance);
     std::vector<std::string> data;
-    if (stats.empty()) {
+    if (ec != ErrorCode::SUCCESS) {
         return buildResponse("ERROR", {"No statistics available"});
     }
     try {
-        data.push_back(std::to_string(static_cast<int>(stats["totalUsers"])));
-        data.push_back(std::to_string(static_cast<int>(stats["totalParcels"])));
-        data.push_back(std::to_string(stats["totalBalance"]));
+        data.push_back(std::to_string(totalUsers));
+        data.push_back(std::to_string(totalParcels));
+        data.push_back(std::to_string(pendingCollection));
+        data.push_back(std::to_string(collected));
+        data.push_back(std::to_string(Signed));
+        data.push_back(std::to_string(adminTotalBalance));
     } catch (const std::out_of_range& e) {
         return buildResponse("ERROR", {"Statistics key not found"});
     }

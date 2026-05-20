@@ -19,17 +19,17 @@
 	ProcessorCacheSize="-1"
 	NumberOfLogicalCPU="18"
 	NumberOfPhysicalCPU="14"
-	TotalVirtualMemory="29391"
+	TotalVirtualMemory="28381"
 	TotalPhysicalMemory="24029"
 	LogicalProcessorsPerPhysical="1"
-	ProcessorClockFrequency="2995"
+	ProcessorClockFrequency="2998"
 	>
 	<Testing>
-		<StartDateTime>May 20 17:38 中国标准时间</StartDateTime>
-		<StartTestTime>1779269938</StartTestTime>
+		<StartDateTime>May 20 18:55 中国标准时间</StartDateTime>
+		<StartTestTime>1779274551</StartTestTime>
 		<TestList/>
-		<EndDateTime>May 20 17:38 中国标准时间</EndDateTime>
-		<EndTestTime>1779269938</EndTestTime>
+		<EndDateTime>May 20 18:55 中国标准时间</EndDateTime>
+		<EndTestTime>1779274551</EndTestTime>
 		<ElapsedMinutes>0</ElapsedMinutes>
 	</Testing>
 </Site>
