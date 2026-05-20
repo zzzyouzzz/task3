@@ -50,6 +50,9 @@ public:
     // 断开连接
     void disconnect();
 
+    // 当前是否已连接
+    bool isConnected() const { return m_connected; }
+
     // 获取最后错误码
     ErrorCode getLastError() const { return m_lastErrorCode; }
 

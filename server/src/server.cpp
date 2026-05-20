@@ -87,7 +87,7 @@ void Server::start(const std::string& listenIp, int port) {
         }
         if (ret == 0) {
             // 超时无事件，继续等待
-            g_logger.info("No client activity, continue waiting...");
+            //g_logger.info("No client activity, continue waiting...");
             Sleep(1000);
             continue;
         }

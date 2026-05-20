@@ -554,7 +554,7 @@ private:
                 case 5: queryBalanceUI(); break;
                 case 6: changePasswordUI(); break;
                 case 7: 
-                    if (type == UserType::COURIER) {
+                    if (type == UserType::ADMINISTRATOR) {
                         assignParcelUI();
                     } else {
                         std::cout << "您没有权限分配快递员。" << std::endl;

@@ -150,6 +150,11 @@ void LogisticsClient::loginUI() {
         std::cout << "登录成功！欢迎 " << name << "！" << std::endl;
         mainMenu(type);
     } else {
+        if (!m_system.isConnected()) {
+            std::cout << "登录失败：网络连接已断开，请重启程序。" << std::endl;
+            is_running = false;
+            return;
+        }
         ErrorCode ec = m_system.getLastError();
         switch (ec) {
             case ErrorCode::USER_NOT_FOUND:
@@ -182,6 +187,11 @@ void LogisticsClient::registerUI() {
         std::cout << "注册成功！" << std::endl;
     } else {
         ErrorCode ec = m_system.getLastError();
+        if (!m_system.isConnected()) {
+            std::cout << "注册失败：网络连接已断开，请重启程序。" << std::endl;
+            is_running = false;
+            return;
+        }
         switch (ec) {
             case ErrorCode::USER_EXISTS:
                 std::cout << "注册失败：用户名 " << username << " 已被注册。" << std::endl;
@@ -234,19 +244,19 @@ void LogisticsClient::mainMenu(UserType type) {
                 }
                 break;
             case 3: 
-                if (type == UserType::CUSTOMER) {
-                    queryParcelUI(UserType::CUSTOMER);
-                } else if (type == UserType::COURIER) {
-                    queryParcelUI(UserType::COURIER);
-                } else if (type == UserType::ADMINISTRATOR) {
-                    queryParcelUI();
+                queryParcelUI(type);    
+                break;
+            case 4: 
+                if (type != UserType::CUSTOMER) {
+                    std::cout << "客户才能充值余额。" << std::endl;
+                } else {
+                    rechargeBalanceUI();
                 }
                 break;
-            case 4: rechargeBalanceUI(); break;
             case 5: queryBalanceUI(); break;
             case 6: changePasswordUI(); break;
             case 7: 
-                if (type == UserType::COURIER) {
+                if (type == UserType::ADMINISTRATOR) {
                     assignParcelUI();
                 } else {
                     std::cout << "您没有权限分配快递员。" << std::endl;
@@ -328,7 +338,7 @@ void LogisticsClient::signParcelUI() {
     while (std::getline(iss, token, ',')) {
         trimString(token);
         if (!token.empty()) {
-            ids.push_back(token);
+            ids.push_back(trimString(token));
         }
     }
     
@@ -388,6 +398,11 @@ void LogisticsClient::queryParcelUI(const UserType& queryer) {
     
     if (!success) {
         std::cout << "查询失败。" << std::endl;
+        return;
+    }
+    
+    if (parcels.empty()) {
+        std::cout << "暂无匹配的快递。" << std::endl;
         return;
     }
     
@@ -456,6 +471,8 @@ void LogisticsClient::assignParcelUI() {
             std::cout << "分配失败：快递员 " << courier << " 不存在。" << std::endl;
         else if (ec == ErrorCode::PARCEL_NOT_FOUND)
             std::cout << "分配失败：快递单号 " << parcelId << " 不存在。" << std::endl;
+        else if (ec == ErrorCode::PARCEL_STATUS_INVALID)
+            std::cout << "分配失败：快递状态无效。" << std::endl;
         else
             std::cout << "分配失败。" << std::endl;
     }

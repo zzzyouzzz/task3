@@ -61,8 +61,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lm150x"
-      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lm150x"
+      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-crw8gx"
+      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-crw8gx"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -71,13 +71,13 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lm150x'
+        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-crw8gx'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_e8d6a/fast
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_e8d6a.dir\\build.make CMakeFiles/cmTC_e8d6a.dir/build
-        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lm150x'
-        Building C object CMakeFiles/cmTC_e8d6a.dir/CMakeCCompilerABI.c.obj
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe   -v -o CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_531d5/fast
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_531d5.dir\\build.make CMakeFiles/cmTC_531d5.dir/build
+        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-crw8gx'
+        Building C object CMakeFiles/cmTC_531d5.dir/CMakeCCompilerABI.c.obj
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe   -v -o CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe
         Target: x86_64-w64-mingw32
@@ -85,8 +85,8 @@ events:
         Thread model: win32
         Supported LTO compression algorithms: zlib
         gcc version 15.2.0 (x86_64-win32-seh-rev1, Built by MinGW-Builds project) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_e8d6a.dir\\'
-         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles\\cmTC_e8d6a.dir\\ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cceV6Ra1.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_531d5.dir\\'
+         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles\\cmTC_531d5.dir\\ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccopO2eU.s
         GNU C23 (x86_64-win32-seh-rev1, Built by MinGW-Builds project) version 15.2.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 15.2.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.27-GMP
         
@@ -103,17 +103,17 @@ events:
          C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/include
         End of search list.
         Compiler executable checksum: 1c82703f80731480b97648f2ff169d4b
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_e8d6a.dir\\'
-         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cceV6Ra1.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_531d5.dir\\'
+         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccopO2eU.s
         GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
         COMPILER_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/
         LIBRARY_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.'
-        Linking C executable cmTC_e8d6a.exe
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_e8d6a.dir\\link.txt --verbose=1
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_e8d6a.dir/objects.a
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_e8d6a.dir/objects.a @CMakeFiles\\cmTC_e8d6a.dir\\objects1.rsp
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe  -v -Wl,-v -Wl,--whole-archive CMakeFiles\\cmTC_e8d6a.dir/objects.a -Wl,--no-whole-archive -o cmTC_e8d6a.exe -Wl,--out-implib,libcmTC_e8d6a.dll.a -Wl,--major-image-version,0,--minor-image-version,0
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.'
+        Linking C executable cmTC_531d5.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_531d5.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_531d5.dir/objects.a
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_531d5.dir/objects.a @CMakeFiles\\cmTC_531d5.dir\\objects1.rsp
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe  -v -Wl,-v -Wl,--whole-archive CMakeFiles\\cmTC_531d5.dir/objects.a -Wl,--no-whole-archive -o cmTC_531d5.exe -Wl,--out-implib,libcmTC_531d5.dll.a -Wl,--major-image-version,0,--minor-image-version,0
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe
         COLLECT_LTO_WRAPPER=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe
@@ -124,13 +124,13 @@ events:
         gcc version 15.2.0 (x86_64-win32-seh-rev1, Built by MinGW-Builds project) 
         COMPILER_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/
         LIBRARY_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e8d6a.exe' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_e8d6a.'
-         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cckw2eGc.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_e8d6a.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_e8d6a.dir/objects.a --no-whole-archive --out-implib libcmTC_e8d6a.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_531d5.exe' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_531d5.'
+         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccYr7lI6.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_531d5.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_531d5.dir/objects.a --no-whole-archive --out-implib libcmTC_531d5.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
         collect2 version 15.2.0
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cckw2eGc.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_e8d6a.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_e8d6a.dir/objects.a --no-whole-archive --out-implib libcmTC_e8d6a.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccYr7lI6.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_531d5.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_531d5.dir/objects.a --no-whole-archive --out-implib libcmTC_531d5.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
         GNU ld (GNU Binutils) 2.46.0.20260210
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e8d6a.exe' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_e8d6a.'
-        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lm150x'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_531d5.exe' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_531d5.'
+        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-crw8gx'
         
       exitCode: 0
   -
@@ -163,13 +163,13 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
-        ignore line: [Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lm150x']
+        ignore line: [Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-crw8gx']
         ignore line: []
-        ignore line: [Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_e8d6a/fast]
-        ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_e8d6a.dir\\build.make CMakeFiles/cmTC_e8d6a.dir/build]
-        ignore line: [mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lm150x']
-        ignore line: [Building C object CMakeFiles/cmTC_e8d6a.dir/CMakeCCompilerABI.c.obj]
-        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe   -v -o CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"]
+        ignore line: [Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_531d5/fast]
+        ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_531d5.dir\\build.make CMakeFiles/cmTC_531d5.dir/build]
+        ignore line: [mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-crw8gx']
+        ignore line: [Building C object CMakeFiles/cmTC_531d5.dir/CMakeCCompilerABI.c.obj]
+        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe   -v -o CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -177,8 +177,8 @@ events:
         ignore line: [Thread model: win32]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 15.2.0 (x86_64-win32-seh-rev1  Built by MinGW-Builds project) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_e8d6a.dir\\']
-        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles\\cmTC_e8d6a.dir\\ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cceV6Ra1.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_531d5.dir\\']
+        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles\\cmTC_531d5.dir\\ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccopO2eU.s]
         ignore line: [GNU C23 (x86_64-win32-seh-rev1  Built by MinGW-Builds project) version 15.2.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 15.2.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.27-GMP]
         ignore line: []
@@ -195,8 +195,8 @@ events:
         ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 1c82703f80731480b97648f2ff169d4b]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_e8d6a.dir\\']
-        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cceV6Ra1.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_531d5.dir\\']
+        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccopO2eU.s]
         ignore line: [GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210]
         ignore line: [COMPILER_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/]
@@ -207,12 +207,12 @@ events:
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_e8d6a.dir\\CMakeCCompilerABI.c.']
-        ignore line: [Linking C executable cmTC_e8d6a.exe]
-        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_e8d6a.dir\\link.txt --verbose=1]
-        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_e8d6a.dir/objects.a]
-        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_e8d6a.dir/objects.a @CMakeFiles\\cmTC_e8d6a.dir\\objects1.rsp]
-        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe  -v -Wl -v -Wl --whole-archive CMakeFiles\\cmTC_e8d6a.dir/objects.a -Wl --no-whole-archive -o cmTC_e8d6a.exe -Wl --out-implib libcmTC_e8d6a.dll.a -Wl --major-image-version 0 --minor-image-version 0]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_531d5.dir\\CMakeCCompilerABI.c.']
+        ignore line: [Linking C executable cmTC_531d5.exe]
+        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_531d5.dir\\link.txt --verbose=1]
+        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_531d5.dir/objects.a]
+        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_531d5.dir/objects.a @CMakeFiles\\cmTC_531d5.dir\\objects1.rsp]
+        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe  -v -Wl -v -Wl --whole-archive CMakeFiles\\cmTC_531d5.dir/objects.a -Wl --no-whole-archive -o cmTC_531d5.exe -Wl --out-implib libcmTC_531d5.dll.a -Wl --major-image-version 0 --minor-image-version 0]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe]
@@ -230,13 +230,13 @@ events:
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e8d6a.exe' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_e8d6a.']
-        link line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cckw2eGc.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_e8d6a.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_e8d6a.dir/objects.a --no-whole-archive --out-implib libcmTC_e8d6a.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_531d5.exe' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_531d5.']
+        link line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccYr7lI6.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_531d5.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_531d5.dir/objects.a --no-whole-archive --out-implib libcmTC_531d5.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o]
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe] ==> ignore
           arg [-plugin] ==> ignore
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll] ==> ignore
           arg [-plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe] ==> ignore
-          arg [-plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cckw2eGc.res] ==> ignore
+          arg [-plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccYr7lI6.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_eh] ==> ignore
@@ -259,7 +259,7 @@ events:
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_e8d6a.exe] ==> ignore
+          arg [cmTC_531d5.exe] ==> ignore
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> obj [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o]
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o] ==> obj [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o]
           arg [-LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0] ==> dir [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0]
@@ -270,10 +270,10 @@ events:
           arg [-LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../..] ==> dir [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../..]
           arg [-v] ==> ignore
           arg [--whole-archive] ==> ignore
-          arg [CMakeFiles\\cmTC_e8d6a.dir/objects.a] ==> ignore
+          arg [CMakeFiles\\cmTC_531d5.dir/objects.a] ==> ignore
           arg [--no-whole-archive] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_e8d6a.dll.a] ==> ignore
+          arg [libcmTC_531d5.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -355,8 +355,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-ish5lh"
-      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-ish5lh"
+      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-9pp6i7"
+      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-9pp6i7"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -366,13 +366,13 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-ish5lh'
+        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-9pp6i7'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_9faae/fast
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_9faae.dir\\build.make CMakeFiles/cmTC_9faae.dir/build
-        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-ish5lh'
-        Building CXX object CMakeFiles/cmTC_9faae.dir/CMakeCXXCompilerABI.cpp.obj
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe   -v -o CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_eb47e/fast
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_eb47e.dir\\build.make CMakeFiles/cmTC_eb47e.dir/build
+        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-9pp6i7'
+        Building CXX object CMakeFiles/cmTC_eb47e.dir/CMakeCXXCompilerABI.cpp.obj
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe   -v -o CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe
         Target: x86_64-w64-mingw32
@@ -380,8 +380,8 @@ events:
         Thread model: win32
         Supported LTO compression algorithms: zlib
         gcc version 15.2.0 (x86_64-win32-seh-rev1, Built by MinGW-Builds project) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_9faae.dir\\'
-         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_9faae.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cc7G126t.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_eb47e.dir\\'
+         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_eb47e.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccvM37to.s
         GNU C++17 (x86_64-win32-seh-rev1, Built by MinGW-Builds project) version 15.2.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 15.2.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.27-GMP
         
@@ -404,17 +404,17 @@ events:
          C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/include
         End of search list.
         Compiler executable checksum: fd6a78bd6df27bdf9dae1e3a3534dae4
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_9faae.dir\\'
-         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cc7G126t.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_eb47e.dir\\'
+         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccvM37to.s
         GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
         COMPILER_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/
         LIBRARY_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.'
-        Linking CXX executable cmTC_9faae.exe
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_9faae.dir\\link.txt --verbose=1
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_9faae.dir/objects.a
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_9faae.dir/objects.a @CMakeFiles\\cmTC_9faae.dir\\objects1.rsp
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  -v -Wl,-v -Wl,--whole-archive CMakeFiles\\cmTC_9faae.dir/objects.a -Wl,--no-whole-archive -o cmTC_9faae.exe -Wl,--out-implib,libcmTC_9faae.dll.a -Wl,--major-image-version,0,--minor-image-version,0
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_eb47e.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_eb47e.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_eb47e.dir/objects.a
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_eb47e.dir/objects.a @CMakeFiles\\cmTC_eb47e.dir\\objects1.rsp
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  -v -Wl,-v -Wl,--whole-archive CMakeFiles\\cmTC_eb47e.dir/objects.a -Wl,--no-whole-archive -o cmTC_eb47e.exe -Wl,--out-implib,libcmTC_eb47e.dll.a -Wl,--major-image-version,0,--minor-image-version,0
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe
         COLLECT_LTO_WRAPPER=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe
@@ -425,13 +425,13 @@ events:
         gcc version 15.2.0 (x86_64-win32-seh-rev1, Built by MinGW-Builds project) 
         COMPILER_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/
         LIBRARY_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9faae.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_9faae.'
-         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccLXYEIC.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_9faae.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_9faae.dir/objects.a --no-whole-archive --out-implib libcmTC_9faae.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_eb47e.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_eb47e.'
+         C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccJZKc0A.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_eb47e.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_eb47e.dir/objects.a --no-whole-archive --out-implib libcmTC_eb47e.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
         collect2 version 15.2.0
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccLXYEIC.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_9faae.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_9faae.dir/objects.a --no-whole-archive --out-implib libcmTC_9faae.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccJZKc0A.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_eb47e.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_eb47e.dir/objects.a --no-whole-archive --out-implib libcmTC_eb47e.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o
         GNU ld (GNU Binutils) 2.46.0.20260210
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9faae.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_9faae.'
-        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-ish5lh'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_eb47e.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_eb47e.'
+        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-9pp6i7'
         
       exitCode: 0
   -
@@ -470,13 +470,13 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
-        ignore line: [Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-ish5lh']
+        ignore line: [Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-9pp6i7']
         ignore line: []
-        ignore line: [Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_9faae/fast]
-        ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_9faae.dir\\build.make CMakeFiles/cmTC_9faae.dir/build]
-        ignore line: [mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-ish5lh']
-        ignore line: [Building CXX object CMakeFiles/cmTC_9faae.dir/CMakeCXXCompilerABI.cpp.obj]
-        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe   -v -o CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"]
+        ignore line: [Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_eb47e/fast]
+        ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_eb47e.dir\\build.make CMakeFiles/cmTC_eb47e.dir/build]
+        ignore line: [mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-9pp6i7']
+        ignore line: [Building CXX object CMakeFiles/cmTC_eb47e.dir/CMakeCXXCompilerABI.cpp.obj]
+        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe   -v -o CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj -c "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -484,8 +484,8 @@ events:
         ignore line: [Thread model: win32]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 15.2.0 (x86_64-win32-seh-rev1  Built by MinGW-Builds project) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_9faae.dir\\']
-        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_9faae.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cc7G126t.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_eb47e.dir\\']
+        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe -quiet -v -iprefix C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/ -U_REENTRANT C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_eb47e.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=core2 -march=nocona -version -o C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccvM37to.s]
         ignore line: [GNU C++17 (x86_64-win32-seh-rev1  Built by MinGW-Builds project) version 15.2.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 15.2.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.27-GMP]
         ignore line: []
@@ -508,8 +508,8 @@ events:
         ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: fd6a78bd6df27bdf9dae1e3a3534dae4]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_9faae.dir\\']
-        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\cc7G126t.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_eb47e.dir\\']
+        ignore line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccvM37to.s]
         ignore line: [GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210]
         ignore line: [COMPILER_PATH=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/]
@@ -520,12 +520,12 @@ events:
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_9faae.dir\\CMakeCXXCompilerABI.cpp.']
-        ignore line: [Linking CXX executable cmTC_9faae.exe]
-        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_9faae.dir\\link.txt --verbose=1]
-        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_9faae.dir/objects.a]
-        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_9faae.dir/objects.a @CMakeFiles\\cmTC_9faae.dir\\objects1.rsp]
-        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  -v -Wl -v -Wl --whole-archive CMakeFiles\\cmTC_9faae.dir/objects.a -Wl --no-whole-archive -o cmTC_9faae.exe -Wl --out-implib libcmTC_9faae.dll.a -Wl --major-image-version 0 --minor-image-version 0]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_eb47e.dir\\CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_eb47e.exe]
+        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_eb47e.dir\\link.txt --verbose=1]
+        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_eb47e.dir/objects.a]
+        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_eb47e.dir/objects.a @CMakeFiles\\cmTC_eb47e.dir\\objects1.rsp]
+        ignore line: [C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe  -v -Wl -v -Wl --whole-archive CMakeFiles\\cmTC_eb47e.dir/objects.a -Wl --no-whole-archive -o cmTC_eb47e.exe -Wl --out-implib libcmTC_eb47e.dll.a -Wl --major-image-version 0 --minor-image-version 0]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe]
@@ -543,13 +543,13 @@ events:
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/]
         ignore line: [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9faae.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_9faae.']
-        link line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccLXYEIC.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_9faae.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_9faae.dir/objects.a --no-whole-archive --out-implib libcmTC_9faae.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_eb47e.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona' '-dumpdir' 'cmTC_eb47e.']
+        link line: [ C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe -plugin C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll -plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccJZKc0A.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 --sysroot=C:/buildroot/x86_64-1520-win32-seh-msvcrt-rt_v13-rev1/mingw64 -m i386pep -Bdynamic -o cmTC_eb47e.exe C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0 -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../.. -v --whole-archive CMakeFiles\\cmTC_eb47e.dir/objects.a --no-whole-archive --out-implib libcmTC_eb47e.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtend.o]
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/collect2.exe] ==> ignore
           arg [-plugin] ==> ignore
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/liblto_plugin.dll] ==> ignore
           arg [-plugin-opt=C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/15.2.0/lto-wrapper.exe] ==> ignore
-          arg [-plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccLXYEIC.res] ==> ignore
+          arg [-plugin-opt=-fresolution=C:\\Users\\TANK~1.NO-\\AppData\\Local\\Temp\\ccJZKc0A.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
@@ -572,7 +572,7 @@ events:
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_9faae.exe] ==> ignore
+          arg [cmTC_eb47e.exe] ==> ignore
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> obj [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o]
           arg [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o] ==> obj [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/crtbegin.o]
           arg [-LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0] ==> dir [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0]
@@ -583,10 +583,10 @@ events:
           arg [-LC:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../..] ==> dir [C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../..]
           arg [-v] ==> ignore
           arg [--whole-archive] ==> ignore
-          arg [CMakeFiles\\cmTC_9faae.dir/objects.a] ==> ignore
+          arg [CMakeFiles\\cmTC_eb47e.dir/objects.a] ==> ignore
           arg [--no-whole-archive] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_9faae.dll.a] ==> ignore
+          arg [libcmTC_eb47e.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -673,8 +673,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-vzk18c"
-      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-vzk18c"
+      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-a3usjx"
+      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-a3usjx"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -684,27 +684,27 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-vzk18c'
+        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-a3usjx'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_91c72/fast
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_91c72.dir\\build.make CMakeFiles/cmTC_91c72.dir/build
-        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-vzk18c'
-        Building C object CMakeFiles/cmTC_91c72.dir/src.c.obj
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles\\cmTC_91c72.dir\\src.c.obj -c D:\\c\\vsc_pro\\task3\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vzk18c\\src.c
-        Linking C executable cmTC_91c72.exe
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_91c72.dir\\link.txt --verbose=1
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_91c72.dir/objects.a
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_91c72.dir/objects.a @CMakeFiles\\cmTC_91c72.dir\\objects1.rsp
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_91c72.dir/objects.a -Wl,--no-whole-archive -o cmTC_91c72.exe -Wl,--out-implib,libcmTC_91c72.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_91c72.dir\\linkLibs.rsp
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_91c72.dir/objects.a(src.c.obj):src.c:(.text+0x38): undefined reference to `pthread_create'
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_91c72.dir/objects.a(src.c.obj):src.c:(.text+0x44): undefined reference to `pthread_detach'
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_91c72.dir/objects.a(src.c.obj):src.c:(.text+0x50): undefined reference to `pthread_cancel'
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_91c72.dir/objects.a(src.c.obj):src.c:(.text+0x61): undefined reference to `pthread_join'
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_91c72.dir/objects.a(src.c.obj):src.c:(.text+0x6b): undefined reference to `pthread_exit'
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_bd0dd/fast
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_bd0dd.dir\\build.make CMakeFiles/cmTC_bd0dd.dir/build
+        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-a3usjx'
+        Building C object CMakeFiles/cmTC_bd0dd.dir/src.c.obj
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles\\cmTC_bd0dd.dir\\src.c.obj -c D:\\c\\vsc_pro\\task3\\build\\CMakeFiles\\CMakeScratch\\TryCompile-a3usjx\\src.c
+        Linking C executable cmTC_bd0dd.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_bd0dd.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_bd0dd.dir/objects.a
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_bd0dd.dir/objects.a @CMakeFiles\\cmTC_bd0dd.dir\\objects1.rsp
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_bd0dd.dir/objects.a -Wl,--no-whole-archive -o cmTC_bd0dd.exe -Wl,--out-implib,libcmTC_bd0dd.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_bd0dd.dir\\linkLibs.rsp
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_bd0dd.dir/objects.a(src.c.obj):src.c:(.text+0x38): undefined reference to `pthread_create'
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_bd0dd.dir/objects.a(src.c.obj):src.c:(.text+0x44): undefined reference to `pthread_detach'
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_bd0dd.dir/objects.a(src.c.obj):src.c:(.text+0x50): undefined reference to `pthread_cancel'
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_bd0dd.dir/objects.a(src.c.obj):src.c:(.text+0x61): undefined reference to `pthread_join'
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\\cmTC_bd0dd.dir/objects.a(src.c.obj):src.c:(.text+0x6b): undefined reference to `pthread_exit'
         collect2.exe: error: ld returned 1 exit status
-        mingw32-make[1]: *** [CMakeFiles\\cmTC_91c72.dir\\build.make:103: cmTC_91c72.exe] Error 1
-        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-vzk18c'
-        mingw32-make: *** [Makefile:132: cmTC_91c72/fast] Error 2
+        mingw32-make[1]: *** [CMakeFiles\\cmTC_bd0dd.dir\\build.make:103: cmTC_bd0dd.exe] Error 1
+        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-a3usjx'
+        mingw32-make: *** [Makefile:132: cmTC_bd0dd/fast] Error 2
         
       exitCode: 2
   -
@@ -720,8 +720,8 @@ events:
     checks:
       - "Check if compiler accepts -pthread"
     directories:
-      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lbwo9l"
-      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lbwo9l"
+      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-olh0yr"
+      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-olh0yr"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -731,19 +731,19 @@ events:
       variable: "THREADS_HAVE_PTHREAD_ARG"
       cached: true
       stdout: |
-        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lbwo9l'
+        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-olh0yr'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_766a9/fast
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_766a9.dir\\build.make CMakeFiles/cmTC_766a9.dir/build
-        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lbwo9l'
-        Building C object CMakeFiles/cmTC_766a9.dir/CheckForPthreads.c.obj
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe    -o CMakeFiles\\cmTC_766a9.dir\\CheckForPthreads.c.obj -c D:\\c\\vsc_pro\\task3\\build\\CMakeFiles\\CMakeScratch\\TryCompile-lbwo9l\\CheckForPthreads.c
-        Linking C executable cmTC_766a9.exe
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_766a9.dir\\link.txt --verbose=1
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_766a9.dir/objects.a
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_766a9.dir/objects.a @CMakeFiles\\cmTC_766a9.dir\\objects1.rsp
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_766a9.dir/objects.a -Wl,--no-whole-archive -o cmTC_766a9.exe -Wl,--out-implib,libcmTC_766a9.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_766a9.dir\\linkLibs.rsp
-        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-lbwo9l'
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_33549/fast
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_33549.dir\\build.make CMakeFiles/cmTC_33549.dir/build
+        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-olh0yr'
+        Building C object CMakeFiles/cmTC_33549.dir/CheckForPthreads.c.obj
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe    -o CMakeFiles\\cmTC_33549.dir\\CheckForPthreads.c.obj -c D:\\c\\vsc_pro\\task3\\build\\CMakeFiles\\CMakeScratch\\TryCompile-olh0yr\\CheckForPthreads.c
+        Linking C executable cmTC_33549.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_33549.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_33549.dir/objects.a
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_33549.dir/objects.a @CMakeFiles\\cmTC_33549.dir\\objects1.rsp
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_33549.dir/objects.a -Wl,--no-whole-archive -o cmTC_33549.exe -Wl,--out-implib,libcmTC_33549.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_33549.dir\\linkLibs.rsp
+        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-olh0yr'
         
       exitCode: 0
   -
@@ -761,8 +761,8 @@ events:
     checks:
       - "Performing Test HAVE_STDATOMIC"
     directories:
-      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-wrrfb7"
-      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-wrrfb7"
+      source: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-fefhzp"
+      binary: "D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-fefhzp"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -772,19 +772,19 @@ events:
       variable: "HAVE_STDATOMIC"
       cached: true
       stdout: |
-        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-wrrfb7'
+        Change Dir: 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-fefhzp'
         
-        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_c4bdc/fast
-        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_c4bdc.dir\\build.make CMakeFiles/cmTC_c4bdc.dir/build
-        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-wrrfb7'
-        Building CXX object CMakeFiles/cmTC_c4bdc.dir/src.cxx.obj
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DHAVE_STDATOMIC  -std=gnu++17 -o CMakeFiles\\cmTC_c4bdc.dir\\src.cxx.obj -c D:\\c\\vsc_pro\\task3\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wrrfb7\\src.cxx
-        Linking CXX executable cmTC_c4bdc.exe
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_c4bdc.dir\\link.txt --verbose=1
-        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_c4bdc.dir/objects.a
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_c4bdc.dir/objects.a @CMakeFiles\\cmTC_c4bdc.dir\\objects1.rsp
-        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -Wl,--whole-archive CMakeFiles\\cmTC_c4bdc.dir/objects.a -Wl,--no-whole-archive -o cmTC_c4bdc.exe -Wl,--out-implib,libcmTC_c4bdc.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_c4bdc.dir\\linkLibs.rsp
-        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-wrrfb7'
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe -f Makefile cmTC_294ee/fast
+        C:/Users/tank.NO-GOOD-NO-BAD/mingw64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_294ee.dir\\build.make CMakeFiles/cmTC_294ee.dir/build
+        mingw32-make[1]: Entering directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-fefhzp'
+        Building CXX object CMakeFiles/cmTC_294ee.dir/src.cxx.obj
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -DHAVE_STDATOMIC  -std=gnu++17 -o CMakeFiles\\cmTC_294ee.dir\\src.cxx.obj -c D:\\c\\vsc_pro\\task3\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fefhzp\\src.cxx
+        Linking CXX executable cmTC_294ee.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_294ee.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_294ee.dir/objects.a
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_294ee.dir/objects.a @CMakeFiles\\cmTC_294ee.dir\\objects1.rsp
+        C:\\Users\\tank.NO-GOOD-NO-BAD\\mingw64\\bin\\g++.exe -Wl,--whole-archive CMakeFiles\\cmTC_294ee.dir/objects.a -Wl,--no-whole-archive -o cmTC_294ee.exe -Wl,--out-implib,libcmTC_294ee.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_294ee.dir\\linkLibs.rsp
+        mingw32-make[1]: Leaving directory 'D:/c/vsc_pro/task3/build/CMakeFiles/CMakeScratch/TryCompile-fefhzp'
         
       exitCode: 0
 ...

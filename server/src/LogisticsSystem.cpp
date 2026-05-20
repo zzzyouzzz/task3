@@ -141,6 +141,9 @@ ErrorCode LogisticsSystem::assignCourier(const std::string& parcelId, const std:
     if (parcelIt == m_parcels.end()) {
         return ErrorCode::PARCEL_NOT_FOUND;
     }
+    if (parcelIt->second->getStatus() != ParcelStatus::PENDING_COLLECTION) {
+        return ErrorCode::PARCEL_STATUS_INVALID;
+    }
     parcelIt->second->setCourier(courierName);
     parcelIt->second->setStatus(ParcelStatus::PENDING_COLLECTION);
     saveData();
