@@ -47,12 +47,16 @@ LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string&
     }
 
     // 初始化快递员负载
-    auto couriersResult = getUsers("", UserType::COURIER);
-    auto& couriers = couriersResult.second;
+    std::vector<User*> couriers;
+    ErrorCode result = getUsers(couriers, "", UserType::COURIER);
+    if (result != ErrorCode::SUCCESS) return;
     for (const auto& c : couriers) {
         std::string courier = c->getUsername();
-        auto parcelsResult = queryParcels("", "", courier);
-        auto& parcelsVec = parcelsResult.second;
+        std::vector<Parcel*> parcelsVec;
+        ErrorCode result = queryParcels(parcelsVec, "", "", "", courier);
+        if (result != ErrorCode::SUCCESS) continue;
+        // 计算快递员负载
+        if (parcelsVec.empty()) continue;
         m_courierCapacity[courier] = static_cast<int>(parcelsVec.size());
     } 
 }
@@ -221,9 +225,9 @@ std::pair<ErrorCode, std::vector<std::string>> LogisticsSystem::signParcels(cons
 
 
 // 查询快递：根据单号/寄件人/收件人/快递员/状态/时间范围多条件筛选
-std::pair<ErrorCode, std::vector<Parcel*>> LogisticsSystem::queryParcels(const std::string& parcelId, const std::string& senderName, const std::string& receiverName,
+ErrorCode LogisticsSystem::queryParcels(std::vector<Parcel*>& result, const std::string& parcelId, const std::string& senderName, const std::string& receiverName,
     const std::string& courierName, const ParcelStatus& status, const time_t& startTime, const time_t& endTime) {
-    std::vector<Parcel*> result;
+    result.clear();
     for (auto& parcel : m_parcels) {
         if (!parcelId.empty() && parcel.first != parcelId) continue;
         if (!senderName.empty() && parcel.second->getSenderName() != senderName) continue;
@@ -234,7 +238,7 @@ std::pair<ErrorCode, std::vector<Parcel*>> LogisticsSystem::queryParcels(const s
         if (endTime != 0 && parcel.second->getReceiveTime() > endTime) continue;
         result.push_back(parcel.second);
     }      
-    return {ErrorCode::SUCCESS, result};
+    return ErrorCode::SUCCESS;
 }
 
 // 充值：验证金额 > 0 + 用户存在 → 增加余额 → 持久化
@@ -248,11 +252,15 @@ ErrorCode LogisticsSystem::rechargeUser(const std::string& username, double amou
 }
 
 // 查询余额：管理员返回公司资金池，其他返回个人余额
-std::pair<ErrorCode, double> LogisticsSystem::getUserBalance(const std::string& username) const {
+ErrorCode LogisticsSystem::getUserBalance(const std::string& username, double& balance) const {
     auto it = m_users.find(username);
-    if (it == m_users.end()) return {ErrorCode::USER_NOT_FOUND, -1.0};
-    if(it->second->getUserType() == UserType::ADMINISTRATOR) return {ErrorCode::SUCCESS, m_adminTotalBalance};
-    return {ErrorCode::SUCCESS, it->second->getBalance()};
+    if (it == m_users.end()) return ErrorCode::USER_NOT_FOUND;
+    if(it->second->getUserType() == UserType::ADMINISTRATOR) {
+        balance = m_adminTotalBalance;
+        return ErrorCode::SUCCESS;
+    }
+    balance = it->second->getBalance();
+    return ErrorCode::SUCCESS;
 }
 
 // 修改密码：校验旧密码 → 更新 → 持久化
@@ -265,14 +273,14 @@ ErrorCode LogisticsSystem::changeUserPassword(const std::string& username, const
 }
 
 // 查询用户：按用户名（可选）和用户类型（可选）筛选
-std::pair<ErrorCode, std::vector<User*>> LogisticsSystem::getUsers(const std::string& username, const UserType& userType) {
-    std::vector<User*> users;
+ErrorCode LogisticsSystem::getUsers(std::vector<User*>& users, const std::string& username, const UserType& userType) {
+    users.clear();
     for (const auto& pair : m_users) {
         if (!username.empty() && pair.first != username) continue;
         if (userType != UserType::ADMINISTRATOR && pair.second->getUserType() != userType) continue;
         users.push_back(pair.second);
     }
-    return {ErrorCode::SUCCESS, users};
+    return ErrorCode::SUCCESS;
 }
 
 // 删除用户：用户存在 + 非管理员 + 无未完成快递 → 释放内存 → 删除 → 保存

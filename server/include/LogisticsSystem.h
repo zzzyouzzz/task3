@@ -57,22 +57,22 @@ public:
     // 签收快递 → {SUCCESS, signed} 或 {NO_RESULT, {}}
     std::pair<ErrorCode, std::vector<std::string>> signParcels(const std::string& userName, const std::vector<std::string>& parcelIds);
 
-    // 查询快递 → {SUCCESS, parcels}（结果为空也是 SUCCESS）
-    std::pair<ErrorCode, std::vector<Parcel*>> queryParcels(const std::string& parcelId, const std::string& senderName = "", 
+    // 查询快递 → SUCCESS（结果为空也是 SUCCESS）
+    ErrorCode queryParcels( std::vector<Parcel*>& result, const std::string& parcelId, const std::string& senderName = "", 
         const std::string& receiverName = "",const std::string& courierName = "", 
         const ParcelStatus& status = ParcelStatus::OTHER, const time_t& startTime = 0, const time_t& endTime = 0);
 
     // 充值用户余额 → SUCCESS 或 INVALID_AMOUNT / USER_NOT_FOUND
     ErrorCode rechargeUser(const std::string& username, double amount);
 
-    // 查询用户余额 → {SUCCESS, balance} 或 {USER_NOT_FOUND, -1}
-    std::pair<ErrorCode, double> getUserBalance(const std::string& username) const;
+    // 查询用户余额 → SUCCESS 或 USER_NOT_FOUND
+    ErrorCode getUserBalance(const std::string& username, double& balance) const;
     
     // 修改用户密码 → SUCCESS 或 USER_NOT_FOUND / LOGIN_FAILED
     ErrorCode changeUserPassword(const std::string& username, const std::string& oldPwd, const std::string& newPwd);
 
-    // 查询用户 → {SUCCESS, users}（结果为空也是 SUCCESS）
-    std::pair<ErrorCode, std::vector<User*>> getUsers(const std::string& username = "", const UserType& userType = UserType::ADMINISTRATOR);
+    // 查询用户 → SUCCESS
+    ErrorCode getUsers(std::vector<User*>& users, const std::string& username = "", const UserType& userType = UserType::ADMINISTRATOR);
 
     // 删除用户 → SUCCESS 或 USER_NOT_FOUND / DELETE_BLOCKED
     ErrorCode deleteUser(const std::string& targetUsername);

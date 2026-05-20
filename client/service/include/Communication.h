@@ -29,18 +29,17 @@ class Communication {
 private:
     socket_t m_socket;           // 连接 socket
     bool m_connected;             // 是否已连接
-    ErrorCode m_lastErrorCode;    // 最近一次操作的错误码
-
-    std::string getSocketErrorString() const;
 
     // 发送请求并获取响应
     bool sendRequest(const std::string& cmd, const std::vector<std::string>& args, std::string& response);
 
     // 解析RESPONSE消息
-    bool parseResponse(const std::string& resp, std::string& status, std::vector<std::string>& data);
+    bool parseResponse(const std::string& resp, ErrorCode& status, std::vector<std::string>& data);
+
+    std::string getSocketErrorString() const;
 
 public:
-    Communication() : m_socket(INVALID_SOCKET), m_connected(false), m_lastErrorCode(ErrorCode::SUCCESS) {}
+    Communication() : m_socket(INVALID_SOCKET), m_connected(false) {}
     ~Communication() {
         disconnect();
     }
@@ -53,54 +52,51 @@ public:
     // 当前是否已连接
     bool isConnected() const { return m_connected; }
 
-    // 获取最后错误码
-    ErrorCode getLastError() const { return m_lastErrorCode; }
-
     // 用户登录
-    bool loginUser(const std::string& username, const std::string& password, UserType type, std::string& userId);
+    ErrorCode loginUser(const std::string& username, const std::string& password, UserType type, std::string& userId);
 
     // 发送快递
-    bool sendParcel(const std::string& receiver, ParcelType type, double weight, const std::string& desc, std::string& parcelId);
+    ErrorCode sendParcel(const std::string& receiver, ParcelType type, double weight, const std::string& desc, std::string& parcelId);
 
     // 管理员分配快递员
-    bool assignParcel(const std::string& parcelId, const std::string& courier);
+    ErrorCode assignParcel(const std::string& parcelId, const std::string& courier);
 
     // 快递员揽收
-    bool collectParcels(const std::vector<std::string>& ids, std::vector<std::string>& collectedList);
+    ErrorCode collectParcels(const std::vector<std::string>& ids, std::vector<std::string>& collectedList);
 
     // 用户签收
-    bool signParcels(const std::vector<std::string>& ids, std::vector<std::string>& signedList);
+    ErrorCode signParcels(const std::vector<std::string>& ids, std::vector<std::string>& signedList);
 
     // 查询快递
-    bool queryParcels(const std::string& Id, const std::string& sender, const std::string& receiver, 
+    ErrorCode queryParcels(const std::string& Id, const std::string& sender, const std::string& receiver, 
             const std::string& courier, const ParcelStatus& s, const time_t start, const time_t end, std::vector<Parcel>& parcels);
 
     // 管理员查询用户
-    bool queryUsers(const std::string& username, const UserType type, std::vector<User>& users);
+    ErrorCode queryUsers(const std::string& username, const UserType type, std::vector<User>& users);
 
     // 注册用户
-    bool registerUser(const std::string& username, const std::string& password,
+    ErrorCode registerUser(const std::string& username, const std::string& password,
                       const std::string& name, const std::string& phone, const std::string& addr, UserType type);
 
     // 充值余额
-    bool rechargeBalance(double amount);
+    ErrorCode rechargeBalance(double amount);
 
     // 查询余额
-    bool queryBalance(double& balance);
+    ErrorCode queryBalance(double& balance);
 
     // 修改密码
-    bool changePassword(const std::string& oldPwd, const std::string& newPwd);
+    ErrorCode changePassword(const std::string& oldPwd, const std::string& newPwd);
 
     // 注销账户（管理员功能）
-    bool deleteAccount(const std::string& targetUsername);
+    ErrorCode deleteAccount(const std::string& targetUsername);
 
     // 删除快递（管理员功能）
-    bool deleteParcel(const std::string& parcelId);
+    ErrorCode deleteParcel(const std::string& parcelId);
 
     // 用户注销
-    bool logout();
+    ErrorCode logout();
 
     // 获取统计信息（管理员功能）
-    bool getStatistics(int& totalUsers, int& totalParcels, int& pendingCollection, int& collected, int& Signed, double& adminTotalBalance);
+    ErrorCode getStatistics(int& totalUsers, int& totalParcels, int& pendingCollection, int& collected, int& Signed, double& adminTotalBalance);
 
 };

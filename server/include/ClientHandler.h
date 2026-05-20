@@ -23,7 +23,7 @@ class ClientHandler {
         // 路由命令到对应 handler, 网关权限检查
         std::string processCommand(const std::string& cmd, const std::vector<std::string>& args);
         // 构造响应报文 + 日志
-        std::string buildResponse(const std::string& status, const std::vector<std::string>& data, ErrorCode code = ErrorCode::UNKNOWN);
+        std::string buildResponse(ErrorCode code = ErrorCode::UNKNOWN, const std::vector<std::string>& data = {});
         // 处理各命令 handler
         std::string handleLogout(const std::vector<std::string>& args);
         std::string handleRegister(const std::vector<std::string>& args);
