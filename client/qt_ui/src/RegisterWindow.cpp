@@ -99,11 +99,10 @@ void RegisterWindow::submit_registration() {
         return;
     }
 
-    bool success = system->registerUser(username.toStdString(), password.toStdString(), name.toStdString(), phone.toStdString(), address.toStdString(), type);
-    if (!success) {
-        ErrorCode ec = system->getLastError();
+    ErrorCode res = system->registerUser(username.toStdString(), password.toStdString(), name.toStdString(), phone.toStdString(), address.toStdString(), type);
+    if (res != ErrorCode::SUCCESS) {
         QString msg;
-        switch (ec) {
+        switch (res) {
             case ErrorCode::USER_EXISTS:
                 msg = "该用户名已被注册，请更换用户名";
                 break;

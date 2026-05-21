@@ -108,10 +108,10 @@ void LoginWindow::perform_login() {
     
     // 使用 Communication 登录
     std::string userId;
-    if (!system->loginUser(username.toStdString(), password.toStdString(), currentRole, userId)) {
-        ErrorCode ec = system->getLastError();
+    ErrorCode res = system->loginUser(username.toStdString(), password.toStdString(), currentRole, userId);
+    if (res != ErrorCode::SUCCESS) {
         QString msg;
-        switch (ec) {
+        switch (res) {
             case ErrorCode::USER_NOT_FOUND:
                 msg = "用户 " + username + " 不存在";
                 break;

@@ -11,6 +11,12 @@ class LogisticsClient {
 private:
     Communication m_system;       // 通信对象
     bool is_running = true;       // 运行标志
+    std::string m_ip;            // 服务器IP
+    int m_port;                  // 服务器端口
+    std::string username;        // 用户名
+    std::string password;        // 密码
+    UserType type;              // 用户类型
+
 
     // 读取整数（带范围校验）
     bool readInt(const std::string& prompt, int& value, int minValue, int maxValue) const;
@@ -26,6 +32,7 @@ public:
     void run();                      // 主循环
 
 private:
+    bool reconnect();                // 重新连接服务器
     void loginUI();                  // 登录界面
     void registerUI();               // 注册界面
     void mainMenu(UserType type);    // 功能菜单

@@ -12,6 +12,6 @@ add_subdirectory(client/service)
 
 add_subdirectory(server)
 add_subdirectory(client/cli)
-#add_subdirectory(client/qt_ui)
+add_subdirectory(client/qt_ui)
 
 

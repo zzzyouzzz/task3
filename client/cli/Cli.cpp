@@ -79,7 +79,7 @@ bool LogisticsClient::readTime(const std::string& prompt, time_t& value) const {
     }
 }
 
-LogisticsClient::LogisticsClient(const std::string& ip, const int port) {
+LogisticsClient::LogisticsClient(const std::string& ip, const int port) : m_ip(ip), m_port(port) {
     if (!m_system.connectToServer(ip, port)) {
         is_running = false;
         g_logger.error("Unable to connect to server at " + ip + ":" + std::to_string(port));
@@ -90,6 +90,27 @@ LogisticsClient::LogisticsClient(const std::string& ip, const int port) {
     g_logger.info("Client connected to server at " + ip + ":" + std::to_string(port));
     std::cout << "连接服务器成功！" << std::endl;
 }
+
+// 重新连接服务器
+bool LogisticsClient::reconnect() {
+    if (!m_system.connectToServer(m_ip, m_port)) {
+        is_running = false;
+        g_logger.error("Unable to reconnect to server at " + m_ip + ":" + std::to_string(m_port));
+        std::cerr << "重新连接服务器失败。" << std::endl;
+        return false;
+    }
+    is_running = true;
+    g_logger.info("Client reconnected to server at " + m_ip + ":" + std::to_string(m_port));
+    std::cout << "重新连接服务器成功！" << std::endl;
+    std::string name;
+    ErrorCode ec = m_system.loginUser(username, password, type, name);
+    if (ec != ErrorCode::SUCCESS) {
+        std::cout << "登录失败" << std::endl;
+        return false;
+    }
+    return true;
+}
+
 
 
 void LogisticsClient::run() {
@@ -117,14 +138,13 @@ void LogisticsClient::run() {
 }
 
 void LogisticsClient::loginUI() {
-    std::string username, password;
     int userType;
     
     if (!readString("用户名: ", username)) return;
     if (!readString("密码: ", password)) return;
     if (!readInt("用户类型 (0-客户, 1-快递员, 2-管理员): ", userType, 0, 2) || userType < 0 || userType > 2) return;
     
-    UserType type = static_cast<UserType>(userType);
+    type = static_cast<UserType>(userType);
     std::string name;
     ErrorCode ec = m_system.loginUser(username, password, type, name);
     switch(ec) {
@@ -140,6 +160,10 @@ void LogisticsClient::loginUI() {
             break;
         case ErrorCode::USER_ALREADY_LOGIN:
             std::cout << "登录失败：用户已登录。" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "登录失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "登录失败，请重试。" << std::endl;
@@ -170,6 +194,10 @@ void LogisticsClient::registerUI() {
             break;
         case ErrorCode::INVALID_ARGS:
             std::cout << "注册失败：不允许注册管理员账号。" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "注册失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "注册失败，请重试。" << std::endl;
@@ -303,6 +331,10 @@ void LogisticsClient::sendParcelUI() {
         case ErrorCode::INSUFFICIENT_BALANCE:
             std::cout << "发送失败：余额不足，请先充值。" << std::endl;
             break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "发送失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
+            break;
         default:
             std::cout << "发送失败。" << std::endl;
             break;
@@ -319,7 +351,7 @@ void LogisticsClient::signParcelUI() {
     std::istringstream iss(line);
     std::string token;
     while (std::getline(iss, token, ',')) {
-        trimString(token);
+        token = trimString(token);
         if (!token.empty()) {
             ids.push_back(token);
         }
@@ -339,6 +371,10 @@ void LogisticsClient::signParcelUI() {
             break;
         case ErrorCode::NO_RESULT:
             std::cout << "签收失败：没有可签收的快递（可能已签收或不属于你）。" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "签收失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "签收失败。" << std::endl;
@@ -418,6 +454,10 @@ void LogisticsClient::queryParcelUI(const UserType& queryer) {
     switch(ec) {
         case ErrorCode::SUCCESS:
             break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "查询失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
+            break;
         default:
             std::cout << "查询失败。" << std::endl;
             break;
@@ -447,6 +487,10 @@ void LogisticsClient::rechargeBalanceUI() {
         case ErrorCode::SUCCESS:
             std::cout << "充值成功！" << std::endl;
             break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "充值失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
+            break;
         default:
             std::cout << "充值失败。" << std::endl;
             break;
@@ -466,6 +510,13 @@ void LogisticsClient::queryBalanceUI() {
         case ErrorCode::PERMISSION_DENIED:
             std::cout << "不许查别人的余额。" << std::endl;
             break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "查询失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
+            break;
+        case ErrorCode::INVALID_ARGS:
+            std::cout << "无效参数错误。" << std::endl;
+            break;
         default:
             std::cout << "查询失败。" << std::endl;
             break;
@@ -482,6 +533,10 @@ void LogisticsClient::changePasswordUI() {
     switch(ec) {
         case ErrorCode::SUCCESS:
             std::cout << "密码修改成功！" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "密码修改失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "密码修改失败。" << std::endl;
@@ -500,6 +555,10 @@ void LogisticsClient::assignParcelUI() {
         case ErrorCode::SUCCESS:
             std::cout << "分配成功！" << std::endl;
             break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "分配失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
+            break;
         default:
             std::cout << "分配失败。" << std::endl;
             break;
@@ -514,7 +573,12 @@ void LogisticsClient::collectParcelUI() {
     std::vector<std::string> ids;
     std::istringstream iss(line);
     std::string token;
-    while (std::getline(iss, token, ',')) ids.push_back(trimString(token));
+    while (std::getline(iss, token, ',')) {
+        token = trimString(token);
+        if (!token.empty()) {
+            ids.push_back(token);
+        }
+    }
     
     std::vector<std::string> collected; 
     
@@ -527,6 +591,10 @@ void LogisticsClient::collectParcelUI() {
                 std::cout << collected[i];
             }
             std::cout << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "揽收失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "揽收失败。" << std::endl;
@@ -555,6 +623,10 @@ void LogisticsClient::queryUsersUI() {
     ErrorCode ec = m_system.queryUsers(username, userType, users);
     switch(ec) {
         case ErrorCode::SUCCESS:
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "查询失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "查询失败。" << std::endl;
@@ -596,7 +668,8 @@ void LogisticsClient::deleteAccountUI() {
             std::cout << "用户不存在。" << std::endl;
             break;
         case ErrorCode::INTERNAL_ERROR:
-            std::cout << "服务器错误。" << std::endl;
+            std::cout << "注销失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         case ErrorCode::INVALID_ARGS:
             std::cout << "参数解析失败。" << std::endl;
@@ -629,7 +702,8 @@ void LogisticsClient::deleteParcelUI() {
             std::cout << "不许删除未签收的快递。" << std::endl;
             break;
         case ErrorCode::INTERNAL_ERROR:
-            std::cout << "服务器错误。" << std::endl;
+            std::cout << "删除失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         case ErrorCode::INVALID_ARGS:
             std::cout << "参数解析失败。" << std::endl;
@@ -645,6 +719,10 @@ void LogisticsClient::logoutUI() {
     switch(ec) {
         case ErrorCode::SUCCESS:
             std::cout << "已注销。" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "注销失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "注销失败。" << std::endl;
@@ -673,7 +751,8 @@ void LogisticsClient::getStatisticsUI() {
             std::cout << "权限不足。" << std::endl;
             break;
         case ErrorCode::INTERNAL_ERROR:
-            std::cout << "服务器错误。" << std::endl;
+            std::cout << "查询失败：服务器内部错误，请联系管理员。" << std::endl;
+            if (!reconnect()) is_running = false;
             break;
         default:
             std::cout << "获取统计信息失败。" << std::endl;

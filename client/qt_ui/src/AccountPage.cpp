@@ -75,35 +75,34 @@ AccountPage::AccountPage(QWidget *p, std::string username, Communication* sys):Q
     
 void AccountPage::load_user_info() {
     // 获取用户信息
-    std::vector<User> users;
-    if (!system->queryUsers(username, UserType::CUSTOMER, users) || users.empty()) {
+    std::vector<User*> users;
+    if (system->queryUsers(username, UserType::CUSTOMER, users) != ErrorCode::SUCCESS || users.empty()) {
         QMessageBox::critical(this, "失败", "查询用户信息失败");
         return;
     }
-    User& user = users.front();
-    double balance;
-    if (system->queryBalance(balance)) {
-        balanceLabel->setText(QString("¥%1").arg(balance));
-    }// 填充表格数据 - 融合当前值和修改值
+    User* user = users.front();
+    // 使用 queryUsers 返回的 User 对象中的余额显示，避免服务端 queryBalance 行为差异
+    double balance = user->getBalance();
+    balanceLabel->setText(QString("¥%1").arg(balance, 0, 'f', 2));
     
     // 用户名（只读）
-    infoTable->setItem(0, 0, new QTableWidgetItem(QString::fromStdString(user.getUsername())));
+    infoTable->setItem(0, 0, new QTableWidgetItem(QString::fromStdString(user->getUsername())));
     infoTable->item(0, 0)->setFlags(Qt::NoItemFlags);  // 设置为不可编辑
     
     // 姓名（可编辑输入框）
-    auto nameEdit = new QLineEdit(QString::fromStdString(user.getName()));
+    auto nameEdit = new QLineEdit(QString::fromStdString(user->getName()));
     nameEdit->setPlaceholderText("请输入姓名");
     nameEdit->setStyleSheet("border:1px solid #DCDFE6; border-radius:4px; padding:4px;");
     infoTable->setCellWidget(1, 0, nameEdit);
     
     // 电话（可编辑输入框）
-    auto phoneEdit = new QLineEdit(QString::fromStdString(user.getPhone()));
+    auto phoneEdit = new QLineEdit(QString::fromStdString(user->getPhone()));
     phoneEdit->setPlaceholderText("请输入电话");
     phoneEdit->setStyleSheet("border:1px solid #DCDFE6; border-radius:4px; padding:4px;");
     infoTable->setCellWidget(2, 0, phoneEdit);
     
     // 地址（可编辑输入框）
-    auto addrEdit = new QLineEdit(QString::fromStdString(user.getAddress()));
+    auto addrEdit = new QLineEdit(QString::fromStdString(user->getAddress()));
     addrEdit->setPlaceholderText("请输入地址");
     addrEdit->setStyleSheet("border:1px solid #DCDFE6; border-radius:4px; padding:4px;");
     infoTable->setCellWidget(3, 0, addrEdit);
@@ -140,17 +139,17 @@ void AccountPage::recharge(unsigned int amount) {
         return;
     }   
     // 调用 LogisticsSystem 充值
-    bool success = system->rechargeBalance(static_cast<double>(amount));
-    
-    if (success) {
-        double balance;
-        if (system->queryBalance(balance)) {
-            QMessageBox::information(this, "成功", QString("充值成功！\n新余额：¥%1").arg(balance));
-            balanceLabel->setText(QString("¥%1").arg(balance));
+    ErrorCode res = system->rechargeBalance(static_cast<double>(amount));
+    if (res == ErrorCode::SUCCESS) {
+        // 重新查询用户信息以获取最新余额
+        std::vector<User*> users;
+        if (system->queryUsers(username, UserType::CUSTOMER, users) == ErrorCode::SUCCESS && !users.empty()) {
+            double newBalance = users.front()->getBalance();
+            QMessageBox::information(this, "成功", QString("充值成功！\n新余额：¥%1").arg(newBalance, 0, 'f', 2));
+            balanceLabel->setText(QString("¥%1").arg(newBalance, 0, 'f', 2));
         } else {
             QMessageBox::information(this, "成功", "充值成功！");
         }
-        //moneyEdit->clear();
     } else {
         QMessageBox::critical(this, "失败", "充值失败，请检查权限");
     }
@@ -170,8 +169,8 @@ void AccountPage::change_password() {
         QMessageBox::warning(this, "提示", "新密码不能与旧密码相同");
         return;
     }
-    bool success = system->changePassword(old_pwd.toStdString(), new_pwd.toStdString());
-    if (success) {
+    ErrorCode res = system->changePassword(old_pwd.toStdString(), new_pwd.toStdString());
+    if (res == ErrorCode::SUCCESS) {
         QMessageBox::information(this, "成功", "密码修改成功！");
     } else {
         QMessageBox::critical(this, "失败", "密码修改失败，请检查权限");

@@ -76,15 +76,13 @@ void AdminExpressPage::assign_courier() {
     QString parcelId = table->item(r, 0)->text();
     
     // 调用 LogisticsSystem 分配快递员
-    bool success = system->assignParcel(parcelId.toStdString(), courier_name.toStdString());
-    
-    if (success) {
+    ErrorCode res = system->assignParcel(parcelId.toStdString(), courier_name.toStdString());
+    if (res == ErrorCode::SUCCESS) {
         table->item(r, 4)->setText(courier_name);
         QMessageBox::information(this,"成功","快递员分配成功");
     } else {
-        ErrorCode ec = system->getLastError();
         QString msg;
-        switch (ec) {
+        switch (res) {
             case ErrorCode::USER_NOT_FOUND:
                 msg = "分配失败：快递员 " + courier_name + " 不存在";
                 break;
@@ -104,24 +102,11 @@ void AdminExpressPage::delete_package() {
     if (r < 0) return;
     if (QMessageBox::question(this, "确认", "删除该快递？") == QMessageBox::Yes) {
         QString parcelId = table->item(r, 0)->text();
-        if (system->deleteParcel(parcelId.toStdString())) {
+        if (system->deleteParcel(parcelId.toStdString()) == ErrorCode::SUCCESS) {
             table->removeRow(r);
             QMessageBox::information(this, "成功", "快递已删除");
         } else {
-            ErrorCode ec = system->getLastError();
-            QString msg;
-            switch (ec) {
-                case ErrorCode::PARCEL_NOT_FOUND:
-                    msg = "删除失败：运单号 " + parcelId + " 不存在";
-                    break;
-                case ErrorCode::INVALID_STATUS:
-                    msg = "删除失败：仅已签收快递可删除";
-                    break;
-                default:
-                    msg = "删除失败，请重试";
-                    break;
-            }
-            QMessageBox::critical(this, "失败", msg);
+            QMessageBox::critical(this, "失败", "删除失败，请重试");
         }
     }
 }
@@ -141,10 +126,10 @@ void AdminExpressPage::add_package() {
     else if (typeText == "书籍") type = ParcelType::BOOK;
 
     std::string parcelId;
-    if (!system->sendParcel(receiver.toStdString(), type, 1.0, description.toStdString(), parcelId)) {
-        ErrorCode ec = system->getLastError();
+    ErrorCode res = system->sendParcel(receiver.toStdString(), type, 1.0, description.toStdString(), parcelId);
+    if (res != ErrorCode::SUCCESS) {
         QString msg;
-        switch (ec) {
+        switch (res) {
             case ErrorCode::USER_NOT_FOUND:
                 msg = "新增快递失败：收件人 " + receiver + " 不存在";
                 break;
@@ -202,23 +187,23 @@ AdminUserPage::AdminUserPage(QWidget *p, std::string username, Communication* sy
 
 
 void AdminUserPage::load_users() {
-    std::vector<User> users;
-    system->queryUsers("", UserType::ADMINISTRATOR, users);
+    std::vector<User*> users;
+    if (system->queryUsers("", UserType::ADMINISTRATOR, users) != ErrorCode::SUCCESS) return;
     table->setRowCount(users.size());
     for (size_t i = 0; i < users.size(); i++) {
-        const auto& user = users[i];
-        table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(user.getUsername())));
-        table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(user.getName())));
+        const auto* user = users[i];
+        table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(user->getUsername())));
+        table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(user->getName())));
         
         QString role_text;
-        switch (user.getUserType()) {
+        switch (user->getUserType()) {
             case UserType::CUSTOMER: role_text = "用户"; break;
             case UserType::COURIER: role_text = "快递员"; break;
             case UserType::ADMINISTRATOR: role_text = "管理员"; break;
             default: role_text = "未知"; break;
         }
         table->setItem(i, 2, new QTableWidgetItem(role_text));
-        table->setItem(i, 3, new QTableWidgetItem(QString("¥%1").arg(user.getBalance())));
+        table->setItem(i, 3, new QTableWidgetItem(QString("¥%1").arg(user->getBalance())));
     }
 }
 
@@ -242,24 +227,11 @@ void AdminUserPage::delete_user() {
     if (r < 0) return;
     QString usernameText = table->item(r, 0)->text();
     if (QMessageBox::question(this, "确认", QString("删除用户 %1？").arg(usernameText)) == QMessageBox::Yes) {
-        if (system->deleteAccount(usernameText.toStdString())) {
+        if (system->deleteAccount(usernameText.toStdString()) == ErrorCode::SUCCESS) {
             table->removeRow(r);
             QMessageBox::information(this, "成功", "用户已删除");
         } else {
-            ErrorCode ec = system->getLastError();
-            QString msg;
-            switch (ec) {
-                case ErrorCode::USER_NOT_FOUND:
-                    msg = "删除失败：用户 " + usernameText + " 不存在";
-                    break;
-                case ErrorCode::DELETE_BLOCKED:
-                    msg = "删除失败：用户存在未完成快递或是管理员，无法删除";
-                    break;
-                default:
-                    msg = "删除失败，请重试";
-                    break;
-            }
-            QMessageBox::critical(this, "失败", msg);
+            QMessageBox::critical(this, "失败", "删除失败，请重试");
         }
     }
 }
@@ -322,7 +294,7 @@ void AdminStatsPage::load_stats() {
     int totalUsers, totalParcels, pendingCollection, collected, Signed;
     double adminTotalBalance;
 
-    if (!system->getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance)) {
+    if (system->getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance) != ErrorCode::SUCCESS) {
         QMessageBox::critical(this, "失败", "获取统计信息失败");
         return;
     }

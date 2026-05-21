@@ -11,7 +11,8 @@
 						1,
 						2,
 						3,
-						4
+						4,
+						5
 					],
 					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
@@ -48,7 +49,7 @@
 					"source" : "client/service",
 					"targetIndexes" : 
 					[
-						2
+						4
 					]
 				},
 				{
@@ -63,7 +64,7 @@
 					"source" : "server",
 					"targetIndexes" : 
 					[
-						3
+						5
 					]
 				},
 				{
@@ -80,6 +81,22 @@
 					[
 						1
 					]
+				},
+				{
+					"build" : "client/qt_ui",
+					"jsonFile" : "directory-client.qt_ui-Debug-11fa4ba30d2bee690b1c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "client/qt_ui",
+					"targetIndexes" : 
+					[
+						2,
+						3
+					]
 				}
 			],
 			"name" : "Debug",
@@ -92,7 +109,8 @@
 						1,
 						2,
 						3,
-						4
+						4,
+						5
 					],
 					"name" : "task3",
 					"targetIndexes" : 
@@ -100,7 +118,9 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4,
+						5
 					]
 				}
 			],
@@ -118,6 +138,20 @@
 					"id" : "client_cli::@2d086698d7ee46204e03",
 					"jsonFile" : "target-client_cli-Debug-3ac0d7ef4ce3a18ac018.json",
 					"name" : "client_cli",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "client_qt::@f51e66a1b8ba53a4bb62",
+					"jsonFile" : "target-client_qt-Debug-202b9655fd13ca27a864.json",
+					"name" : "client_qt",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "client_qt_autogen::@f51e66a1b8ba53a4bb62",
+					"jsonFile" : "target-client_qt_autogen-Debug-19900f135c85808e9021.json",
+					"name" : "client_qt_autogen",
 					"projectIndex" : 0
 				},
 				{

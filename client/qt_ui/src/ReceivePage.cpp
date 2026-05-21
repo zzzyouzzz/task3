@@ -116,7 +116,7 @@ void ReceivePage::receive_packages() {
             std::string parcelId = trackingItem->text().toStdString();
             
             std::vector<std::string> signedList;
-            if (system->signParcels({parcelId}, signedList)) {
+            if (system->signParcels({parcelId}, signedList) == ErrorCode::SUCCESS) {
                 if (!signedList.empty()) {
                     received_count++;
                 }
@@ -129,17 +129,7 @@ void ReceivePage::receive_packages() {
         load_packages();
         if(queryPage) queryPage->refresh();
     } else {
-        ErrorCode ec = system->getLastError();
-        QString msg;
-        switch (ec) {
-            case ErrorCode::NO_RESULT:
-                msg = "没有可签收的快递（可能已签收或不属于你）";
-                break;
-            default:
-                msg = "签收失败，请重试";
-                break;
-        }
-        QMessageBox::warning(this, "签收失败", msg);
+        QMessageBox::warning(this, "签收失败", "签收失败，请重试");
     }
 }
 

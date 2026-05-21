@@ -89,11 +89,11 @@ QueryPage::QueryPage(QWidget *parent, std::string username, Communication* sys) 
 
 void QueryPage::load_packages() {
     // 读取当前用户类型，用于展示相关快递
-    std::vector<User> users;
+    std::vector<User*> users;
     bool isCourier = false;
     bool isAdmin = false;
-    if (system->queryUsers(username, UserType::CUSTOMER, users) && !users.empty()) {
-        UserType type = users.front().getUserType();
+    if (system->queryUsers(username, UserType::CUSTOMER, users) == ErrorCode::SUCCESS && !users.empty()) {
+        UserType type = users.front()->getUserType();
         isCourier = (type == UserType::COURIER);
         isAdmin = (type == UserType::ADMINISTRATOR);
     }

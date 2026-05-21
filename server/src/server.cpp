@@ -86,9 +86,21 @@ void Server::start(const std::string& listenIp, int port) {
             continue;
         }
         if (ret == 0) {
-            // 超时无事件，继续等待
-            //g_logger.info("No client activity, continue waiting...");
-            Sleep(1000);
+            //g_logger.info("No activity on any socket, continue waiting...");
+            // 检查所有客户端是否超时
+            for (auto it = m_userMap.begin(); it != m_userMap.end(); ) {
+                socket_t sock = it->first;
+                ClientHandler& client = it->second;
+                if (time(nullptr) - client.getLastActiveTime() > MAX_IDLE_TIME) {
+                    g_logger.info("Client " + std::to_string(sock) + " idle for " + std::to_string(MAX_IDLE_TIME) + " seconds, closing connection.");
+                    // 客户端超时，断开连接
+                    CLOSE_SOCKET(sock);
+                    client.handleLogout({});
+                    it = m_userMap.erase(it);
+                    continue;
+                }
+                ++it;
+            }
             continue;
         }
         // 处理新连接
@@ -171,6 +183,7 @@ bool Server::handleClientRequest(ClientHandler& client, socket_t sock){
         
         std::string response;
         client.setRequestId(m_currentRequestId);
+        client.updateLastActiveTime();
         if (!client.handleRequst(response)) continue;
 
         m_currentRequestId++;

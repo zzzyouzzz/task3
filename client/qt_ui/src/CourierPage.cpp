@@ -100,7 +100,7 @@ CourierHomePage::CourierHomePage(QWidget *p, std::string courier_id, QueryPage *
 
 void CourierHomePage::load_packages() {
     double balance;
-    if (system->queryBalance(balance)) {
+    if (system->queryBalance(balance) == ErrorCode::SUCCESS) {
         balanceLabel->setText(QString("账户余额：¥ %1").arg(QString::number(balance)));
     } else {
         balanceLabel->setText("账户余额：获取失败");
@@ -140,7 +140,7 @@ void CourierHomePage::take_package() {
 
     QString parcelId = table->item(row, 0)->text();
     std::vector<std::string> collected;
-    if (system->collectParcels({parcelId.toStdString()}, collected)) {
+    if (system->collectParcels({parcelId.toStdString()}, collected) == ErrorCode::SUCCESS) {
         if (!collected.empty()) {
             QMessageBox::information(this, "成功", "快递揽收完成！");
             load_packages();
@@ -149,9 +149,6 @@ void CourierHomePage::take_package() {
             QMessageBox::warning(this, "失败", "揽收失败，请检查快递状态");
         }
     } else {
-        ErrorCode ec = system->getLastError();
-        QString msg = (ec == ErrorCode::USER_NOT_FOUND) 
-            ? "揽收失败：当前账户无效" : "揽收失败，请重试";
-        QMessageBox::critical(this, "失败", msg);
+        QMessageBox::critical(this, "失败", "揽收失败，请重试");
     }
 }

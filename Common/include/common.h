@@ -89,7 +89,7 @@ static bool parseDouble(const std::string& str, double& value) {
     try {
         size_t idx = 0;
         value = std::stod(str, &idx);
-        return idx;
+        return true;
     } catch (...) {
         return false;
     }

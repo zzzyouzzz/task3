@@ -57,6 +57,11 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("D:/c/vsc_pro/task3/build/client/cli/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/c/vsc_pro/task3/build/client/qt_ui/cmake_install.cmake")
+endif()
+
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)

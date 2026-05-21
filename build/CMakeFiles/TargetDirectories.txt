@@ -17,3 +17,8 @@ D:/c/vsc_pro/task3/build/client/cli/CMakeFiles/client_cli.dir
 D:/c/vsc_pro/task3/build/client/cli/CMakeFiles/test.dir
 D:/c/vsc_pro/task3/build/client/cli/CMakeFiles/edit_cache.dir
 D:/c/vsc_pro/task3/build/client/cli/CMakeFiles/rebuild_cache.dir
+D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/client_qt.dir
+D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/test.dir
+D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/edit_cache.dir
+D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/rebuild_cache.dir
+D:/c/vsc_pro/task3/build/client/qt_ui/CMakeFiles/client_qt_autogen.dir

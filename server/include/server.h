@@ -31,6 +31,8 @@
 #endif
 
 const int MAX_BUF = 4096;   // 接收缓冲区大小
+const int MAX_IDLE_TIME = 45; // 最大挂机时间（毫秒）
+
 
 // ================== 服务器主类 ==================
 class Server {

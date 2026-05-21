@@ -136,7 +136,7 @@ ErrorCode Communication::sendParcel(const std::string& receiver, ParcelType type
         return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
     parcelId = data[0];
     return status;
 }
@@ -147,7 +147,7 @@ ErrorCode Communication::assignParcel(const std::string& parcelId, const std::st
     if (!sendRequest(Command::ASSIGN_PARCEL, {parcelId, courier}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
     return status;
 }
 
@@ -157,7 +157,7 @@ ErrorCode Communication::collectParcels(const std::vector<std::string>& ids, std
     if (!sendRequest(Command::COLLECT_PARCEL, ids, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
     collectedList.clear();
     for (const auto& raw : data) {
         collectedList.push_back(raw);
@@ -168,10 +168,10 @@ ErrorCode Communication::collectParcels(const std::vector<std::string>& ids, std
 // 用户签收
 ErrorCode Communication::signParcels(const std::vector<std::string>& ids, std::vector<std::string>& signedList) {
     std::string resp;
-    if (!sendRequest(Command::SIGN_PARCEL, ids, resp)) return ErrorCode::UNKNOWN;
+    if (!sendRequest(Command::SIGN_PARCEL, ids, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::UNKNOWN;
+    if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
     signedList.clear();
     for (const auto& raw : data) {
         signedList.push_back(raw);
@@ -183,10 +183,10 @@ ErrorCode Communication::signParcels(const std::vector<std::string>& ids, std::v
 ErrorCode Communication::queryParcels(const std::string& Id, const std::string& sender, const std::string& receiver, 
         const std::string& courier, const ParcelStatus& s, const time_t start, const time_t end, std::vector<Parcel>& parcels) {
     std::string resp;
-    if (!sendRequest(Command::QUERY_PARCEL, {Id, sender, receiver, courier, std::to_string(static_cast<int>(s)), std::to_string(start), std::to_string(end)}, resp)) return ErrorCode::UNKNOWN;
+    if (!sendRequest(Command::QUERY_PARCEL, {Id, sender, receiver, courier, std::to_string(static_cast<int>(s)), std::to_string(start), std::to_string(end)}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::UNKNOWN;
+    if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
     parcels.clear();
     for (int i = 0; i + 9 < data.size(); i += 10) {
         Parcel parcel(static_cast<ParcelType>(std::stoi(data[i])), data[i + 1], data[i + 2], data[i + 3], static_cast<time_t>(std::stoi(data[i + 4])), static_cast<time_t>(std::stoi(data[i + 5])),
@@ -200,10 +200,10 @@ ErrorCode Communication::queryParcels(const std::string& Id, const std::string& 
 // 管理员查询用户
 ErrorCode Communication::queryUsers(const std::string& username, const UserType type, std::vector<User*>& users) {
     std::string resp;
-    if (!sendRequest(Command::QUERY_USER, {username, std::to_string(static_cast<int>(type))}, resp)) return ErrorCode::UNKNOWN;
+    if (!sendRequest(Command::QUERY_USER, {username, std::to_string(static_cast<int>(type))}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::UNKNOWN;
+    if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
     users.clear();
     for (int i = 0; i + 6 < data.size(); i += 7) {
         switch (static_cast<UserType>(stoi(data[i]))) {
@@ -228,16 +228,16 @@ ErrorCode Communication::registerUser(const std::string& username, const std::st
         return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
     return status;
 }
 
 ErrorCode Communication::rechargeBalance(double amount) {
     std::string resp;
-    if (!sendRequest(Command::RECHARGE_BALANCE, {std::to_string(amount)}, resp)) return ErrorCode::UNKNOWN;
+    if (!sendRequest(Command::RECHARGE_BALANCE, {std::to_string(amount)}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS) return ErrorCode::UNKNOWN;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
     return status;
 }
 
@@ -246,9 +246,9 @@ ErrorCode Communication::queryBalance(double& balance) {
     if (!sendRequest(Command::QUERY_BALANCE, {}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::INVALID_ARGS;
-    if (parseDouble(data[0], balance)) return ErrorCode::INVALID_ARGS;
-    return ErrorCode::SUCCESS;
+    if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
+    if (!parseDouble(data[0], balance)) return ErrorCode::INVALID_ARGS;
+    return status;
 }
 
 ErrorCode Communication::changePassword(const std::string& oldPwd, const std::string& newPwd) {
@@ -256,7 +256,7 @@ ErrorCode Communication::changePassword(const std::string& oldPwd, const std::st
     if (!sendRequest(Command::CHANGE_PASSWORD, {oldPwd, newPwd}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
     return status;
 }
 
@@ -285,7 +285,7 @@ ErrorCode Communication::logout() {
     if (!sendRequest(Command::LOGOUT, {}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
     return status;
 }
 

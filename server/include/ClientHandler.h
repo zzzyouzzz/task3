@@ -7,14 +7,21 @@ extern LogisticsSystem *m_system;
 class ClientHandler {
     private:
         int requestId;
+        time_t lastActiveTime;
         std::string m_currentUser;             // 当前登录用户
         UserType m_userType;                 // 当前登录用户类型
         std::string buf;        // 累积接收缓冲区，用于处理 TCP 半包
     public:
         ClientHandler() : requestId(0) {
+            lastActiveTime = time(nullptr);
             m_currentUser.clear();
             buf.clear();
         }
+
+        // 更新最后活跃时间
+        void updateLastActiveTime() { lastActiveTime = time(nullptr); }
+        // 获取最后活跃时间
+        time_t getLastActiveTime() { return lastActiveTime; }
 
         // 接收新数据并累加到缓冲区
         void pushBuffer(const std::string& data) { buf += data; }

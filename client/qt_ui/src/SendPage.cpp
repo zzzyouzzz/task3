@@ -68,10 +68,10 @@ void SendPage::submit_package() {
     else if (typeBox->currentText() == "书籍") type = ParcelType::BOOK;
     
     std::string parcelId;
-    if (!system->sendParcel(receiver.toStdString(), type, 1.0, content.toStdString(), parcelId)) {
-        ErrorCode ec = system->getLastError();
+    ErrorCode res = system->sendParcel(receiver.toStdString(), type, 1.0, content.toStdString(), parcelId);
+    if (res != ErrorCode::SUCCESS) {
         QString msg;
-        switch (ec) {
+        switch (res) {
             case ErrorCode::USER_NOT_FOUND:
                 msg = "寄件失败：收件人 " + receiver + " 不存在";
                 break;
