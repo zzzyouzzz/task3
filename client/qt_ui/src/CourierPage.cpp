@@ -131,7 +131,7 @@ void CourierHomePage::load_packages() {
     std::vector<Parcel> packages;
     ErrorCode qe = system->queryParcels("", "", "", courier_id, ParcelStatus::PENDING_COLLECTION, 0, 0, packages);
     if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-        system->queryParcels("", "", "", courier_id, ParcelStatus::PENDING_COLLECTION, 0, 0, packages);
+        qe = system->queryParcels("", "", "", courier_id, ParcelStatus::PENDING_COLLECTION, 0, 0, packages);
     }
     table->setRowCount(packages.size());
     for (size_t i = 0; i < packages.size(); i++) {

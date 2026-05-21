@@ -288,7 +288,7 @@ ErrorCode LogisticsSystem::deleteUser(const std::string& targetUsername) {
     if (targetIt == m_users.end()) return ErrorCode::USER_NOT_FOUND;
     if (targetIt->second->getUserType() == UserType::ADMINISTRATOR) return ErrorCode::DELETE_BLOCKED;
     for (const auto& parcel : m_parcels) {
-        if ((parcel.second->getSenderName() == targetUsername || parcel.second->getReceiverName() == targetUsername) &&
+        if ((parcel.second->getSenderName() == targetUsername || parcel.second->getReceiverName() == targetUsername || parcel.second->getCourierName() == targetUsername) &&
             parcel.second->getStatus() != ParcelStatus::SIGNED) {
             return ErrorCode::DELETE_BLOCKED;
         }

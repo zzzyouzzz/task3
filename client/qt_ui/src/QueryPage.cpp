@@ -119,18 +119,18 @@ void QueryPage::load_packages() {
     if (isCourier) {
         ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
         if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-            system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
+            qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
         }
     } else if (isAdmin) {
         ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
         if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-            system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
+            qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
         }
     } else {
         std::vector<Parcel> allParcels;
         ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
         if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-            system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
+            qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
         }
         for (auto& pkg : allParcels) {
             if (pkg.getSenderName() == username || pkg.getReceiverName() == username) {
