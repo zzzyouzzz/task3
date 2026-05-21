@@ -80,63 +80,20 @@ QueryPage::QueryPage(QWidget *parent, std::string username, Communication* sys) 
 
     connect(filterBtn, &QPushButton::clicked, this, &QueryPage::load_packages);
     connect(refreshBtn, &QPushButton::clicked, this, &QueryPage::load_packages);
-    connect(editTrackingNum, &QLineEdit::textChanged, this, &QueryPage::load_packages);
-    connect(editSender, &QLineEdit::textChanged, this, &QueryPage::load_packages);
-    connect(editReceiver, &QLineEdit::textChanged, this, &QueryPage::load_packages);
-    connect(statusBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &QueryPage::load_packages);
+    connect(editTrackingNum, &QLineEdit::textChanged, this, &QueryPage::filter_packages);
+    connect(editSender, &QLineEdit::textChanged, this, &QueryPage::filter_packages);
+    connect(editReceiver, &QLineEdit::textChanged, this, &QueryPage::filter_packages);
+    connect(statusBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &QueryPage::filter_packages);
     
     load_packages();
 }
 
 void QueryPage::load_packages() {
-    // 读取当前用户类型，用于展示相关快递
-    std::vector<User*> users;
-    bool isCourier = false;
-    bool isAdmin = false;
-    ErrorCode queryUserRes = system->queryUsers(username, UserType::CUSTOMER, users);
-    if (queryUserRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-        queryUserRes = system->queryUsers(username, UserType::CUSTOMER, users);
-    }
-    if (queryUserRes == ErrorCode::SUCCESS && !users.empty()) {
-        UserType type = users.front()->getUserType();
-        isCourier = (type == UserType::COURIER);
-        isAdmin = (type == UserType::ADMINISTRATOR);
-    } else if (queryUserRes != ErrorCode::SUCCESS) {
-        // 非关键错误，继续执行，按默认客户模式查询
-        g_logger.warning("QueryPage: queryUsers returned " + std::to_string(static_cast<int>(queryUserRes)));
-    }
-
-    QString senderFilter = editSender->text().trimmed();
-    QString receiverFilter = editReceiver->text().trimmed();
-    QString trackingFilter = editTrackingNum->text().trimmed();
-    int statusIndex = statusBox->currentIndex();
-    ParcelStatus status = ParcelStatus::OTHER;
-    if (statusIndex == 1) status = ParcelStatus::PENDING_COLLECTION;
-    else if (statusIndex == 2) status = ParcelStatus::PENDING_SIGN;
-    else if (statusIndex == 3) status = ParcelStatus::SIGNED;
 
     std::vector<Parcel> parcels;
-    if (isCourier) {
-        ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
-        if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-            qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
-        }
-    } else if (isAdmin) {
-        ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
-        if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-            qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
-        }
-    } else {
-        std::vector<Parcel> allParcels;
-        ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
-        if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-            qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
-        }
-        for (auto& pkg : allParcels) {
-            if (pkg.getSenderName() == username || pkg.getReceiverName() == username) {
-                parcels.push_back(pkg);
-            }
-        }
+    ErrorCode qe = system->queryParcels("", "", "", "", ParcelStatus::OTHER, 0, 0, parcels);
+    if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        qe = system->queryParcels("", "", "", "", ParcelStatus::OTHER, 0, 0, parcels);
     }
 
     table->setRowCount(parcels.size());
@@ -196,7 +153,7 @@ void QueryPage::filter_packages() {
         
         // 状态筛选
         if (show && status_index > 0) {
-            QString status_text = table->item(i, 6)->text();
+            QString status_text = table->item(i, 7)->text();
             QString target_status = statusBox->currentText();
             show = (status_text == target_status);
         }
