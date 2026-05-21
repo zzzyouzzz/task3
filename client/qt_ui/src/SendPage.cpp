@@ -1,4 +1,5 @@
 #include "SendPage.h"
+#include "ReconnectHelper.h"
 
 
 SendPage::SendPage(QWidget *parent, std::string username, Communication* sys) : QWidget(parent), username(username), system(sys) {
@@ -69,6 +70,9 @@ void SendPage::submit_package() {
     
     std::string parcelId;
     ErrorCode res = system->sendParcel(receiver.toStdString(), type, 1.0, content.toStdString(), parcelId);
+    if (res == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        res = system->sendParcel(receiver.toStdString(), type, 1.0, content.toStdString(), parcelId);
+    }
     if (res != ErrorCode::SUCCESS) {
         QString msg;
         switch (res) {
@@ -78,8 +82,11 @@ void SendPage::submit_package() {
             case ErrorCode::INSUFFICIENT_BALANCE:
                 msg = "寄件失败：账户余额不足，请先充值";
                 break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "寄件失败：参数错误";
+                break;
             default:
-                msg = "寄件失败，请检查输入信息";
+                msg = QString("寄件失败（错误码 %1）").arg(static_cast<int>(res));
                 break;
         }
         QMessageBox::critical(this, "寄件失败", msg);

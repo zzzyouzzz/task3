@@ -1,4 +1,5 @@
 #include "ReceivePage.h"
+#include "ReconnectHelper.h"
 
 
 ReceivePage::ReceivePage(QWidget *parent, std::string username, Communication* sys) : QWidget(parent), username(username), system(sys){
@@ -67,9 +68,26 @@ ReceivePage::ReceivePage(QWidget *parent, std::string username, Communication* s
 void ReceivePage::load_packages() {
     // 使用 LogisticsSystem 查询快递
     std::vector<Parcel> parcels;
-    system->queryParcels("", "", username, "", ParcelStatus::PENDING_SIGN, 0, 0, parcels);
+    ErrorCode ec1 = system->queryParcels("", "", username, "", ParcelStatus::PENDING_SIGN, 0, 0, parcels);
+    if (ec1 == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        ec1 = system->queryParcels("", "", username, "", ParcelStatus::PENDING_SIGN, 0, 0, parcels);
+    }
+    if (ec1 != ErrorCode::SUCCESS && ec1 != ErrorCode::INTERNAL_ERROR) {
+        QMessageBox::critical(this, "加载失败",
+            ec1 == ErrorCode::INVALID_ARGS ? "加载待签收快递失败：数据格式异常" :
+            QString("加载待签收快递失败（错误码 %1）").arg(static_cast<int>(ec1)));
+    }
+
     std::vector<Parcel> pending_collect_parcels;
-    system->queryParcels("", "", username, "", ParcelStatus::PENDING_COLLECTION, 0, 0, pending_collect_parcels);
+    ErrorCode ec2 = system->queryParcels("", "", username, "", ParcelStatus::PENDING_COLLECTION, 0, 0, pending_collect_parcels);
+    if (ec2 == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        ec2 = system->queryParcels("", "", username, "", ParcelStatus::PENDING_COLLECTION, 0, 0, pending_collect_parcels);
+    }
+    if (ec2 != ErrorCode::SUCCESS && ec2 != ErrorCode::INTERNAL_ERROR) {
+        QMessageBox::critical(this, "加载失败",
+            ec2 == ErrorCode::INVALID_ARGS ? "加载待揽收快递失败：数据格式异常" :
+            QString("加载待揽收快递失败（错误码 %1）").arg(static_cast<int>(ec2)));
+    }
     parcels.insert(parcels.end(), pending_collect_parcels.begin(), pending_collect_parcels.end());
 
     table->setRowCount(parcels.size());
@@ -100,7 +118,8 @@ void ReceivePage::receive_packages() {
     }
     
     int received_count = 0;
-    
+    ErrorCode lastError = ErrorCode::SUCCESS;
+
     // 获取所有选中的行
     QSet<int> selectedRows;
     for (const auto& range : selected) {
@@ -108,28 +127,51 @@ void ReceivePage::receive_packages() {
             selectedRows.insert(row);
         }
     }
-    
+
     for (int row : selectedRows) {
         // 获取物流单号（第一列）
         QTableWidgetItem* trackingItem = table->item(row, 0);
         if (trackingItem) {
             std::string parcelId = trackingItem->text().toStdString();
-            
+
             std::vector<std::string> signedList;
-            if (system->signParcels({parcelId}, signedList) == ErrorCode::SUCCESS) {
+            ErrorCode signRes = system->signParcels({parcelId}, signedList);
+            if (signRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+                signRes = system->signParcels({parcelId}, signedList);
+            }
+            if (signRes == ErrorCode::SUCCESS) {
                 if (!signedList.empty()) {
                     received_count++;
                 }
+            } else {
+                lastError = signRes;
             }
         }
     }
-    
+
     if (received_count > 0) {
         QMessageBox::information(this, "成功", QString("成功签收 %1 个快递").arg(received_count));
         load_packages();
         if(queryPage) queryPage->refresh();
     } else {
-        QMessageBox::warning(this, "签收失败", "签收失败，请重试");
+        QString errorMsg;
+        switch (lastError) {
+            case ErrorCode::NO_RESULT:
+                errorMsg = "签收失败：所选快递不满足签收条件（非待签收状态或收件人不匹配）";
+                break;
+            case ErrorCode::INVALID_ARGS:
+                errorMsg = "签收失败：响应数据异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                errorMsg = "签收失败：网络连接异常，请重试";
+                break;
+            default:
+                errorMsg = lastError != ErrorCode::SUCCESS ?
+                    QString("签收失败（错误码 %1）").arg(static_cast<int>(lastError)) :
+                    "签收失败：所选快递不满足签收条件";
+                break;
+        }
+        QMessageBox::warning(this, "签收失败", errorMsg);
     }
 }
 

@@ -39,6 +39,10 @@ int main(int argc, char *argv[]) {
     LoginWindow login(system, ip, port);
     login.show();
     int result = app.exec();
-    delete system;
+    if (result == 0) {
+        system->logout();
+    } else {
+        delete system;
+    }
     return result;
 }

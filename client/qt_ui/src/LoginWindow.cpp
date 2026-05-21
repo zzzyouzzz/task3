@@ -132,15 +132,22 @@ void LoginWindow::perform_login() {
             case ErrorCode::LOGIN_FAILED:
                 msg = "密码错误或身份不匹配";
                 break;
+            case ErrorCode::USER_ALREADY_LOGIN:
+                msg = "该账号已登录，请勿重复登录";
+                break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "登录响应格式异常";
+                break;
             case ErrorCode::INTERNAL_ERROR:
                 // 尝试重连并重试登录一次
                 if (attemptReconnect()) {
                     ErrorCode r2 = system->loginUser(last_username, last_password, last_type, userId);
                     if (r2 == ErrorCode::SUCCESS) {
-                        QMessageBox::information(this, "登录成功", 
+                        system->setAutoReconnectInfo(last_username, last_password, last_type);
+                        QMessageBox::information(this, "登录成功",
                             QString("欢迎回来，%1！\n角色：%2")
                                 .arg(QString::fromStdString(userId))
-                                .arg(currentRole == UserType::CUSTOMER ? "用户" : 
+                                .arg(currentRole == UserType::CUSTOMER ? "用户" :
                                      currentRole == UserType::COURIER ? "快递员" : "管理员"));
                         if (currentRole == UserType::CUSTOMER) {
                             (new UserWindow(last_username, system))->show();
@@ -156,15 +163,16 @@ void LoginWindow::perform_login() {
                 msg = "登录失败，请重试";
                 break;
             default:
-                msg = "登录失败，请重试";
+                msg = QString("登录失败（错误码 %1）").arg(static_cast<int>(res));
                 break;
         }
         QMessageBox::critical(this, "登录失败", msg);
         return;
     }
-    
-    
-    QMessageBox::information(this, "登录成功", 
+
+    system->setAutoReconnectInfo(last_username, last_password, last_type);
+
+    QMessageBox::information(this, "登录成功",
         QString("欢迎回来，%1！\n角色：%2")
             .arg(QString::fromStdString(userId))
             .arg(currentRole == UserType::CUSTOMER ? "用户" : 

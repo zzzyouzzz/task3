@@ -1,4 +1,5 @@
 #include "new.h"
+#include "ReconnectHelper.h"
 #include "RegisterWindow.h"
 
 
@@ -46,7 +47,26 @@ AdminExpressPage::AdminExpressPage(QWidget *p, std::string username, Communicati
     
 void AdminExpressPage::load_packages() {
     std::vector<Parcel> packages;
-    system->queryParcels("", "", "", "", ParcelStatus::OTHER, 0, 0, packages);
+    ErrorCode qe = system->queryParcels("", "", "", "", ParcelStatus::OTHER, 0, 0, packages);
+    if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        qe = system->queryParcels("", "", "", "", ParcelStatus::OTHER, 0, 0, packages);
+    }
+    if (qe != ErrorCode::SUCCESS) {
+        QString msg;
+        switch (qe) {
+            case ErrorCode::INVALID_ARGS:
+                msg = "加载快递列表失败：数据格式异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "加载快递列表失败：网络连接异常，请重试";
+                break;
+            default:
+                msg = QString("加载快递列表失败（错误码 %1）").arg(static_cast<int>(qe));
+                break;
+        }
+        QMessageBox::critical(this, "加载失败", msg);
+        return;
+    }
     table->setRowCount(packages.size());
     for (size_t i = 0; i < packages.size(); i++) {
         const auto& pkg = packages[i];
@@ -77,6 +97,9 @@ void AdminExpressPage::assign_courier() {
     
     // 调用 LogisticsSystem 分配快递员
     ErrorCode res = system->assignParcel(parcelId.toStdString(), courier_name.toStdString());
+    if (res == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        res = system->assignParcel(parcelId.toStdString(), courier_name.toStdString());
+    }
     if (res == ErrorCode::SUCCESS) {
         table->item(r, 4)->setText(courier_name);
         QMessageBox::information(this,"成功","快递员分配成功");
@@ -89,11 +112,17 @@ void AdminExpressPage::assign_courier() {
             case ErrorCode::PARCEL_NOT_FOUND:
                 msg = "分配失败：运单号 " + parcelId + " 不存在";
                 break;
+            case ErrorCode::PARCEL_STATUS_INVALID:
+                msg = "分配失败：该快递当前状态不允许分配快递员";
+                break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "分配失败：响应数据异常";
+                break;
             default:
-                msg = "分配失败，请重试";
+                msg = QString("分配失败（错误码 %1）").arg(static_cast<int>(res));
                 break;
         }
-        QMessageBox::critical(this,"失败", msg);
+        QMessageBox::critical(this,"分配失败", msg);
     }
 }
 
@@ -102,11 +131,33 @@ void AdminExpressPage::delete_package() {
     if (r < 0) return;
     if (QMessageBox::question(this, "确认", "删除该快递？") == QMessageBox::Yes) {
         QString parcelId = table->item(r, 0)->text();
-        if (system->deleteParcel(parcelId.toStdString()) == ErrorCode::SUCCESS) {
+        ErrorCode delRes = system->deleteParcel(parcelId.toStdString());
+        if (delRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+            delRes = system->deleteParcel(parcelId.toStdString());
+        }
+        if (delRes == ErrorCode::SUCCESS) {
             table->removeRow(r);
             QMessageBox::information(this, "成功", "快递已删除");
         } else {
-            QMessageBox::critical(this, "失败", "删除失败，请重试");
+            QString msg;
+            switch (delRes) {
+                case ErrorCode::PARCEL_NOT_FOUND:
+                    msg = "删除失败：快递单号不存在";
+                    break;
+                case ErrorCode::INVALID_STATUS:
+                    msg = "删除失败：只能删除已签收的快递";
+                    break;
+                case ErrorCode::INVALID_ARGS:
+                    msg = "删除失败：响应数据异常";
+                    break;
+                case ErrorCode::INTERNAL_ERROR:
+                    msg = "删除失败：网络连接异常，请重试";
+                    break;
+                default:
+                    msg = QString("删除失败（错误码 %1）").arg(static_cast<int>(delRes));
+                    break;
+            }
+            QMessageBox::critical(this, "删除失败", msg);
         }
     }
 }
@@ -127,6 +178,9 @@ void AdminExpressPage::add_package() {
 
     std::string parcelId;
     ErrorCode res = system->sendParcel(receiver.toStdString(), type, 1.0, description.toStdString(), parcelId);
+    if (res == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        res = system->sendParcel(receiver.toStdString(), type, 1.0, description.toStdString(), parcelId);
+    }
     if (res != ErrorCode::SUCCESS) {
         QString msg;
         switch (res) {
@@ -136,11 +190,14 @@ void AdminExpressPage::add_package() {
             case ErrorCode::INSUFFICIENT_BALANCE:
                 msg = "新增快递失败：余额不足";
                 break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "新增快递失败：参数错误";
+                break;
             default:
-                msg = "新增快递失败，请重试";
+                msg = QString("新增快递失败（错误码 %1）").arg(static_cast<int>(res));
                 break;
         }
-        QMessageBox::critical(this, "失败", msg);
+        QMessageBox::critical(this, "新增快递失败", msg);
         return;
     }
     QMessageBox::information(this, "成功", QString("新增快递成功，运单号：%1").arg(QString::fromStdString(parcelId)));
@@ -188,7 +245,26 @@ AdminUserPage::AdminUserPage(QWidget *p, std::string username, Communication* sy
 
 void AdminUserPage::load_users() {
     std::vector<User*> users;
-    if (system->queryUsers("", UserType::ADMINISTRATOR, users) != ErrorCode::SUCCESS) return;
+    ErrorCode quRes = system->queryUsers("", UserType::ADMINISTRATOR, users);
+    if (quRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        quRes = system->queryUsers("", UserType::ADMINISTRATOR, users);
+    }
+    if (quRes != ErrorCode::SUCCESS) {
+        QString msg;
+        switch (quRes) {
+            case ErrorCode::INVALID_ARGS:
+                msg = "加载用户列表失败：数据格式异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "加载用户列表失败：网络连接异常，请重试";
+                break;
+            default:
+                msg = QString("加载用户列表失败（错误码 %1）").arg(static_cast<int>(quRes));
+                break;
+        }
+        QMessageBox::critical(this, "加载失败", msg);
+        return;
+    }
     table->setRowCount(users.size());
     for (size_t i = 0; i < users.size(); i++) {
         const auto* user = users[i];
@@ -227,11 +303,33 @@ void AdminUserPage::delete_user() {
     if (r < 0) return;
     QString usernameText = table->item(r, 0)->text();
     if (QMessageBox::question(this, "确认", QString("删除用户 %1？").arg(usernameText)) == QMessageBox::Yes) {
-        if (system->deleteAccount(usernameText.toStdString()) == ErrorCode::SUCCESS) {
+        ErrorCode delRes = system->deleteAccount(usernameText.toStdString());
+        if (delRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+            delRes = system->deleteAccount(usernameText.toStdString());
+        }
+        if (delRes == ErrorCode::SUCCESS) {
             table->removeRow(r);
             QMessageBox::information(this, "成功", "用户已删除");
         } else {
-            QMessageBox::critical(this, "失败", "删除失败，请重试");
+            QString msg;
+            switch (delRes) {
+                case ErrorCode::USER_NOT_FOUND:
+                    msg = "删除失败：用户不存在";
+                    break;
+                case ErrorCode::DELETE_BLOCKED:
+                    msg = "删除失败：该用户有未完成的业务或为管理员账号";
+                    break;
+                case ErrorCode::INVALID_ARGS:
+                    msg = "删除失败：响应数据异常";
+                    break;
+                case ErrorCode::INTERNAL_ERROR:
+                    msg = "删除失败：网络连接异常，请重试";
+                    break;
+                default:
+                    msg = QString("删除失败（错误码 %1）").arg(static_cast<int>(delRes));
+                    break;
+            }
+            QMessageBox::critical(this, "删除失败", msg);
         }
     }
 }
@@ -294,8 +392,24 @@ void AdminStatsPage::load_stats() {
     int totalUsers, totalParcels, pendingCollection, collected, Signed;
     double adminTotalBalance;
 
-    if (system->getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance) != ErrorCode::SUCCESS) {
-        QMessageBox::critical(this, "失败", "获取统计信息失败");
+    ErrorCode statRes = system->getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance);
+    if (statRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        statRes = system->getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance);
+    }
+    if (statRes != ErrorCode::SUCCESS) {
+        QString msg;
+        switch (statRes) {
+            case ErrorCode::INVALID_ARGS:
+                msg = "获取统计失败：数据格式异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "获取统计失败：网络连接异常，请重试";
+                break;
+            default:
+                msg = QString("获取统计失败（错误码 %1）").arg(static_cast<int>(statRes));
+                break;
+        }
+        QMessageBox::critical(this, "获取统计失败", msg);
         return;
     }
     

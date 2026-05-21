@@ -38,6 +38,14 @@ private:
 
     std::string getSocketErrorString() const;
 
+    // 自动重连凭据
+    std::string m_serverIp;
+    int m_serverPort = 0;
+    std::string m_reloginUsername;
+    std::string m_reloginPassword;
+    UserType m_reloginType = UserType::CUSTOMER;
+    bool m_hasReconnectInfo = false;
+
 public:
     Communication() : m_socket(INVALID_SOCKET), m_connected(false) {}
     ~Communication() {
@@ -48,6 +56,12 @@ public:
     bool connectToServer(const std::string& ip, int port);
     // 断开连接
     void disconnect();
+
+    // 保存自动重连凭据（登录成功后调用）
+    void setAutoReconnectInfo(const std::string& username, const std::string& password, UserType type);
+
+    // 断线重连 + 自动登录（无需用户重新输入）
+    bool reconnectAndRelogin();
 
     // 当前是否已连接
     bool isConnected() const { return m_connected; }

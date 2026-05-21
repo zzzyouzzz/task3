@@ -1,4 +1,5 @@
 #include "QueryPage.h"
+#include "ReconnectHelper.h"
 
 
 using namespace std;
@@ -92,10 +93,17 @@ void QueryPage::load_packages() {
     std::vector<User*> users;
     bool isCourier = false;
     bool isAdmin = false;
-    if (system->queryUsers(username, UserType::CUSTOMER, users) == ErrorCode::SUCCESS && !users.empty()) {
+    ErrorCode queryUserRes = system->queryUsers(username, UserType::CUSTOMER, users);
+    if (queryUserRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        queryUserRes = system->queryUsers(username, UserType::CUSTOMER, users);
+    }
+    if (queryUserRes == ErrorCode::SUCCESS && !users.empty()) {
         UserType type = users.front()->getUserType();
         isCourier = (type == UserType::COURIER);
         isAdmin = (type == UserType::ADMINISTRATOR);
+    } else if (queryUserRes != ErrorCode::SUCCESS) {
+        // 非关键错误，继续执行，按默认客户模式查询
+        g_logger.warning("QueryPage: queryUsers returned " + std::to_string(static_cast<int>(queryUserRes)));
     }
 
     QString senderFilter = editSender->text().trimmed();
@@ -109,12 +117,21 @@ void QueryPage::load_packages() {
 
     std::vector<Parcel> parcels;
     if (isCourier) {
-        system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
+        ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
+        if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+            system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), username, status, 0, 0, parcels);
+        }
     } else if (isAdmin) {
-        system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
+        ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
+        if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+            system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, parcels);
+        }
     } else {
         std::vector<Parcel> allParcels;
-        system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
+        ErrorCode qe = system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
+        if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+            system->queryParcels("", senderFilter.toStdString(), receiverFilter.toStdString(), "", status, 0, 0, allParcels);
+        }
         for (auto& pkg : allParcels) {
             if (pkg.getSenderName() == username || pkg.getReceiverName() == username) {
                 parcels.push_back(pkg);

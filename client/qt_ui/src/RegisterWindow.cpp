@@ -109,8 +109,11 @@ void RegisterWindow::submit_registration() {
             case ErrorCode::INVALID_ARGS:
                 msg = "不允许注册管理员账号";
                 break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "注册失败：网络连接异常，请重试";
+                break;
             default:
-                msg = "注册失败，请检查输入信息";
+                msg = QString("注册失败（错误码 %1）").arg(static_cast<int>(res));
                 break;
         }
         QMessageBox::critical(this, "注册失败", msg);

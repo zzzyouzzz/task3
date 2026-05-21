@@ -1,4 +1,5 @@
 #include "CourierPage.h"
+#include "ReconnectHelper.h"
 #include <set>
 #include <vector>
 
@@ -102,14 +103,36 @@ CourierHomePage::CourierHomePage(QWidget *p, std::string courier_id, QueryPage *
 
 void CourierHomePage::load_packages() {
     double balance;
-    if (system->queryBalance(balance) == ErrorCode::SUCCESS) {
+    ErrorCode balRes = system->queryBalance(balance);
+    if (balRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        balRes = system->queryBalance(balance);
+    }
+    if (balRes == ErrorCode::SUCCESS) {
         balanceLabel->setText(QString("账户余额：¥ %1").arg(QString::number(balance)));
     } else {
         balanceLabel->setText("账户余额：获取失败");
+        if (balRes != ErrorCode::INTERNAL_ERROR) {
+            QString balMsg;
+            switch (balRes) {
+                case ErrorCode::USER_NOT_FOUND:
+                    balMsg = "获取余额失败：用户不存在";
+                    break;
+                case ErrorCode::INVALID_ARGS:
+                    balMsg = "获取余额失败：数据格式异常";
+                    break;
+                default:
+                    balMsg = QString("获取余额失败（错误码 %1）").arg(static_cast<int>(balRes));
+                    break;
+            }
+            QMessageBox::warning(this, "余额获取失败", balMsg);
+        }
     }
-    
+
     std::vector<Parcel> packages;
-    system->queryParcels("", "", "", courier_id, ParcelStatus::PENDING_COLLECTION, 0, 0, packages);
+    ErrorCode qe = system->queryParcels("", "", "", courier_id, ParcelStatus::PENDING_COLLECTION, 0, 0, packages);
+    if (qe == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        system->queryParcels("", "", "", courier_id, ParcelStatus::PENDING_COLLECTION, 0, 0, packages);
+    }
     table->setRowCount(packages.size());
     for (size_t i = 0; i < packages.size(); i++) {
         const auto& pkg = packages[i];
@@ -170,7 +193,11 @@ void CourierHomePage::take_package() {
     }
 
     std::vector<std::string> collected;
-    if (system->collectParcels(parcelIds, collected) == ErrorCode::SUCCESS) {
+    ErrorCode colRes = system->collectParcels(parcelIds, collected);
+    if (colRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        colRes = system->collectParcels(parcelIds, collected);
+    }
+    if (colRes == ErrorCode::SUCCESS) {
         if (!collected.empty()) {
             QMessageBox::information(this, "成功", QString("已揽收 %1 件快递！").arg(collected.size()));
             load_packages();
@@ -179,6 +206,24 @@ void CourierHomePage::take_package() {
             QMessageBox::warning(this, "失败", "揽收失败，请检查快递状态");
         }
     } else {
-        QMessageBox::critical(this, "失败", "揽收失败，请重试");
+        QString msg;
+        switch (colRes) {
+            case ErrorCode::USER_NOT_FOUND:
+                msg = "揽收失败：快递员账号不存在";
+                break;
+            case ErrorCode::NO_RESULT:
+                msg = "揽收失败：所选快递不满足揽收条件（非待揽收状态或无可用佣金）";
+                break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "揽收失败：响应数据异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "揽收失败：网络连接异常，请重试";
+                break;
+            default:
+                msg = QString("揽收失败（错误码 %1）").arg(static_cast<int>(colRes));
+                break;
+        }
+        QMessageBox::critical(this, "揽收失败", msg);
     }
 }

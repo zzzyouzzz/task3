@@ -76,6 +76,9 @@ bool Communication::parseResponse(const std::string& resp, ErrorCode& status, st
 
 bool Communication::connectToServer(const std::string& ip, int port) {
     g_logger.info("Connecting to server " + ip + ":" + std::to_string(port));
+    // 保存服务器地址，供断线重连使用
+    m_serverIp = ip;
+    m_serverPort = port;
 #ifdef _WIN32
             WSADATA wsaData;
             if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {
@@ -322,4 +325,33 @@ ErrorCode Communication::getStatistics(int& totalUsers, int& totalParcels, int& 
         return ErrorCode::INVALID_ARGS;
     }
     return status;
+}
+
+void Communication::setAutoReconnectInfo(const std::string& username, const std::string& password, UserType type) {
+    m_reloginUsername = username;
+    m_reloginPassword = password;
+    m_reloginType = type;
+    m_hasReconnectInfo = true;
+    g_logger.info("Auto-reconnect credentials saved for user: " + username);
+}
+
+bool Communication::reconnectAndRelogin() {
+    if (!m_hasReconnectInfo) {
+        g_logger.error("reconnectAndRelogin failed: no saved credentials");
+        return false;
+    }
+    g_logger.info("Attempting reconnect to " + m_serverIp + ":" + std::to_string(m_serverPort));
+    disconnect();
+    if (!connectToServer(m_serverIp, m_serverPort)) {
+        g_logger.error("Reconnect failed: could not connect to server");
+        return false;
+    }
+    std::string userId;
+    ErrorCode ec = loginUser(m_reloginUsername, m_reloginPassword, m_reloginType, userId);
+    if (ec == ErrorCode::SUCCESS) {
+        g_logger.info("Reconnect and relogin successful for user: " + m_reloginUsername);
+        return true;
+    }
+    g_logger.error("Reconnect failed: relogin error " + std::to_string(static_cast<int>(ec)));
+    return false;
 }

@@ -1,4 +1,5 @@
 #include "AccountPage.h"
+#include "ReconnectHelper.h"
 
 using namespace std;
 AccountPage::AccountPage(QWidget *p, std::string username, Communication* sys):QWidget(p), username(username), system(sys){
@@ -76,8 +77,27 @@ AccountPage::AccountPage(QWidget *p, std::string username, Communication* sys):Q
 void AccountPage::load_user_info() {
     // 获取用户信息
     std::vector<User*> users;
-    if (system->queryUsers(username, UserType::CUSTOMER, users) != ErrorCode::SUCCESS || users.empty()) {
-        QMessageBox::critical(this, "失败", "查询用户信息失败");
+    ErrorCode quRes = system->queryUsers(username, UserType::CUSTOMER, users);
+    if (quRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        quRes = system->queryUsers(username, UserType::CUSTOMER, users);
+    }
+    if (quRes != ErrorCode::SUCCESS || users.empty()) {
+        QString msg;
+        switch (quRes) {
+            case ErrorCode::USER_NOT_FOUND:
+                msg = "查询用户信息失败：用户不存在";
+                break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "查询用户信息失败：数据格式异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "查询用户信息失败：网络连接异常，请重试";
+                break;
+            default:
+                msg = QString("查询用户信息失败（错误码 %1）").arg(static_cast<int>(quRes));
+                break;
+        }
+        QMessageBox::critical(this, "失败", msg);
         return;
     }
     User* user = users.front();
@@ -140,10 +160,17 @@ void AccountPage::recharge(unsigned int amount) {
     }   
     // 调用 LogisticsSystem 充值
     ErrorCode res = system->rechargeBalance(static_cast<double>(amount));
+    if (res == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        res = system->rechargeBalance(static_cast<double>(amount));
+    }
     if (res == ErrorCode::SUCCESS) {
         // 重新查询用户信息以获取最新余额
         std::vector<User*> users;
-        if (system->queryUsers(username, UserType::CUSTOMER, users) == ErrorCode::SUCCESS && !users.empty()) {
+        ErrorCode quRes = system->queryUsers(username, UserType::CUSTOMER, users);
+        if (quRes == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+            quRes = system->queryUsers(username, UserType::CUSTOMER, users);
+        }
+        if (quRes == ErrorCode::SUCCESS && !users.empty()) {
             double newBalance = users.front()->getBalance();
             QMessageBox::information(this, "成功", QString("充值成功！\n新余额：¥%1").arg(newBalance, 0, 'f', 2));
             balanceLabel->setText(QString("¥%1").arg(newBalance, 0, 'f', 2));
@@ -151,7 +178,25 @@ void AccountPage::recharge(unsigned int amount) {
             QMessageBox::information(this, "成功", "充值成功！");
         }
     } else {
-        QMessageBox::critical(this, "失败", "充值失败，请检查权限");
+        QString msg;
+        switch (res) {
+            case ErrorCode::USER_NOT_FOUND:
+                msg = "充值失败：用户不存在";
+                break;
+            case ErrorCode::INVALID_AMOUNT:
+                msg = "充值失败：金额不合法";
+                break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "充值失败：响应数据异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "充值失败：网络连接异常，请重试";
+                break;
+            default:
+                msg = QString("充值失败（错误码 %1）").arg(static_cast<int>(res));
+                break;
+        }
+        QMessageBox::critical(this, "充值失败", msg);
     }
 }
     
@@ -170,10 +215,31 @@ void AccountPage::change_password() {
         return;
     }
     ErrorCode res = system->changePassword(old_pwd.toStdString(), new_pwd.toStdString());
+    if (res == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
+        res = system->changePassword(old_pwd.toStdString(), new_pwd.toStdString());
+    }
     if (res == ErrorCode::SUCCESS) {
         QMessageBox::information(this, "成功", "密码修改成功！");
     } else {
-        QMessageBox::critical(this, "失败", "密码修改失败，请检查权限");
+        QString msg;
+        switch (res) {
+            case ErrorCode::USER_NOT_FOUND:
+                msg = "密码修改失败：用户不存在";
+                break;
+            case ErrorCode::LOGIN_FAILED:
+                msg = "密码修改失败：旧密码错误";
+                break;
+            case ErrorCode::INVALID_ARGS:
+                msg = "密码修改失败：响应数据异常";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                msg = "密码修改失败：网络连接异常，请重试";
+                break;
+            default:
+                msg = QString("密码修改失败（错误码 %1）").arg(static_cast<int>(res));
+                break;
+        }
+        QMessageBox::critical(this, "密码修改失败", msg);
     }
 }
 
