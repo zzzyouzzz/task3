@@ -1,2 +1,0 @@
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ar.exe qc libCommon.a CMakeFiles/Common.dir/src/Logger.cpp.obj CMakeFiles/Common.dir/src/common.cpp.obj
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ranlib.exe libCommon.a

@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\client_qt.dir/objects.a
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ar.exe qc CMakeFiles\client_qt.dir/objects.a @CMakeFiles\client_qt.dir\objects1.rsp
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\client_qt.dir/objects.a -Wl,--no-whole-archive -o D:\c\vsc_pro\task3\output\client\client_qt.exe -Wl,--out-implib,libclient_qt.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\client_qt.dir\linkLibs.rsp

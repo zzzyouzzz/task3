@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\ServerTests.dir/objects.a
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ar.exe qc CMakeFiles\ServerTests.dir/objects.a @CMakeFiles\ServerTests.dir\objects1.rsp
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\ServerTests.dir/objects.a -Wl,--no-whole-archive -o D:\c\vsc_pro\task3\output\tests\ServerTests.exe -Wl,--out-implib,libServerTests.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\ServerTests.dir\linkLibs.rsp

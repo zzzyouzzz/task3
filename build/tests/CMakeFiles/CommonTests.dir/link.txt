@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\CommonTests.dir/objects.a
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\ar.exe qc CMakeFiles\CommonTests.dir/objects.a @CMakeFiles\CommonTests.dir\objects1.rsp
-C:\Users\tank.NO-GOOD-NO-BAD\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\CommonTests.dir/objects.a -Wl,--no-whole-archive -o D:\c\vsc_pro\task3\output\tests\CommonTests.exe -Wl,--out-implib,libCommonTests.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\CommonTests.dir\linkLibs.rsp
