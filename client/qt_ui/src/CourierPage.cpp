@@ -1,5 +1,6 @@
 #include "CourierPage.h"
-
+#include <set>
+#include <vector>
 
 // ------------------------------
 // 快递员端（新增）
@@ -33,6 +34,7 @@ CourierHomePage::CourierHomePage(QWidget *p, std::string courier_id, QueryPage *
     
     table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    table->setSelectionMode(QAbstractItemView::ExtendedSelection);
     table->setStyleSheet(R"(
         QTableWidget{
             background:white;
@@ -116,33 +118,61 @@ void CourierHomePage::load_packages() {
         table->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(pkg.getReceiverName())));
 
         QString typeText;
+        double price = 0.0;
         switch (pkg.getParcelType()) {
-            case ParcelType::NORMAL: typeText = "普通快递"; break;
-            case ParcelType::FRAGILE: typeText = "易碎品"; break;
-            case ParcelType::BOOK: typeText = "书籍"; break;
-            default: typeText = "未知"; break;
+            case ParcelType::NORMAL:
+                typeText = "普通快递";
+                price = 5.0 * pkg.getWeight();
+                break;
+            case ParcelType::FRAGILE:
+                typeText = "易碎品";
+                price = 8.0 * pkg.getWeight();
+                break;
+            case ParcelType::BOOK:
+                typeText = "书籍";
+                price = 2.0 * pkg.getWeight();
+                break;
+            default:
+                typeText = "未知";
+                break;
         }
         table->setItem(i, 3, new QTableWidgetItem(typeText));
-        table->setItem(i, 4, new QTableWidgetItem(QString::number(pkg.getWeight())));
+        table->setItem(i, 4, new QTableWidgetItem(QString::number(pkg.getWeight(), 'f', 2)));
         table->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(pkg.getDescription())));
         table->setItem(i, 6, new QTableWidgetItem(QString::fromStdString(pkg.getCourierName())));
-        table->setItem(i, 7, new QTableWidgetItem(QString("¥ %1").arg(pkg.getPrice() * 0.5)));
+        table->setItem(i, 7, new QTableWidgetItem(QString("¥ %1").arg(price * 0.5, 0, 'f', 2)));
         table->setRowHidden(i, false);
     }
 }
 
 void CourierHomePage::take_package() {
-    int row = table->currentRow();
-    if (row < 0) {
+    auto selected = table->selectedItems();
+    if (selected.isEmpty()) {
         QMessageBox::warning(this, "提示", "请先选择要揽收的快递");
         return;
     }
 
-    QString parcelId = table->item(row, 0)->text();
+    std::set<int> rows;
+    for (auto item : selected) {
+        rows.insert(item->row());
+    }
+
+    std::vector<std::string> parcelIds;
+    for (int row : rows) {
+        if (auto cell = table->item(row, 0)) {
+            parcelIds.push_back(cell->text().toStdString());
+        }
+    }
+
+    if (parcelIds.empty()) {
+        QMessageBox::warning(this, "提示", "请选择有效的快递");
+        return;
+    }
+
     std::vector<std::string> collected;
-    if (system->collectParcels({parcelId.toStdString()}, collected) == ErrorCode::SUCCESS) {
+    if (system->collectParcels(parcelIds, collected) == ErrorCode::SUCCESS) {
         if (!collected.empty()) {
-            QMessageBox::information(this, "成功", "快递揽收完成！");
+            QMessageBox::information(this, "成功", QString("已揽收 %1 件快递！").arg(collected.size()));
             load_packages();
             if (query_page) query_page->refresh();
         } else {
