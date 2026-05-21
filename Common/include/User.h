@@ -51,6 +51,7 @@ public:
     std::string getPhone() const { return m_phone; }
     std::string getAddress() const { return m_address; }
     virtual UserType getUserType() const { return UserType::CUSTOMER; }
+    virtual std::string getUserTypeStr() const { return ""; }
     bool isLogin() const { return m_isLogin; }
     void logout() { m_isLogin = false; }
     void login() { m_isLogin = true; }
@@ -73,6 +74,7 @@ public:
              const std::string& phone, const std::string& addr, double balance = 0.0)
         : User(uname, pwd, name, phone, addr, balance) {}
     UserType getUserType() const override { return UserType::CUSTOMER; }
+    std::string getUserTypeStr() const override { return "客户"; }
 };
 
 class Courier : public User {
@@ -82,6 +84,7 @@ public:
             const std::string& phone, const std::string& addr, double balance = 0.0)
         : User(uname, pwd, name, phone, addr, balance) {}
     UserType getUserType() const override { return UserType::COURIER; }
+    std::string getUserTypeStr() const override { return "快递员"; }
 };
 
 class Administrator : public User {
@@ -91,4 +94,5 @@ public:
                   const std::string& phone, const std::string& addr, double balance = 0.0)
         : User(uname, pwd, name, phone, addr, balance) {}
     UserType getUserType() const override { return UserType::ADMINISTRATOR; }
+    std::string getUserTypeStr() const override { return "管理员"; }
 };

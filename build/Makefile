@@ -177,32 +177,6 @@ client_cli/fast:
 	$(MAKE) $(MAKESILENT) -f client\cli\CMakeFiles\client_cli.dir\build.make client/cli/CMakeFiles/client_cli.dir/build
 .PHONY : client_cli/fast
 
-#=============================================================================
-# Target rules for targets named client_qt
-
-# Build rule for target.
-client_qt: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 client_qt
-.PHONY : client_qt
-
-# fast build rule for target.
-client_qt/fast:
-	$(MAKE) $(MAKESILENT) -f client\qt_ui\CMakeFiles\client_qt.dir\build.make client/qt_ui/CMakeFiles/client_qt.dir/build
-.PHONY : client_qt/fast
-
-#=============================================================================
-# Target rules for targets named client_qt_autogen
-
-# Build rule for target.
-client_qt_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 client_qt_autogen
-.PHONY : client_qt_autogen
-
-# fast build rule for target.
-client_qt_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f client\qt_ui\CMakeFiles\client_qt_autogen.dir\build.make client/qt_ui/CMakeFiles/client_qt_autogen.dir/build
-.PHONY : client_qt_autogen/fast
-
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -212,10 +186,8 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... test
-	@echo ... client_qt_autogen
 	@echo ... Common
 	@echo ... client_cli
-	@echo ... client_qt
 	@echo ... client_service
 	@echo ... server
 .PHONY : help

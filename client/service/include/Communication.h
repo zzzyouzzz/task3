@@ -72,7 +72,7 @@ public:
             const std::string& courier, const ParcelStatus& s, const time_t start, const time_t end, std::vector<Parcel>& parcels);
 
     // 管理员查询用户
-    ErrorCode queryUsers(const std::string& username, const UserType type, std::vector<User>& users);
+    ErrorCode queryUsers(const std::string& username, const UserType type, std::vector<User*>& users);
 
     // 注册用户
     ErrorCode registerUser(const std::string& username, const std::string& password,

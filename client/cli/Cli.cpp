@@ -1,6 +1,7 @@
 #include "Cli.h"
 
-bool LogisticsClient::readInt(const std::string& prompt, int& value, int minValue, int maxValue) {
+// 读取整数输入：循环提示直至输入合法范围内的整数值
+bool LogisticsClient::readInt(const std::string& prompt, int& value, int minValue, int maxValue) const {
     while (true) {
         std::cout << prompt;
         std::string line;
@@ -18,7 +19,8 @@ bool LogisticsClient::readInt(const std::string& prompt, int& value, int minValu
     }
 }
 
-bool LogisticsClient::readDouble(const std::string& prompt, double& value, double minValue, double maxValue) {
+// 读取浮点数输入：循环提示直至输入合法范围内的浮点数值
+bool LogisticsClient::readDouble(const std::string& prompt, double& value, double minValue, double maxValue) const {
     while (true) {
         std::cout << prompt;
         std::string line;
@@ -36,67 +38,45 @@ bool LogisticsClient::readDouble(const std::string& prompt, double& value, doubl
     }
 }
 
-
-
-bool LogisticsClient::readString(const std::string& prompt, std::string& value) {
-    std::cout << prompt;
+// 读取字符串输入：循环提示直至输入非空字符串
+bool LogisticsClient::readString(const std::string& prompt, std::string& value) const {
+    while (true) {
+        std::cout << prompt;
         if (!std::getline(std::cin, value)) return false;
         value = trimString(value);
+        if (value.empty()) {
+            std::cout << "输入不能为空。\n";
+            continue;
+        }
         return true;
-
+    }
 }
-
-bool LogisticsClient::readTime(const std::string& prompt, time_t& value) {
+// 读取时间输入：格式 YYYY-MM-DD HH:MM:SS，可选输入
+bool LogisticsClient::readTime(const std::string& prompt, time_t& value) const {
     std::cout << prompt;
     std::cout << "(格式:YYYY-MM-DD HH:MM:SS)";
     std::string line;
     if (!std::getline(std::cin, line)) return false;
-    if (line.empty()) {
-        value = 0;
-        return true;
-    }
-
-    int year, month, day, hour, minute, second;
-    char tail;
-    if (sscanf(line.c_str(), "%4d-%2d-%2d %2d:%2d:%2d%c", &year, &month, &day, &hour, &minute, &second, &tail) != 6) {
-        return false;
-    }
-
-    auto isLeapYear = [](int y) {
-        return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
-    };
-    auto daysInMonth = [&](int y, int m) {
-        static const int mdays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if (m == 2) return mdays[1] + (isLeapYear(y) ? 1 : 0);
-        return mdays[m - 1];
-    };
-
-    if (year < 1900 || year > 2099 || month < 1 || month > 12 || day < 1 || day > daysInMonth(year, month) ||
-        hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) {
-        return false;
-    }
-
+    if (line.empty()) return true;
     struct tm tm;
     memset(&tm, 0, sizeof(tm));
-    tm.tm_year = year - 1900;
-    tm.tm_mon = month - 1;
-    tm.tm_mday = day;
-    tm.tm_hour = hour;
-    tm.tm_min = minute;
-    tm.tm_sec = second;
-    tm.tm_isdst = -1;
+    int year, month, day, hour, minute, second;
 
-    value = mktime(&tm);
-    if (value == (time_t)-1) return false;
-
-    std::tm* normalized = localtime(&value);
-    if (!normalized) return false;
-    if (normalized->tm_year != tm.tm_year || normalized->tm_mon != tm.tm_mon || normalized->tm_mday != tm.tm_mday ||
-        normalized->tm_hour != tm.tm_hour || normalized->tm_min != tm.tm_min || normalized->tm_sec != tm.tm_sec) {
+    try {
+        if (sscanf(line.c_str(), "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) return false;
+        if (year < 1900 || year > 2099 || month < 1 || month > 12 || day < 1 || day > 31 || hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) return false;
+        tm.tm_year = year - 1900;
+        tm.tm_mon = month - 1;
+        tm.tm_mday = day;
+        tm.tm_hour = hour;
+        tm.tm_min = minute;
+        tm.tm_sec = second;
+        tm.tm_isdst = -1;
+        value = mktime(&tm);
+        return value != -1;
+    } catch (...) {
         return false;
     }
-
-    return true;
 }
 
 LogisticsClient::LogisticsClient(const std::string& ip, const int port) {
@@ -146,27 +126,24 @@ void LogisticsClient::loginUI() {
     
     UserType type = static_cast<UserType>(userType);
     std::string name;
-    if (m_system.loginUser(username, password, type, name)) {
-        std::cout << "登录成功！欢迎 " << name << "！" << std::endl;
-        mainMenu(type);
-    } else {
-        if (!m_system.isConnected()) {
-            std::cout << "登录失败：网络连接已断开，请重启程序。" << std::endl;
-            is_running = false;
-            return;
-        }
-        ErrorCode ec = m_system.getLastError();
-        switch (ec) {
-            case ErrorCode::USER_NOT_FOUND:
-                std::cout << "登录失败：用户 " << username << " 不存在。" << std::endl;
-                break;
-            case ErrorCode::LOGIN_FAILED:
-                std::cout << "登录失败：密码错误或身份不匹配。" << std::endl;
-                break;
-            default:
-                std::cout << "登录失败，请重试。" << std::endl;
-                break;
-        }
+    ErrorCode ec = m_system.loginUser(username, password, type, name);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "登录成功！欢迎 " << name << "！" << std::endl;
+            mainMenu(type);
+            break;
+        case ErrorCode::USER_NOT_FOUND:
+            std::cout << "登录失败：用户 " << username << " 不存在。" << std::endl;
+            break;
+        case ErrorCode::LOGIN_FAILED:
+            std::cout << "登录失败：密码错误或身份不匹配。" << std::endl;
+            break;
+        case ErrorCode::USER_ALREADY_LOGIN:
+            std::cout << "登录失败：用户已登录。" << std::endl;
+            break;
+        default:
+            std::cout << "登录失败，请重试。" << std::endl;
+            break;
     }
 }
 
@@ -183,26 +160,20 @@ void LogisticsClient::registerUI() {
     
     UserType type = static_cast<UserType>(userType);
     
-    if (m_system.registerUser(username, password, name, phone, address, type)) {
-        std::cout << "注册成功！" << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (!m_system.isConnected()) {
-            std::cout << "注册失败：网络连接已断开，请重启程序。" << std::endl;
-            is_running = false;
-            return;
-        }
-        switch (ec) {
-            case ErrorCode::USER_EXISTS:
-                std::cout << "注册失败：用户名 " << username << " 已被注册。" << std::endl;
-                break;
-            case ErrorCode::INVALID_ARGS:
-                std::cout << "注册失败：不允许注册管理员账号。" << std::endl;
-                break;
-            default:
-                std::cout << "注册失败，请重试。" << std::endl;
-                break;
-        }
+    ErrorCode ec = m_system.registerUser(username, password, name, phone, address, type);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "注册成功！" << std::endl;
+            break;
+        case ErrorCode::USER_EXISTS:
+            std::cout << "注册失败：用户名 " << username << " 已被注册。" << std::endl;
+            break;
+        case ErrorCode::INVALID_ARGS:
+            std::cout << "注册失败：不允许注册管理员账号。" << std::endl;
+            break;
+        default:
+            std::cout << "注册失败，请重试。" << std::endl;
+            break;
     }
 }
 
@@ -321,16 +292,20 @@ void LogisticsClient::sendParcelUI() {
     ParcelType type = static_cast<ParcelType>(ptype);
     std::string pid;
 
-    if (m_system.sendParcel(receiver, type, weight, desc, pid)) {
-        std::cout << "快递发送成功！单号: " << pid << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::USER_NOT_FOUND)
+    ErrorCode ec = m_system.sendParcel(receiver, type, weight, desc, pid);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "快递发送成功！单号: " << pid << std::endl;
+            break;
+        case ErrorCode::USER_NOT_FOUND:
             std::cout << "发送失败：收件人 " << receiver << " 不存在。" << std::endl;
-        else if (ec == ErrorCode::INSUFFICIENT_BALANCE)
+            break;
+        case ErrorCode::INSUFFICIENT_BALANCE:
             std::cout << "发送失败：余额不足，请先充值。" << std::endl;
-        else
+            break;
+        default:
             std::cout << "发送失败。" << std::endl;
+            break;
     }
     
 }
@@ -346,26 +321,30 @@ void LogisticsClient::signParcelUI() {
     while (std::getline(iss, token, ',')) {
         trimString(token);
         if (!token.empty()) {
-            ids.push_back(trimString(token));
+            ids.push_back(token);
         }
     }
     
     std::vector<std::string> signedList;
     
-    if (m_system.signParcels(ids, signedList)) {
-        std::cout << "签收成功: ";
-        for (size_t i = 0; i < signedList.size(); ++i) {
-            if (i > 0) std::cout << ", ";
-            std::cout << signedList[i];
-        }
-        std::cout << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::NO_RESULT)
+    ErrorCode ec = m_system.signParcels(ids, signedList);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "签收成功: ";
+            for (size_t i = 0; i < signedList.size(); ++i) {
+                if (i > 0) std::cout << ", ";
+                std::cout << signedList[i];
+            }
+            std::cout << std::endl;
+            break;
+        case ErrorCode::NO_RESULT:
             std::cout << "签收失败：没有可签收的快递（可能已签收或不属于你）。" << std::endl;
-        else
+            break;
+        default:
             std::cout << "签收失败。" << std::endl;
+            break;
     }
+    
 }
 
 void LogisticsClient::queryParcelUI(const UserType& queryer) {
@@ -377,7 +356,7 @@ void LogisticsClient::queryParcelUI(const UserType& queryer) {
     ParcelStatus status;
     int statusInt;
     int anser;
-    if (!readInt("是否查询所有快递？(0-否, 1-是): ", anser)) return;
+    if (!readInt("是否查询所有快递？(0-否, 1-是): ", anser, 0, 1)) return;
     if (anser == 1) {
         parcelId = "";
         sender = "";
@@ -386,27 +365,62 @@ void LogisticsClient::queryParcelUI(const UserType& queryer) {
         start = 0;
         end = 0;
     } else {
-        if (!readString("请输入快递单号(可选): ", parcelId)) return;
-        if (!readString("请输入寄件人(可选): ", sender)) return;
-        if (!readString("请输入收件人(可选): ", receiver)) return;
+        int filterType;
+        if (!readInt("是否按单号筛选（0-否，1-是）： ", filterType, 0, 1)) return;
+        if (filterType == 1) {
+            if (!readString("请输入快递单号: ", parcelId)) return;
+        } else {
+            parcelId = "";
+        }
+        if (!readInt("是否按寄件人筛选（0-否，1-是）： ", filterType, 0, 1)) return;
+        if (filterType == 1) {
+            if (!readString("请输入寄件人: ", sender)) return;
+        } else {
+            sender = "";
+        } 
+        if (!readInt("是否按收件人筛选（0-否，1-是）： ", filterType, 0, 1)) return;
+        if (filterType == 1) {
+            if (!readString("请输入收件人: ", receiver)) return;
+        } else {
+            receiver = "";
+        } 
         if (!sender.empty() && !receiver.empty() && sender == receiver) {
             std::cout << "寄件人和收件人不能相同。" << std::endl;
             return;
         }
-        if (!readInt("请输入状态 (0-待揽收, 1-待签收, 2-已签收, 3-其他): ", statusInt, 0, 3)) return;
-        status = static_cast<ParcelStatus>(statusInt);
-        if (!readTime("请输入开始时间(可选): ", start)) return;
-        if (!readTime("请输入结束时间(可选): ", end)) return;
-        if (end > time(nullptr)) {
-            std::cout << "结束时间不能晚于当前时间。" << std::endl;
-            return;
-        }
+        if (!readInt("是否按状态筛选（0-否，1-是）： ", filterType, 0, 1)) return;
+        if (filterType == 1) {
+            if (!readInt("请输入状态 (0-待揽收, 1-待签收, 2-已签收, 3-其他): ", statusInt, 0, 3)) return;
+            status = static_cast<ParcelStatus>(statusInt);
+        } else {
+            status = ParcelStatus::OTHER;
+        } 
+        if (!readInt("是否按开始时间筛选（0-否，1-是）： ", filterType, 0, 1)) return;
+        if (filterType == 1) {
+            if (!readTime("请输入开始时间: ", start)) return;
+        } else {
+            start = 0;
+        } 
+        if (!readInt("是否按结束时间筛选（0-否，1-是）： ", filterType, 0, 1)) return;
+        if (filterType == 1) {
+            if (!readTime("请输入结束时间: ", end)) return;
+            if (end > time(nullptr)) {
+                std::cout << "结束时间不能晚于当前时间。" << std::endl;
+                return;
+            }
+        } else {
+            end = 0;
+        } 
+        
     }
-    bool success = m_system.queryParcels(parcelId, sender, receiver, "", status, start, end, parcels);
     
-    if (!success) {
-        std::cout << "查询失败。" << std::endl;
-        return;
+    ErrorCode ec = m_system.queryParcels(parcelId, sender, receiver, "", status, start, end, parcels);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            break;
+        default:
+            std::cout << "查询失败。" << std::endl;
+            break;
     }
     
     if (parcels.empty()) {
@@ -428,23 +442,33 @@ void LogisticsClient::rechargeBalanceUI() {
     double amount;
     if (!readDouble("充值金额: ", amount, 0.1, 10000.0)) return;
     
-    if (m_system.rechargeBalance(amount)) {
-        std::cout << "充值成功！" << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::INVALID_AMOUNT)
-            std::cout << "充值失败：金额必须大于0。" << std::endl;
-        else
+    ErrorCode ec = m_system.rechargeBalance(amount);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "充值成功！" << std::endl;
+            break;
+        default:
             std::cout << "充值失败。" << std::endl;
+            break;
     }
 }
 
 void LogisticsClient::queryBalanceUI() {
     double balance;
-    if (m_system.queryBalance(balance)) {
-        std::cout << "当前余额: " << balance << " 元" << std::endl;
-    } else {
-        std::cout << "查询失败。" << std::endl;
+    ErrorCode ec = m_system.queryBalance(balance);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "当前余额: " << balance << " 元" << std::endl;
+            break;
+        case ErrorCode::USER_NOT_LOGIN:
+            std::cout << "用户未登录。" << std::endl;
+            break;
+        case ErrorCode::PERMISSION_DENIED:
+            std::cout << "不许查别人的余额。" << std::endl;
+            break;
+        default:
+            std::cout << "查询失败。" << std::endl;
+            break;
     }
 }
 
@@ -454,14 +478,14 @@ void LogisticsClient::changePasswordUI() {
     if (!readString("请输入旧密码: ", oldPwd)) return;
     if (!readString("请输入新密码: ", newPwd)) return;
     
-    if (m_system.changePassword(oldPwd, newPwd)) {
-        std::cout << "密码修改成功！" << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::LOGIN_FAILED)
-            std::cout << "密码修改失败：旧密码不正确。" << std::endl;
-        else
+    ErrorCode ec = m_system.changePassword(oldPwd, newPwd);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "密码修改成功！" << std::endl;
+            break;
+        default:
             std::cout << "密码修改失败。" << std::endl;
+            break;
     }
 }
 
@@ -471,18 +495,14 @@ void LogisticsClient::assignParcelUI() {
     if (!readString("快递单号: ", parcelId)) return;
     if (!readString("快递员用户名: ", courier)) return;
     
-    if (m_system.assignParcel(parcelId, courier)) {
-        std::cout << "分配成功！" << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::USER_NOT_FOUND)
-            std::cout << "分配失败：快递员 " << courier << " 不存在。" << std::endl;
-        else if (ec == ErrorCode::PARCEL_NOT_FOUND)
-            std::cout << "分配失败：快递单号 " << parcelId << " 不存在。" << std::endl;
-        else if (ec == ErrorCode::PARCEL_STATUS_INVALID)
-            std::cout << "分配失败：快递状态无效。" << std::endl;
-        else
+    ErrorCode ec = m_system.assignParcel(parcelId, courier);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "分配成功！" << std::endl;
+            break;
+        default:
             std::cout << "分配失败。" << std::endl;
+            break;
     }
 }
 
@@ -498,46 +518,60 @@ void LogisticsClient::collectParcelUI() {
     
     std::vector<std::string> collected; 
     
-    
-    if (m_system.collectParcels(ids, collected) && !collected.empty()) {
-        std::cout << "揽收成功: ";
-        for (size_t i = 0; i < collected.size(); ++i) {
-            if (i > 0) std::cout << ", ";
-            std::cout << collected[i];
-        }
-        std::cout << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::USER_NOT_FOUND)
-            std::cout << "揽收失败：当前账户无效。" << std::endl;
-        else if (ec == ErrorCode::NO_RESULT)
-            std::cout << "揽收失败：没有可揽收的快递。" << std::endl;
-        else
+    ErrorCode ec = m_system.collectParcels(ids, collected);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "揽收成功: ";
+            for (size_t i = 0; i < collected.size(); ++i) {
+                if (i > 0) std::cout << ", ";
+                std::cout << collected[i];
+            }
+            std::cout << std::endl;
+            break;
+        default:
             std::cout << "揽收失败。" << std::endl;
+            break;
     }
 }
 
 void LogisticsClient::queryUsersUI() {
-    std::vector<User> users;
+    std::vector<User*> users;
+    int filterType;
+    std::string username;
+    
+    if (!readInt("是否按用户名筛选(可选) 0-否 1-是: ", filterType, 0, 1)) return;
+    if (filterType == 1) {
+        if (!readString("请输入用户名: ", username)) return;
+    } else {
+        username = "";
+    }
+
     UserType userType;
     int typeInt;
     
     if (!readInt("请输入用户类型(0:客户, 1:快递员, 2:全部): ", typeInt, 0, 2)) return;
     userType = static_cast<UserType>(typeInt);
     
-    
+    ErrorCode ec = m_system.queryUsers(username, userType, users);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            break;
+        default:
+            std::cout << "查询失败。" << std::endl;
+            break;
+    }
 
-    if (!m_system.queryUsers("", userType, users) || users.empty()) {
-        std::cout << "暂无用户。" << std::endl;
+    if (users.empty()) {
+        std::cout << "暂无匹配的用户。" << std::endl;
         return;
     }
     
     std::cout << "用户列表:" << std::endl;
     for (const auto& user : users) {
-        std::cout << "用户名: " << user.getUsername() 
-                    << ", 姓名: " << user.getName()
-                    << ", 电话: " << user.getPhone() << std::endl;
+        std::cout << "用户名: " << user->getUsername() 
+                    << ", 用户类型: " << user->getUserTypeStr() << std::endl;
     }
+
 }
 
 void LogisticsClient::deleteAccountUI() {
@@ -553,54 +587,96 @@ void LogisticsClient::deleteAccountUI() {
         return;
     }
     
-    if (m_system.deleteAccount(targetUsername)) {
-        std::cout << "用户账户注销成功。" << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::USER_NOT_FOUND)
-            std::cout << "注销失败：用户 " << targetUsername << " 不存在。" << std::endl;
-        else if (ec == ErrorCode::DELETE_BLOCKED)
-            std::cout << "注销失败：该用户有未完成快递或是管理员。" << std::endl;
-        else
+    ErrorCode ec = m_system.deleteAccount(targetUsername);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "用户账户注销成功。" << std::endl;
+            break;
+        case ErrorCode::USER_NOT_FOUND:
+            std::cout << "用户不存在。" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "服务器错误。" << std::endl;
+            break;
+        case ErrorCode::INVALID_ARGS:
+            std::cout << "参数解析失败。" << std::endl;
+            break;
+        case ErrorCode::PERMISSION_DENIED:
+            std::cout << "权限不足。" << std::endl;
+            break;
+        case ErrorCode::DELETE_BLOCKED:
+            std::cout << "删除被阻塞。有未完成业务。" << std::endl;
+            break;
+        default:
             std::cout << "注销失败。" << std::endl;
+            break;
     }
 }
 
 void LogisticsClient::deleteParcelUI() {
     std::string parcelId;
     if (!readString("请输入要删除的快递单号: ", parcelId)) return;
-    if (m_system.deleteParcel(parcelId)) {
-        std::cout << "快递删除成功。" << std::endl;
-    } else {
-        ErrorCode ec = m_system.getLastError();
-        if (ec == ErrorCode::PARCEL_NOT_FOUND)
-            std::cout << "删除失败：单号 " << parcelId << " 不存在。" << std::endl;
-        else if (ec == ErrorCode::INVALID_STATUS)
-            std::cout << "删除失败：仅已签收快递可删除。" << std::endl;
-        else
+    
+    ErrorCode ec = m_system.deleteParcel(parcelId);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "快递删除成功。" << std::endl;
+            break;
+        case ErrorCode::PARCEL_NOT_FOUND:
+            std::cout << "快递不存在。" << std::endl;
+            break;
+        case ErrorCode::INVALID_STATUS:
+            std::cout << "不许删除未签收的快递。" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "服务器错误。" << std::endl;
+            break;
+        case ErrorCode::INVALID_ARGS:
+            std::cout << "参数解析失败。" << std::endl;
+            break;
+        default:
             std::cout << "删除失败。" << std::endl;
+            break;
     }
 }
 
 void LogisticsClient::logoutUI() {
-    if (m_system.logout()) {
-        std::cout << "已注销。" << std::endl;
-    } else {
-        std::cout << "注销失败。" << std::endl;
-    } 
+    ErrorCode ec = m_system.logout();
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "已注销。" << std::endl;
+            break;
+        default:
+            std::cout << "注销失败。" << std::endl;
+            break;
+    }
 }
     
 void LogisticsClient::getStatisticsUI() {
     int totalUsers = 0, totalParcels = 0, pendingCollection = 0, collected = 0, Signed = 0;
     double adminTotalBalance = 0.0;
-    if (!m_system.getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance)) {
-        std::cout << "获取统计信息失败。" << std::endl;
-        return;
+    
+    ErrorCode ec = m_system.getStatistics(totalUsers, totalParcels, pendingCollection, collected, Signed, adminTotalBalance);
+    switch(ec) {
+        case ErrorCode::SUCCESS:
+            std::cout << "总用户数: " << totalUsers << std::endl;
+            std::cout << "总快递数: " << totalParcels << std::endl;
+            std::cout << "待揽收数: " << pendingCollection << std::endl;
+            std::cout << "已揽收数: " << collected << std::endl;
+            std::cout << "已签收数: " << Signed << std::endl;
+            std::cout << "管理员总余额: " << adminTotalBalance << std::endl;
+            break;
+        case ErrorCode::INVALID_ARGS:
+            std::cout << "结果解析失败。" << std::endl;
+            break;
+        case ErrorCode::PERMISSION_DENIED:
+            std::cout << "权限不足。" << std::endl;
+            break;
+        case ErrorCode::INTERNAL_ERROR:
+            std::cout << "服务器错误。" << std::endl;
+            break;
+        default:
+            std::cout << "获取统计信息失败。" << std::endl;
+            break;
     }
-    std::cout << "总用户数: " << totalUsers << std::endl;
-    std::cout << "总快递数: " << totalParcels << std::endl;
-    std::cout << "待揽收数: " << pendingCollection << std::endl;
-    std::cout << "已揽收数: " << collected << std::endl;
-    std::cout << "已签收数: " << Signed << std::endl;
-    std::cout << "管理员总余额: " << adminTotalBalance << std::endl;
 }

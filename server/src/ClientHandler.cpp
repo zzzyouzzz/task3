@@ -43,28 +43,28 @@ std::string ClientHandler::processCommand(const std::string& cmd, const std::vec
             return buildResponse(ErrorCode::PERMISSION_DENIED, {"Not logged in"});
         } else {
             if (cmd == Command::SEND_PARCEL) {
-                if (type != UserType::CUSTOMER) {
+                if (m_userType != UserType::CUSTOMER) {
                     g_logger.warning("SendParcel command: Permission denied for user: " + 
                         m_currentUser);
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only customers can send parcels"});
                 }
                 return handleSendParcel(args);
             } else if (cmd == Command::ASSIGN_PARCEL) {
-                if (type != UserType::ADMINISTRATOR) {
+                if (m_userType != UserType::ADMINISTRATOR) {
                     g_logger.warning("AssignParcel command: Permission denied for user: " + 
                         m_currentUser);
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only administrators can assign parcels"});
                 }
                 return handleAssignParcel(args);
             } else if (cmd == Command::COLLECT_PARCEL) {
-                if (type != UserType::COURIER) {
+                if (m_userType != UserType::COURIER) {
                     g_logger.warning("CollectParcel command: Permission denied for user: " + 
                         m_currentUser);
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only couriers can collect parcels"});
                 }
                 return handleCollectParcel(args);
             } else if (cmd == Command::SIGN_PARCEL) {
-                if (type != UserType::CUSTOMER) {
+                if (m_userType != UserType::CUSTOMER) {
                     g_logger.warning("SignParcel command: Permission denied for user: " + 
                         m_currentUser);    
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only customers can sign parcels"});
@@ -75,7 +75,7 @@ std::string ClientHandler::processCommand(const std::string& cmd, const std::vec
             } else if (cmd == Command::QUERY_USER) {
                 return handleQueryUser(args);   
             } else if (cmd == Command::RECHARGE_BALANCE) {
-                if (type != UserType::CUSTOMER) {
+                if (m_userType != UserType::CUSTOMER) {
                     g_logger.warning("RechargeBalance command: Permission denied for user: " + 
                         m_currentUser);
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only customers can recharge balance"});
@@ -86,14 +86,14 @@ std::string ClientHandler::processCommand(const std::string& cmd, const std::vec
             } else if (cmd == Command::CHANGE_PASSWORD) {
                 return handleChangePassword(args);
             } else if (cmd == Command::DELETE_ACCOUNT) {
-                if (type != UserType::ADMINISTRATOR) {
+                if (m_userType != UserType::ADMINISTRATOR) {
                     g_logger.warning("DeleteAccount command: Permission denied for user: " + 
                         m_currentUser);
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only administrators can delete accounts"});
                 }
                 return handleDeleteAccount(args);
             } else if (cmd == Command::DELETE_PARCEL) {
-                if (type != UserType::ADMINISTRATOR) {
+                if (m_userType != UserType::ADMINISTRATOR) {
                     g_logger.warning("DeleteParcel command: Permission denied for user: " + 
                         m_currentUser);
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only administrators can delete parcels"});
@@ -102,7 +102,7 @@ std::string ClientHandler::processCommand(const std::string& cmd, const std::vec
             } else if (cmd == Command::LOGOUT) {
                 return handleLogout(args);
             } else if (cmd == Command::GET_STATISTICS) {
-                if (type != UserType::ADMINISTRATOR) {
+                if (m_userType != UserType::ADMINISTRATOR) {
                     g_logger.warning("GetStatistics command: Permission denied for user: " + 
                         m_currentUser);
                     return buildResponse(ErrorCode::PERMISSION_DENIED, {"Only administrators can get statistics"});
@@ -210,6 +210,7 @@ std::string ClientHandler::handleLogin(const std::vector<std::string>& args) {
     
     if (ec == ErrorCode::SUCCESS) {
         m_currentUser = username;
+        m_userType = type;
         g_logger.info("User logged in successfully: " + m_currentUser);
         return buildResponse(ec, {m_currentUser, std::to_string(typeInt)});
     } else {
@@ -325,7 +326,7 @@ std::string ClientHandler::handleSignParcel(const std::vector<std::string>& args
 
 std::string ClientHandler::handleQueryParcel(const std::vector<std::string>& args) {
     g_logger.info("QueryParcel request - User: " + m_currentUser + 
-                    ", UserType: " + std::to_string(static_cast<int>(type)));
+                    ", UserType: " + std::to_string(static_cast<int>(m_userType)));
     
     if (args.size() < 7) {
         g_logger.warning("QueryParcel command: Invalid arguments count: " + std::to_string(args.size()));
@@ -357,12 +358,12 @@ std::string ClientHandler::handleQueryParcel(const std::vector<std::string>& arg
     std::vector<Parcel*> parcels;
     ErrorCode ec;
     
-    if (type == UserType::ADMINISTRATOR) {
+    if (m_userType == UserType::ADMINISTRATOR) {
         ec = m_system->queryParcels(parcels, parcelId, sender, receiver, "", status, startTime, endTime);
         if (ec != ErrorCode::SUCCESS) {
             return buildResponse(ec, {"Query failed"});
         }
-    } else if (type == UserType::COURIER) {
+    } else if (m_userType == UserType::COURIER) {
         ec = m_system->queryParcels(parcels, parcelId, sender, receiver, m_currentUser, status, startTime, endTime);
         if (ec != ErrorCode::SUCCESS) {
             return buildResponse(ec, {"Query failed"});
@@ -498,19 +499,19 @@ std::string ClientHandler::handleQueryUser(const std::vector<std::string>& args)
     }
     UserType userType = static_cast<UserType>(typeInt);
 
-    if (type == UserType::CUSTOMER || type == UserType::COURIER) {
+    if (m_userType == UserType::CUSTOMER || m_userType == UserType::COURIER) {
         if (username != m_currentUser) {
             g_logger.warning("QueryUser command: Permission denied for user: " + 
                 m_currentUser);
             return buildResponse(ErrorCode::INVALID_ARGS, {"Only administrators can query other users"});
-        } else if (userType != type) {
+        } else if (userType != m_userType) {
             g_logger.warning("QueryUser command: Invalid user type: " + std::to_string(typeInt));
             return buildResponse(ErrorCode::INVALID_ARGS, {"Invalid user type"});
         } else {
-            std::string userTypeStr = type == UserType::CUSTOMER ? "Customer" : "Courier";
+            std::string userTypeStr = m_userType == UserType::CUSTOMER ? "Customer" : "Courier";
             g_logger.info("QueryUser request - " + userTypeStr + " " + username + ", Type: " + std::to_string(typeInt));
         }
-    } else if (type == UserType::ADMINISTRATOR) {
+    } else if (m_userType == UserType::ADMINISTRATOR) {
         g_logger.info("QueryUser request - Admin: " + m_currentUser + ", User: " + username + ", Type: " + std::to_string(typeInt));
     }
     

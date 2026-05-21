@@ -8,7 +8,7 @@ class ClientHandler {
     private:
         int requestId;
         std::string m_currentUser;             // 当前登录用户
-        UserType type;                 // 当前登录用户类型
+        UserType m_userType;                 // 当前登录用户类型
         std::string buf;        // 累积接收缓冲区，用于处理 TCP 半包
     public:
         ClientHandler() : requestId(0) {

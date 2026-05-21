@@ -123,7 +123,7 @@ ErrorCode Communication::loginUser(const std::string& username, const std::strin
     if (!sendRequest(Command::LOGIN, {username, password, std::to_string(static_cast<int>(type))}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
     userId = data[0];
     return status;
 }
@@ -198,7 +198,7 @@ ErrorCode Communication::queryParcels(const std::string& Id, const std::string& 
 }
 
 // 管理员查询用户
-ErrorCode Communication::queryUsers(const std::string& username, const UserType type, std::vector<User>& users) {
+ErrorCode Communication::queryUsers(const std::string& username, const UserType type, std::vector<User*>& users) {
     std::string resp;
     if (!sendRequest(Command::QUERY_USER, {username, std::to_string(static_cast<int>(type))}, resp)) return ErrorCode::UNKNOWN;
     ErrorCode status;
@@ -206,7 +206,17 @@ ErrorCode Communication::queryUsers(const std::string& username, const UserType 
     if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::UNKNOWN;
     users.clear();
     for (int i = 0; i + 6 < data.size(); i += 7) {
-        users.push_back(User(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], std::stod(data[i + 6])));
+        switch (static_cast<UserType>(stoi(data[i]))) {
+            case UserType::CUSTOMER:
+                users.push_back(new Customer(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], std::stod(data[i + 6])));
+                break;
+            case UserType::COURIER:
+                users.push_back(new Courier(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], std::stod(data[i + 6])));
+                break;
+            case UserType::ADMINISTRATOR:
+                users.push_back(new Administrator(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], std::stod(data[i + 6])));
+                break;
+        }
     }
     return status;
 }
@@ -256,7 +266,7 @@ ErrorCode Communication::deleteAccount(const std::string& targetUsername) {
     if (!sendRequest(Command::DELETE_ACCOUNT, {targetUsername}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
     return status;
 }
 
@@ -266,7 +276,7 @@ ErrorCode Communication::deleteParcel(const std::string& parcelId) {
     if (!sendRequest(Command::DELETE_PARCEL, {parcelId}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
     return status;
 }
 
@@ -284,7 +294,9 @@ ErrorCode Communication::getStatistics(int& totalUsers, int& totalParcels, int& 
     if (!sendRequest(Command::GET_STATISTICS, {}, resp)) return ErrorCode::INTERNAL_ERROR;
     ErrorCode status;
     std::vector<std::string> data;
-    if (!parseResponse(resp, status, data) || status != ErrorCode::SUCCESS || data.empty()) return ErrorCode::INVALID_ARGS;
+    if (!parseResponse(resp, status, data)) return ErrorCode::INVALID_ARGS;
+    if (status != ErrorCode::SUCCESS) return status;
+    if (data.size() != 6) return ErrorCode::INVALID_ARGS;
     if (!parseInt(data[0], totalUsers)) {
         std::cout << "获取用户总数失败。" << std::endl;
         return ErrorCode::INVALID_ARGS;

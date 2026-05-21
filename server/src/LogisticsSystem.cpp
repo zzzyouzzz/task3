@@ -22,7 +22,7 @@ void LogisticsSystem::autoAssignCourier(std::string parcelId) {
     }
 }
 
-// 构造函数：加载数据文件 + 初始化默认管理员 + 计算单号计数器 + 快递员负载 + 系统运行标志
+// 构造函数：加载数据文件 + 初始化默认管理员 + 计算单号计数器 + 快递员负载
 LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string& parcelFile, const std::string& configFile, bool autoAssignCourier)
     : m_adminTotalBalance(0.0), m_nextParcelId(1), m_autoAssignCourier(autoAssignCourier),
         m_userFile(userFile), m_parcelFile(parcelFile), m_configFile(configFile) {
