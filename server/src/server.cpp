@@ -184,7 +184,7 @@ bool Server::handleClientRequest(ClientHandler& client, socket_t sock){
         std::string response;
         client.setRequestId(m_currentRequestId);
         client.updateLastActiveTime();
-        if (!client.handleRequst(response)) continue;
+        if (!client.handleRequest(response)) continue;
 
         m_currentRequestId++;
 

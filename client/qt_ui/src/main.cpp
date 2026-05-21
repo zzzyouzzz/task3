@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    LoginWindow login(system);
+    LoginWindow login(system, ip, port);
     login.show();
     int result = app.exec();
     delete system;

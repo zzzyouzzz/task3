@@ -1,5 +1,5 @@
 #include "ClientHandler.h"
-bool ClientHandler::handleRequst(std::string& response) {
+bool ClientHandler::handleRequest(std::string& response) {
     size_t pos = buf.find('\n');
     if (pos == std::string::npos) return false;
     std::string request = buf.substr(0, pos+1);

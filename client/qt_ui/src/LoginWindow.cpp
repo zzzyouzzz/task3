@@ -1,6 +1,6 @@
 #include "LoginWindow.h"
 
-LoginWindow::LoginWindow(Communication* sys, QWidget *parent) : QMainWindow(parent), currentRole(UserType::CUSTOMER), system(sys), ownSystem(false) {
+LoginWindow::LoginWindow(Communication* sys, const std::string& ip, int port, QWidget *parent) : QMainWindow(parent), currentRole(UserType::CUSTOMER), system(sys), ownSystem(false), m_ip(ip), m_port(port) {
     if (!system) {
         system = new Communication();
         ownSystem = true;
@@ -62,6 +62,12 @@ LoginWindow::LoginWindow(Communication* sys, QWidget *parent) : QMainWindow(pare
     )");
     buttonLayout->addWidget(loginBtn);
     buttonLayout->addWidget(registerBtn);
+    auto reconnectBtn = new QPushButton("🔁 重连");
+    reconnectBtn->setStyleSheet(R"(
+        QPushButton{background:#95A5A6; color:white; border:none; border-radius:6px; padding:12px; font-size:14px;}
+        QPushButton:hover{background:#7F8C8D;}
+    )");
+    buttonLayout->addWidget(reconnectBtn);
     lay->addWidget(title);
     lay->addWidget(roleLabel);
     lay->addLayout(roleLayout);
@@ -89,6 +95,9 @@ LoginWindow::LoginWindow(Communication* sys, QWidget *parent) : QMainWindow(pare
         RegisterWindow dlg(system, this);
         dlg.exec();
     });
+    connect(reconnectBtn, &QPushButton::clicked, this, [=](){
+        attemptReconnect();
+    });
 }
 
 LoginWindow::~LoginWindow() {
@@ -106,6 +115,11 @@ void LoginWindow::perform_login() {
         return;
     }
     
+    // 保存凭据以便重连时重试登录
+    last_username = username.toStdString();
+    last_password = password.toStdString();
+    last_type = currentRole;
+
     // 使用 Communication 登录
     std::string userId;
     ErrorCode res = system->loginUser(username.toStdString(), password.toStdString(), currentRole, userId);
@@ -117,6 +131,29 @@ void LoginWindow::perform_login() {
                 break;
             case ErrorCode::LOGIN_FAILED:
                 msg = "密码错误或身份不匹配";
+                break;
+            case ErrorCode::INTERNAL_ERROR:
+                // 尝试重连并重试登录一次
+                if (attemptReconnect()) {
+                    ErrorCode r2 = system->loginUser(last_username, last_password, last_type, userId);
+                    if (r2 == ErrorCode::SUCCESS) {
+                        QMessageBox::information(this, "登录成功", 
+                            QString("欢迎回来，%1！\n角色：%2")
+                                .arg(QString::fromStdString(userId))
+                                .arg(currentRole == UserType::CUSTOMER ? "用户" : 
+                                     currentRole == UserType::COURIER ? "快递员" : "管理员"));
+                        if (currentRole == UserType::CUSTOMER) {
+                            (new UserWindow(last_username, system))->show();
+                        } else if (currentRole == UserType::COURIER) {
+                            (new CourierWindow(last_username, system))->show();
+                        } else {
+                            (new AdminWindow(last_username, system))->show();
+                        }
+                        this->close();
+                        return;
+                    }
+                }
+                msg = "登录失败，请重试";
                 break;
             default:
                 msg = "登录失败，请重试";
@@ -142,4 +179,25 @@ void LoginWindow::perform_login() {
         (new AdminWindow(username.toStdString(), system))->show();
     }
     this->close();
+}
+
+bool LoginWindow::attemptReconnect() {
+    if (!m_ip.empty() && m_port > 0) {
+        if (!system) {
+            system = new Communication();
+            ownSystem = true;
+        } else {
+            system->disconnect();
+        }
+        if (system->connectToServer(m_ip, m_port)) {
+            QMessageBox::information(this, "重连成功", "已连接到服务器");
+            return true;
+        } else {
+            QMessageBox::critical(this, "重连失败", "无法连接到服务器，请检查配置和网络");
+            return false;
+        }
+    } else {
+        QMessageBox::warning(this, "重连失败", "未配置服务器地址或端口");
+        return false;
+    }
 }

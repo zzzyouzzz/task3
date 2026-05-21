@@ -1,0 +1,30 @@
+# 系统文件
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# 编译产物
+/build
+/dist
+/out
+/output
+*.obj
+*.o
+
+# 日志缓存
+*.log
+*.cache
+.temp
+
+# 编辑器配置
+.idea/
+.vscode/
+*.suo
+*.user
+
+# 环境依赖
+node_modules/
+venv/
+env/
+__pycache__/

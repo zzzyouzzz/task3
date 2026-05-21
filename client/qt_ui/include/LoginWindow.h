@@ -21,10 +21,16 @@ class LoginWindow : public QMainWindow {
     UserType currentRole;         // 当前选中的角色
     Communication* system;        // 通信对象
     bool ownSystem;               // 是否拥有 system 所有权
+    std::string m_ip;             // 服务器 IP（用于重连）
+    int m_port;                   // 服务器端口（用于重连）
+    std::string last_username;    // 用于重连时重试登录
+    std::string last_password;
+    UserType last_type;
 public:
     LoginWindow(QWidget *parent = nullptr);//界面绘制
-    LoginWindow(Communication* sys, QWidget *parent = nullptr);
+    LoginWindow(Communication* sys, const std::string& ip, int port, QWidget *parent = nullptr);
     ~LoginWindow();
 private:
     void perform_login();//登录操作
+    bool attemptReconnect();
 };

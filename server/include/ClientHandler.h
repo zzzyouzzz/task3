@@ -26,7 +26,7 @@ class ClientHandler {
         // 接收新数据并累加到缓冲区
         void pushBuffer(const std::string& data) { buf += data; }
         void setRequestId(int Id) { requestId = Id; }
-        bool handleRequst(std::string& response);
+        bool handleRequest(std::string& response);
         // 路由命令到对应 handler, 网关权限检查
         std::string processCommand(const std::string& cmd, const std::vector<std::string>& args);
         // 构造响应报文 + 日志

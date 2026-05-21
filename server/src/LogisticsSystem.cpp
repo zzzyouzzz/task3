@@ -53,10 +53,9 @@ LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string&
     for (const auto& c : couriers) {
         std::string courier = c->getUsername();
         std::vector<Parcel*> parcelsVec;
-        ErrorCode result = queryParcels(parcelsVec, "", "", "", courier);
+        ErrorCode result = queryParcels(parcelsVec, "", "", "", courier, ParcelStatus::PENDING_COLLECTION);
         if (result != ErrorCode::SUCCESS) continue;
-        // 计算快递员负载
-        if (parcelsVec.empty()) continue;
+        // 计算快递员负载 = 待揽收快递数量
         m_courierCapacity[courier] = static_cast<int>(parcelsVec.size());
     } 
 }
@@ -305,6 +304,7 @@ ErrorCode LogisticsSystem::deleteParcel(const std::string& parcelId) {
     auto parcelIt = m_parcels.find(parcelId);
     if (parcelIt == m_parcels.end()) return ErrorCode::PARCEL_NOT_FOUND;
     if (parcelIt->second->getStatus() != ParcelStatus::SIGNED) return ErrorCode::INVALID_STATUS;
+    delete parcelIt->second;
     m_parcels.erase(parcelIt);
     saveData();
     return ErrorCode::SUCCESS;
