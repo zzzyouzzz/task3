@@ -1,0 +1,64 @@
+# ==================================================
+# 全流程生命周期测试 (Happy Path)
+# ==================================================
+# 初始数据文件预置:
+#   admin/admin123 (管理员, 余额不相关)
+#   alice/pwd123 (客户, 余额 200.0)
+#   bob/pwd456 (快递员, 余额 100.0)
+#   charlie/pwd789 (客户, 余额 300.0)
+# 公司池初始余额: 5000.0
+# auto_assign_courier=false (测试程序显式分配)
+# ==================================================
+
+# ---- 1. 发快递 (alice -> charlie, NORMAL, 2.0kg, price=10.0) ----
+PRINT|===== 阶段1: 发快递 =====
+LOGIN|alice|pwd123|0|SUCCESS
+SEND|charlie|0|2.0|documents|SUCCESS
+# alice余额: 200 - 10 = 190
+CHECK_BALANCE|190.0
+LOGOUT|SUCCESS
+
+# ---- 2. 管理员分配 (此时公司池: 5000 + 10 = 5010) ----
+PRINT|===== 阶段2: 管理员分配 =====
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|bob|SUCCESS
+# 查询验证: 管理员视角应有1个包裹(alice->charlie,分配给bob)
+QUERY_PARCELS||alice|charlie|bob|3|0|0|SUCCESS|1
+LOGOUT|SUCCESS
+
+# ---- 3. 快递员揽收 (公司池: 5010 - 5 = 5005, bob: 100 + 5 = 105) ----
+PRINT|===== 阶段3: 快递员揽收 =====
+LOGIN|bob|pwd456|1|SUCCESS
+COLLECT|PCL*|SUCCESS
+CHECK_BALANCE|105.0
+LOGOUT|SUCCESS
+
+# ---- 4. 收件人签收 ----
+PRINT|===== 阶段4: 签收 =====
+LOGIN|charlie|pwd789|0|SUCCESS
+SIGN|PCL*|SUCCESS
+LOGOUT|SUCCESS
+
+# ---- 5. 验证最终状态 ----
+PRINT|===== 阶段5: 最终验证 =====
+# 验证各账户余额
+LOGIN|alice|pwd123|0|SUCCESS
+CHECK_BALANCE|190.0
+LOGOUT|SUCCESS
+
+LOGIN|bob|pwd456|1|SUCCESS
+CHECK_BALANCE|105.0
+LOGOUT|SUCCESS
+
+LOGIN|charlie|pwd789|0|SUCCESS
+CHECK_BALANCE|300.0
+LOGOUT|SUCCESS
+
+# 管理员验证公司池 (5000 + 10 - 5 = 5005)
+LOGIN|admin|admin123|2|SUCCESS
+QUERY_BALANCE|5005.0
+# GET_STATS: users=4 parcels=1 pending=0 collected=0 signed=1 pool=5005
+GET_STATS|SUCCESS|4|1|0|0|1|5005.0
+LOGOUT|SUCCESS
+
+PRINT|===== 全流程测试通过 =====

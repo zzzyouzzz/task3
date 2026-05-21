@@ -1,0 +1,99 @@
+# ==================================================
+# 异常和边界测试
+# ==================================================
+
+# ---- 测试1: 重复注册 ----
+PRINT|===== 测试1: 重复注册 =====
+REGISTER|dupuser|pwd1|Dup|111-1111|Addr|0|SUCCESS
+REGISTER|dupuser|pwd2|Dup2|222-2222|Addr|0|USER_EXISTS
+
+# ---- 测试2: 登录错误密码 ----
+PRINT|===== 测试2: 错误密码登录 =====
+LOGIN|dupuser|wrongpass|0|LOGIN_FAILED
+
+# ---- 测试3: 登录错误类型 ----
+PRINT|===== 测试3: 错误类型登录 =====
+LOGIN|dupuser|pwd1|1|LOGIN_FAILED
+
+# ---- 测试4: 收件人不存在 ----
+PRINT|===== 测试4: 发送给不存在的用户 =====
+LOGIN|dupuser|pwd1|0|SUCCESS
+RECHARGE|100.0|SUCCESS
+SEND|nonexistent_user|0|1.0|test|USER_NOT_FOUND
+LOGOUT|SUCCESS
+
+# ---- 测试5: 余额不足发快递 ----
+PRINT|===== 测试5: 余额不足 =====
+REGISTER|poor|poor123|Poor|333-3333|Addr|0|SUCCESS
+LOGIN|poor|poor123|0|SUCCESS
+RECHARGE|5.0|SUCCESS
+# NORMAL 2.0kg = 10.0, poor 只有 5.0, 余额不足!
+SEND|dupuser|0|2.0|expensive|INSUFFICIENT_BALANCE
+LOGOUT|SUCCESS
+
+# ---- 测试6: 充值负数 ----
+PRINT|===== 测试6: 充值负数 =====
+# 注意: 服务端对 amount<=0 返回 INVALID_ARGS (不是 INVALID_AMOUNT)
+LOGIN|dupuser|pwd1|0|SUCCESS
+RECHARGE|-50.0|INVALID_ARGS
+LOGOUT|SUCCESS
+
+# ---- 测试7: 修改密码旧密码错误 ----
+PRINT|===== 测试7: 旧密码错误 =====
+LOGIN|dupuser|pwd1|0|SUCCESS
+CHANGE_PWD|wrong_old|new_pwd|LOGIN_FAILED
+LOGOUT|SUCCESS
+
+# ---- 测试8: 分配不存在的包裹 ----
+PRINT|===== 测试8: 分配不存在的包裹 =====
+# 服务端先验证快递员存在, 需要合法的快递员名
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|NONEXIST|bob|PARCEL_NOT_FOUND
+LOGOUT|SUCCESS
+
+# ---- 测试9: 分配给不存在的快递员 ----
+PRINT|===== 测试9: 分配给不存在的快递员 =====
+LOGIN|dupuser|pwd1|0|SUCCESS
+SEND|dupuser|0|1.0|test|SUCCESS
+LOGOUT|SUCCESS
+
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|nonexistent_courier|USER_NOT_FOUND
+LOGOUT|SUCCESS
+
+# ---- 测试10: 删除有未完成业务的用户 ----
+PRINT|===== 测试10: 删除有未完成业务的用户 =====
+# dupuser 有未完成的快递 (作为寄件人, 已发未签收)
+LOGIN|admin|admin123|2|SUCCESS
+DELETE_USER|dupuser|DELETE_BLOCKED
+LOGOUT|SUCCESS
+
+# ---- 测试11: 删除未签收的包裹 ----
+PRINT|===== 测试11: 删除未签收的包裹 =====
+# dupuser 刚发的包裹是 PENDING_COLLECTION, 不是 SIGNED, 不能删
+LOGIN|admin|admin123|2|SUCCESS
+DELETE_PARCEL|PCL*|INVALID_STATUS
+LOGOUT|SUCCESS
+
+# ---- 测试12: 揽收不属于自己的包裹 ----
+PRINT|===== 测试12: 揽收不属于自己的包裹 =====
+REGISTER|cour_a|cour_a|CourA|444-4444|Addr|1|SUCCESS
+REGISTER|cour_b|cour_b|CourB|555-5555|Addr|1|SUCCESS
+# admin 把包裹分配给 cour_b
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|cour_b|SUCCESS
+LOGOUT|SUCCESS
+
+# cour_a (不同的快递员) 尝试揽收 -> NO_RESULT (不在自己名下)
+LOGIN|cour_a|cour_a|1|SUCCESS
+COLLECT|PCL*|NO_RESULT
+LOGOUT|SUCCESS
+
+# ---- 测试13: 签收不属于自己的包裹 ----
+PRINT|===== 测试13: 签收不属于自己的包裹 =====
+# PCL* 的收件人是 dupuser (寄件人也是 dupuser), poor 不是收件人
+LOGIN|poor|poor123|0|SUCCESS
+SIGN|PCL*|NO_RESULT
+LOGOUT|SUCCESS
+
+PRINT|===== 异常边界测试完成 =====

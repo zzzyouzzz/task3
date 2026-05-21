@@ -1,0 +1,64 @@
+# ==================================================
+# 权限验证测试
+# ==================================================
+# 注册测试用账户
+REGISTER|cust_a|cust_a|CustA|111-1111|Addr|0|SUCCESS
+REGISTER|cour_a|cour_a|CourA|222-2222|Addr|1|SUCCESS
+
+LOGIN|cust_a|cust_a|0|SUCCESS
+RECHARGE|500.0|SUCCESS
+LOGOUT|SUCCESS
+
+# ---- 测试1: 客户不能分配快递员 ----
+PRINT|===== 测试1: 客户不能 ASSIGN =====
+LOGIN|cust_a|cust_a|0|SUCCESS
+ASSIGN|PCLxxx|cour_a|PERMISSION_DENIED
+LOGOUT|SUCCESS
+
+# ---- 测试2: 客户不能揽收 ----
+PRINT|===== 测试2: 客户不能 COLLECT =====
+LOGIN|cust_a|cust_a|0|SUCCESS
+COLLECT|PCLxxx|PERMISSION_DENIED
+LOGOUT|SUCCESS
+
+# ---- 测试3: 快递员不能签收 ----
+PRINT|===== 测试3: 快递员不能 SIGN =====
+LOGIN|cour_a|cour_a|1|SUCCESS
+SIGN|PCLxxx|PERMISSION_DENIED
+LOGOUT|SUCCESS
+
+# ---- 测试4: 快递员不能发快递 ----
+PRINT|===== 测试4: 快递员不能 SEND =====
+LOGIN|cour_a|cour_a|1|SUCCESS
+SEND|cust_a|0|1.0|test|PERMISSION_DENIED
+LOGOUT|SUCCESS
+
+# ---- 测试5: 客户不能删除账户 ----
+PRINT|===== 测试5: 客户不能 DELETE_USER =====
+LOGIN|cust_a|cust_a|0|SUCCESS
+DELETE_USER|cour_a|PERMISSION_DENIED
+LOGOUT|SUCCESS
+
+# ---- 测试6: 客户不能删除包裹 ----
+PRINT|===== 测试6: 客户不能 DELETE_PARCEL =====
+LOGIN|cust_a|cust_a|0|SUCCESS
+DELETE_PARCEL|PCLxxx|PERMISSION_DENIED
+LOGOUT|SUCCESS
+
+# ---- 测试7: 客户不能查询其他用户 ----
+PRINT|===== 测试7: 客户不能 QUERY_USERS(他人) =====
+LOGIN|cust_a|cust_a|0|SUCCESS
+QUERY_USERS|cour_a|1|INVALID_ARGS|0
+LOGOUT|SUCCESS
+
+# ---- 测试8: 快递员不能获取统计 ----
+PRINT|===== 测试8: 快递员不能 GET_STATS =====
+LOGIN|cour_a|cour_a|1|SUCCESS
+GET_STATS|PERMISSION_DENIED|0|0|0|0|0|0.0
+LOGOUT|SUCCESS
+
+# ---- 测试9: 未登录不能操作 ----
+PRINT|===== 测试9: 未登录不能 SEND =====
+SEND|cust_a|0|1.0|test|PERMISSION_DENIED
+
+PRINT|===== 权限测试完成 =====

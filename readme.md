@@ -125,8 +125,8 @@ output/
 │   └── server.exe              # 服务器程序
 └── tests/
     ├── CommonTests.exe         # 公共模块单元测试
-    ├── ServerTests.exe         # 服务器业务逻辑测试
-    └── DataSetTests.exe        # 数据集加载完整性测试
+    ├── DataSetTests.exe        # 数据集加载完整性测试
+    └── IntegrationTest.exe     # 全流程自动化集成测试
 ```
 
 ---
@@ -423,15 +423,22 @@ task3/
 │       │   └── Communication.h     # 网络通信封装类
 │       └── src/
 │           └── Communication.cpp   # 通信实现
-├── tests/                          # 单元测试
+├── tests/                          # 单元测试与集成测试
 │   ├── CMakeLists.txt
 │   ├── common_tests.cpp            # 公共模块测试（协议、日志）
-│   ├── server_tests.cpp            # 服务器业务逻辑测试
 │   ├── dataset_tests.cpp           # 数据集文件加载测试
+│   ├── test_runner.h               # 集成测试框架声明
+│   ├── test_runner.cpp             # 集成测试框架实现（server管理/命令解析/断言）
+│   ├── full_scenario.in            # 全流程 Happy Path 测试脚本（34项）
+│   ├── permission_test.in          # 权限验证测试脚本（40项）
+│   ├── edge_case_test.in           # 异常/边界测试脚本（59项）
 │   └── data/                       # 测试数据
-│       ├── full_users.dat
-│       ├── full_parcels.dat
-│       └── full_config.dat
+│       ├── full_users.dat          # 预置完整用户数据
+│       ├── full_parcels.dat        # 预置完整包裹数据
+│       ├── full_config.dat         # 预置配置数据
+│       ├── test_users.dat          # 集成测试预制用户
+│       ├── test_parcels.dat        # 集成测试预制包裹（空）
+│       └── test_config.dat         # 集成测试初始化公司池 5000.0
 └── output/                         # 构建输出
     ├── client/
     │   ├── client_config.txt
@@ -500,8 +507,8 @@ ctest --output-on-failure
 
 # 或直接运行
 ./output/tests/CommonTests.exe
-./output/tests/ServerTests.exe
 ./output/tests/DataSetTests.exe
+./output/tests/IntegrationTest.exe --input=../tests/full_scenario.in --server=../output/server/server.exe
 ```
 
 ### 测试覆盖
@@ -509,10 +516,35 @@ ctest --output-on-failure
 | 测试套件 | 覆盖内容 |
 |---------|---------|
 | **CommonTests** | 协议编解码、日志级别解析、日志文件写入、请求-响应往返测试 |
-| **ServerTests** | FileManager 读写一致性、完整业务流程（注册→充值→寄件→分配→揽收→签收→删除） |
 | **DataSetTests** | 预置数据集的完整加载校验（4 用户 + 3 快递 + 配置） |
+| **IntegrationTest** | 全流程自动化集成测试，共计 **133 项测试**，覆盖三大场景 |
 
----
+#### 集成测试场景
+
+| 场景文件 | 测试数 | 覆盖内容 |
+|---------|:------:|---------|
+| `full_scenario.in` | 34 | 快递完整生命周期：发件→分配→揽收→签收，资金流动验证（寄件人扣款→公司池收款→快递员佣金结算），`GET_STATS` 全局统计校验 |
+| `permission_test.in` | 40 | 9 种权限越界场景：客户越权分配/揽收/删除，快递员越权签收/统计，未登录操作拦截等 |
+| `edge_case_test.in` | 59 | 13 种异常/边界场景：重复注册、错误密码、余额不足、充值负数、包裹/用户不存在、脏数据删除拦截、跨用户越权操作等 |
+
+#### 集成测试架构
+
+`IntegrationTest` 是一个脚本解释器模式的测试框架：
+
+1. 在隔离目录 (`output/test_run/`) 生成预制测试数据文件
+2. 以子进程启动 `server.exe`，自动探测并清理残留进程
+3. 通过 `Communication` 类连接服务端，逐行解析 `.in` 脚本
+4. 每行执行一个操作并断言 `ErrorCode`，支持 `PCL*` 通配符引用动态包裹 ID
+5. 验证资金流向：`CHECK_BALANCE` 校验各角色余额，`GET_STATS` 校验全局统计
+6. 测试完成后终止 server 进程，清理临时目录，**不污染生产数据**
+
+#### 资金流动验证
+
+```
+发件: 寄件人 -= price        公司池 += price
+揽收: 快递员 += price * 0.5   公司池 -= price * 0.5
+签收: 无资金变动
+```
 
 ## 🔐 默认管理员
 
