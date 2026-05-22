@@ -41,8 +41,7 @@ int main(int argc, char *argv[]) {
     int result = app.exec();
     if (result == 0) {
         system->logout();
-    } else {
-        delete system;
     }
+    delete system;
     return result;
 }

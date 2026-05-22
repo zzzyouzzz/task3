@@ -44,6 +44,14 @@ SendPage::SendPage(QWidget *parent, std::string username, Communication* sys) : 
     
     layout->addWidget(new QLabel("物品类型："));
     layout->addWidget(typeBox);
+    layout->addWidget(new QLabel("重量（kg）："));
+    weightSpin = new QDoubleSpinBox;
+    weightSpin->setRange(0.1, 999.9);
+    weightSpin->setSingleStep(0.1);
+    weightSpin->setValue(1.0);
+    weightSpin->setSuffix(" kg");
+    weightSpin->setStyleSheet(editStyle);
+    layout->addWidget(weightSpin);
     layout->addWidget(new QLabel("物品内容："));
     layout->addWidget(contentEdit);
     layout->addStretch();
@@ -69,9 +77,9 @@ void SendPage::submit_package() {
     else if (typeBox->currentText() == "书籍") type = ParcelType::BOOK;
     
     std::string parcelId;
-    ErrorCode res = system->sendParcel(receiver.toStdString(), type, 1.0, content.toStdString(), parcelId);
+    ErrorCode res = system->sendParcel(receiver.toStdString(), type, weightSpin->value(), content.toStdString(), parcelId);
     if (res == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-        res = system->sendParcel(receiver.toStdString(), type, 1.0, content.toStdString(), parcelId);
+        res = system->sendParcel(receiver.toStdString(), type, weightSpin->value(), content.toStdString(), parcelId);
     }
     if (res != ErrorCode::SUCCESS) {
         QString msg;

@@ -27,8 +27,8 @@ RegisterWindow::RegisterWindow(Communication* sys, QWidget* parent)
     roleCombo = new QComboBox;
     roleCombo->addItems({"用户", "快递员"});
 
-    passwordEdit->setEchoMode(QLineEdit::Normal);
-    confirmEdit->setEchoMode(QLineEdit::Normal);
+    passwordEdit->setEchoMode(QLineEdit::Password);
+    confirmEdit->setEchoMode(QLineEdit::Password);
 
     QString editStyle = R"(
         QLineEdit{

@@ -172,14 +172,17 @@ void AdminExpressPage::add_package() {
     QString description = QInputDialog::getText(this, "新增快递", "物品描述：", QLineEdit::Normal, "", &ok);
     if (!ok || description.isEmpty()) return;
 
+    double weight = QInputDialog::getDouble(this, "新增快递", "重量（kg）：", 1.0, 0.1, 999.9, 1, &ok);
+    if (!ok) return;
+
     ParcelType type = ParcelType::NORMAL;
     if (typeText == "易碎品") type = ParcelType::FRAGILE;
     else if (typeText == "书籍") type = ParcelType::BOOK;
 
     std::string parcelId;
-    ErrorCode res = system->sendParcel(receiver.toStdString(), type, 1.0, description.toStdString(), parcelId);
+    ErrorCode res = system->sendParcel(receiver.toStdString(), type, weight, description.toStdString(), parcelId);
     if (res == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-        res = system->sendParcel(receiver.toStdString(), type, 1.0, description.toStdString(), parcelId);
+        res = system->sendParcel(receiver.toStdString(), type, weight, description.toStdString(), parcelId);
     }
     if (res != ErrorCode::SUCCESS) {
         QString msg;

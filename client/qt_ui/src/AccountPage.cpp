@@ -202,11 +202,11 @@ void AccountPage::recharge(unsigned int amount) {
     
 void AccountPage::change_password() {
     bool ok = false;
-    QString old_pwd = QInputDialog::getText(this, "修改密码", "请输入旧密码", QLineEdit::Normal, "", &ok);
+    QString old_pwd = QInputDialog::getText(this, "修改密码", "请输入旧密码", QLineEdit::Password, "", &ok);
     if (!ok) {
         return;
     }
-    QString new_pwd = QInputDialog::getText(this, "修改密码", "请输入新密码", QLineEdit::Normal, "", &ok);
+    QString new_pwd = QInputDialog::getText(this, "修改密码", "请输入新密码", QLineEdit::Password, "", &ok);
     if (!ok) {
         return;
     }

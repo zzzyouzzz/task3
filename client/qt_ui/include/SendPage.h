@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QDoubleSpinBox>
 #include <QFormLayout>
 #include <QMessageBox>
 #include "QueryPage.h"
@@ -21,6 +22,7 @@ class SendPage : public QWidget {
     QLineEdit* editAddr;          // 收货地址输入框
     QComboBox* typeBox;           // 快递类型下拉框
     QTextEdit* contentEdit;       // 物品描述输入框
+    QDoubleSpinBox* weightSpin;   // 重量输入
     std::string username;          // 当前登录用户名
     QueryPage* queryPage;         // 关联的查询页面（刷新用）
     AccountPage* accountPage;     // 关联的账户页面（刷新用）

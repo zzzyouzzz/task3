@@ -78,18 +78,6 @@ void ReceivePage::load_packages() {
             QString("加载待签收快递失败（错误码 %1）").arg(static_cast<int>(ec1)));
     }
 
-    std::vector<Parcel> pending_collect_parcels;
-    ErrorCode ec2 = system->queryParcels("", "", username, "", ParcelStatus::PENDING_COLLECTION, 0, 0, pending_collect_parcels);
-    if (ec2 == ErrorCode::INTERNAL_ERROR && tryReconnect(system, this)) {
-        ec2 = system->queryParcels("", "", username, "", ParcelStatus::PENDING_COLLECTION, 0, 0, pending_collect_parcels);
-    }
-    if (ec2 != ErrorCode::SUCCESS && ec2 != ErrorCode::INTERNAL_ERROR) {
-        QMessageBox::critical(this, "加载失败",
-            ec2 == ErrorCode::INVALID_ARGS ? "加载待揽收快递失败：数据格式异常" :
-            QString("加载待揽收快递失败（错误码 %1）").arg(static_cast<int>(ec2)));
-    }
-    parcels.insert(parcels.end(), pending_collect_parcels.begin(), pending_collect_parcels.end());
-
     table->setRowCount(parcels.size());
     for (size_t i = 0; i < parcels.size(); i++) {
         const auto& pkg = parcels[i];
@@ -105,8 +93,7 @@ void ReceivePage::load_packages() {
         table->setItem(i, 3, new QTableWidgetItem(sendTimeStr));
         
         table->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(pkg.getCourierName())));
-        QString statusText = pkg.getStatus() == ParcelStatus::PENDING_SIGN ? "待签收" : "待揽收";
-        table->setItem(i, 5, new QTableWidgetItem(statusText));
+        table->setItem(i, 5, new QTableWidgetItem("待签收"));
     }
 }
     

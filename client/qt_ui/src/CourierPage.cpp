@@ -19,7 +19,7 @@ CourierHomePage::CourierHomePage(QWidget *p, std::string courier_id, QueryPage *
 
     // 余额显示
     auto balanceLayout = new QHBoxLayout;
-    balanceLabel = new QLabel("账户余额：¥ 568.00");
+    balanceLabel = new QLabel("账户余额：加载中...");
     balanceLabel->setStyleSheet("font-size:16px; color:#E74C3C; font-weight:bold;");
     balanceLayout->addStretch();
     balanceLayout->addWidget(balanceLabel);
