@@ -1,3 +1,4 @@
+V=1
 0|alice|alicepwd|Alice|111-2222|100 Main Street|120.5
 1|bob|bobpwd|Bob|222-3333|200 Market Street|35.0
 2|admin|securepass|Super Admin|000-0000|Central Office|5000.0

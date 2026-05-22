@@ -33,7 +33,9 @@ static void testLoadUsersFromFullDataset(const std::filesystem::path& baseDir) {
     auto userFile = baseDir / "full_users.dat";
     assert(std::filesystem::exists(userFile));
 
-    auto users = FileManager::loadUsers(userFile.string());
+    int version = -1;
+    auto users = FileManager::loadUsers(userFile.string(), version);
+    assert(version == 1);
     assert(users.size() == 4);
     assert(users.count("alice") == 1);
     assert(users.count("bob") == 1);
@@ -51,7 +53,9 @@ static void testLoadParcelsFromFullDataset(const std::filesystem::path& baseDir)
     auto parcelFile = baseDir / "full_parcels.dat";
     assert(std::filesystem::exists(parcelFile));
 
-    auto parcels = FileManager::loadParcels(parcelFile.string());
+    int version = -1;
+    auto parcels = FileManager::loadParcels(parcelFile.string(), version);
+    assert(version == 1);
     assert(parcels.size() == 3);
     assert(parcels.count("PCL1001") == 1);
     assert(parcels.count("PCL1002") == 1);
@@ -68,7 +72,9 @@ static void testLoadConfigFromFullDataset(const std::filesystem::path& baseDir) 
     auto configFile = baseDir / "full_config.dat";
     assert(std::filesystem::exists(configFile));
 
-    double balance = FileManager::loadConfig(configFile.string());
+    int version = -1;
+    double balance = FileManager::loadConfig(configFile.string(), version);
+    assert(version == 1);
     assert(balance == 7390.25);
 }
 

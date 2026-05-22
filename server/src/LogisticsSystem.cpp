@@ -25,11 +25,19 @@ void LogisticsSystem::autoAssignCourier(std::string parcelId) {
 // 构造函数：加载数据文件 + 初始化默认管理员 + 计算单号计数器 + 快递员负载
 LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string& parcelFile, const std::string& configFile, bool autoAssignCourier)
     : m_adminTotalBalance(0.0), m_nextParcelId(1), m_autoAssignCourier(autoAssignCourier),
+      m_saveVersion(0),
         m_userFile(userFile), m_parcelFile(parcelFile), m_configFile(configFile) {
-    // 从磁盘加载已有数据
-    m_users = FileManager::loadUsers(m_userFile);
-    m_parcels = FileManager::loadParcels(m_parcelFile);
-    m_adminTotalBalance = FileManager::loadConfig(m_configFile);
+    // 从磁盘加载已有数据（带版本号校验）
+    int userVer = 0, parcelVer = 0, configVer = 0;
+    m_users = FileManager::loadUsers(m_userFile, userVer);
+    m_parcels = FileManager::loadParcels(m_parcelFile, parcelVer);
+    m_adminTotalBalance = FileManager::loadConfig(m_configFile, configVer);
+
+    if (userVer != parcelVer || userVer != configVer) {
+        g_logger.warning("Data file version mismatch: users=" + std::to_string(userVer) +
+            " parcels=" + std::to_string(parcelVer) + " config=" + std::to_string(configVer));
+    }
+    m_saveVersion = std::max({userVer, parcelVer, configVer});
     // 确保至少有一个管理员账号
     if (m_users.find("admin") == m_users.end()) {
         Administrator* admin = new Administrator("admin", "admin123", "System Admin", "000-0000", "Head Office");
@@ -69,11 +77,12 @@ LogisticsSystem::~LogisticsSystem() {
     for (auto& p : m_parcels) delete p.second;
 }
 
-// 持久化所有数据到磁盘文件
+// 持久化所有数据到磁盘文件（临时文件 + 原子重命名 + 版本号事务保护）
 void LogisticsSystem::saveData() {
-    FileManager::saveUsers(m_userFile, m_users);
-    FileManager::saveParcels(m_parcelFile, m_parcels);
-    FileManager::saveConfig(m_configFile, m_adminTotalBalance);
+    m_saveVersion++;
+    FileManager::saveUsers(m_userFile, m_users, m_saveVersion);
+    FileManager::saveParcels(m_parcelFile, m_parcels, m_saveVersion);
+    FileManager::saveConfig(m_configFile, m_adminTotalBalance, m_saveVersion);
 }
 
 // 用户登录：校验用户名存在 → 身份类型匹配 → 密码正确 → 返回用户指针

@@ -580,14 +580,13 @@ ctest --output-on-failure
 | **密码安全** | 中 | 当前密码明文存储，建议引入 SHA-256 + Salt 哈希 |
 | **handleClientRequest 公平性** | 中 | `while(true)` 循环连续处理同一连接的所有报文，不返回 select 主循环，可能导致其他连接被饿死。建议每次调用限制处理一个请求，或设置单次最大处理数量 |
 | **裸指针管理** | 低 | `m_users` / `m_parcels` 存储裸指针，手动 `new`/`delete`。已确认析构时正确释放，异常路径下仍有泄漏风险。建议改用 `std::unique_ptr` 自动管理生命周期 |
-| **saveData 无事务保护** | 中 | 每次写操作全量写回三个文件，若写入过程中途失败（如磁盘满）会导致启动时数据状态不一致。建议写临时文件后 `rename()` 原子替换，或引入版本号校验 |
 | **查询快递可能重复** | 低 | `ClientHandler::handleQueryParcel` 中客户作为寄件人和收件人分别查询后合并结果未去重，同一用户同时为寄收件人时重复 |
 | **非阻塞 socket 跨平台** | 低 | `server.cpp` 中 `FIONBIO` / `O_NONBLOCK` 仅覆盖 Windows 和 Linux，macOS/FreeBSD 等平台未处理 |
 | **loadParcels 解析** | 低 | `FileManager::loadParcels` 在 `while(getline(iss, token, DELIMITER))` 循环后多出一条无参数 `getline(iss, token)`，多写入一个空字段 |
 | **测试数据路径脆弱** | 低 | `dataset_tests.cpp` 的 `findDataDir()` 通过枚举 5 个候选路径定位数据目录，依赖当前工作目录，在 CMake 构建目录下运行时容易定位失败 |
 | **并发演进** | 低 | 架构已预留上下文设计，未来可升级为多线程处理 |
 
-> **已修复**: `deleteParcel` 未释放内存（P1）、`parseDouble` 缺 idx 校验（P2-3）、`Communication.cpp` 用 `stoi` 解析 time_t（P2-4）、根目录死代码清理、测试 CMake 引用缺失文件（P0）、客户端响应累积缓冲区 + `\n` 边界检测、服务端 send 循环处理部分发送、连接空闲超时断开（180s）、`handleRequst` 拼写修正、断线重连机制。
+> **已修复**: `deleteParcel` 未释放内存（P1）、`parseDouble` 缺 idx 校验（P2-3）、`Communication.cpp` 用 `stoi` 解析 time_t（P2-4）、根目录死代码清理、测试 CMake 引用缺失文件（P0）、客户端响应累积缓冲区 + `\n` 边界检测、服务端 send 循环处理部分发送、连接空闲超时断开（180s）、`handleRequst` 拼写修正、断线重连机制、saveData 临时文件 + `rename()` 原子替换 + 版本头事务保护。
 
 ---
 

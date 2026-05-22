@@ -13,6 +13,7 @@ private:
     double m_adminTotalBalance;                 // 管理员总余额（公司资金池）
     int m_nextParcelId;                         // 递增的单号计数器
     bool m_autoAssignCourier;                   // 是否自动分配快递员
+    int m_saveVersion;                          // 数据文件版本号（事务保护）
     std::map<std::string, int> m_courierCapacity; // 快递员 -> 容量限制
 
     std::string m_userFile;           // 用户数据文件路径

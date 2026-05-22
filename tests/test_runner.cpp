@@ -122,9 +122,10 @@ bool TestRunner::createTestDataFiles() {
     namespace fs = std::filesystem;
 
     // 用户数据: 含管理员 + 预置测试用户（含初始余额）
-    // 格式: type|username|password|name|phone|address|balance
+    // 格式: 首行 V=版本号, 后续行: type|username|password|name|phone|address|balance
     // type: 0=CUSTOMER, 1=COURIER, 2=ADMINISTRATOR
     std::string usersContent =
+        "V=1\n"
         "2|admin|admin123|System Admin|000-0000|Head Office|0\n"
         "0|alice|pwd123|Alice|111-2222|Addr1|200.0\n"
         "1|bob|pwd456|Bob|222-3333|Addr2|100.0\n"
@@ -135,17 +136,18 @@ bool TestRunner::createTestDataFiles() {
     uf << usersContent;
     uf.close();
 
-    // 包裹数据: 空
+    // 包裹数据: 空（仅版本头）
     std::string parcelsPath = m_opts.workDir + "/parcels.dat";
     std::ofstream pf(parcelsPath);
     if (!pf) { std::cerr << "无法创建: " << parcelsPath << "\n"; return false; }
+    pf << "V=1\n";
     pf.close();
 
     // 配置: 公司池初始余额 5000.0
     std::string configPath = m_opts.workDir + "/config.dat";
     std::ofstream cf(configPath);
     if (!cf) { std::cerr << "无法创建: " << configPath << "\n"; return false; }
-    cf << "5000.0\n";
+    cf << "V=1\n5000.0\n";
     cf.close();
 
     return true;
