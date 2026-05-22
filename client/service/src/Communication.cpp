@@ -69,7 +69,7 @@ bool Communication::parseResponse(const std::string& resp, ErrorCode& status, st
         status = ErrorCode::UNKNOWN;
     }
     g_logger.debug("Parsed response status: " + token + ", raw: " + resp);
-    while (std::getline(iss, token, DELIMITER)) data.push_back(token);
+    while (std::getline(iss, token, DELIMITER)) data.push_back(trimString(token));
     return true;
 }
 

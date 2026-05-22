@@ -31,6 +31,28 @@ set_target_properties(IntegrationTest PROPERTIES
     OUTPUT_NAME IntegrationTest
 )
 
+# 多客户端并发连接公平性测试
+add_executable(MultiClientTests
+    ${CMAKE_SOURCE_DIR}/tests/multi_client_tests.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_server_helper.cpp
+)
+target_include_directories(MultiClientTests PRIVATE
+    ${CMAKE_SOURCE_DIR}/Common/include
+    ${CMAKE_SOURCE_DIR}/client/service/include
+    ${CMAKE_SOURCE_DIR}/tests
+)
+target_link_libraries(MultiClientTests PRIVATE client_service Common)
+if(WIN32)
+    target_link_libraries(MultiClientTests PRIVATE ws2_32)
+endif()
+set_target_properties(MultiClientTests PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output/tests
+    OUTPUT_NAME MultiClientTests
+)
+add_test(NAME MultiClientTests COMMAND MultiClientTests
+    --server=${CMAKE_SOURCE_DIR}/output/server/server.exe
+    --workdir=${CMAKE_SOURCE_DIR}/output/test_multi_run)
+
 add_test(NAME CommonTests COMMAND CommonTests)
 add_test(NAME DataSetTests COMMAND DataSetTests)
 add_test(NAME IntegrationTest COMMAND IntegrationTest

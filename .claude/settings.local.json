@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./MultiClientTests.exe --server=server/server.exe --workdir=test_multi_run)",
+      "Bash(./output/tests/MultiClientTests.exe --server=output/server/server.exe --workdir=output/test_multi_run)"
+    ]
+  }
+}
