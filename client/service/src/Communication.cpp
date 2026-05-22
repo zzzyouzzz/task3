@@ -192,7 +192,7 @@ ErrorCode Communication::queryParcels(const std::string& Id, const std::string& 
     if (!parseResponse(resp, status, data) || data.empty()) return ErrorCode::INVALID_ARGS;
     parcels.clear();
     for (int i = 0; i + 9 < data.size(); i += 10) {
-        Parcel parcel(static_cast<ParcelType>(std::stoi(data[i])), data[i + 1], data[i + 2], data[i + 3], static_cast<time_t>(std::stoi(data[i + 4])), static_cast<time_t>(std::stoi(data[i + 5])),
+        Parcel parcel(static_cast<ParcelType>(std::stoi(data[i])), data[i + 1], data[i + 2], data[i + 3], static_cast<time_t>(std::stoll(data[i + 4])), static_cast<time_t>(std::stoll(data[i + 5])),
                         static_cast<ParcelStatus>(std::stoi(data[i + 6])), data[i + 7], std::stod(data[i + 8]),
                         data[i + 9]);
         parcels.push_back(parcel);
