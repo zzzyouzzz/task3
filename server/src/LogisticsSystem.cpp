@@ -40,6 +40,7 @@ LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string&
     m_saveVersion = std::max({userVer, parcelVer, configVer});
     // 确保至少有一个管理员账号
     if (m_users.find("admin") == m_users.end()) {
+        g_logger.info("No admin account found, creating default admin account: admin/admin123");
         Administrator* admin = new Administrator("admin", "admin123", "System Admin", "000-0000", "Head Office");
         m_users["admin"] = admin;
         saveData();
@@ -64,6 +65,7 @@ LogisticsSystem::LogisticsSystem(const std::string& userFile, const std::string&
         ErrorCode result = queryParcels(parcelsVec, "", "", "", courier, ParcelStatus::PENDING_COLLECTION);
         if (result != ErrorCode::SUCCESS) continue;
         // 计算快递员负载 = 待揽收快递数量
+        g_logger.debug("Courier " + courier + " has " + std::to_string(parcelsVec.size()) + " pending parcels.");
         m_courierCapacity[courier] = static_cast<int>(parcelsVec.size());
     } 
 }
