@@ -1,0 +1,7 @@
+# Client startup configuration
+# ip: server address for client to connect to
+# port: server port for client to connect to
+ip=127.0.0.1
+port=8888
+log_level=FATAL
+
