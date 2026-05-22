@@ -96,4 +96,49 @@ LOGIN|poor|poor123|0|SUCCESS
 SIGN|PCL*|NO_RESULT
 LOGOUT|SUCCESS
 
+# ---- 测试14: 重复登录 ----
+PRINT|===== 测试14: 重复登录 =====
+LOGIN|dupuser|pwd1|0|SUCCESS
+LOGIN|dupuser|pwd1|0|USER_ALREADY_LOGIN
+LOGOUT|SUCCESS
+
+# ---- 测试15: 分配已揽收的包裹 ----
+PRINT|===== 测试15: 分配已揽收的包裹 =====
+# 发一个新包裹 -> assign -> collect (PENDING_SIGN) -> 再 assign 应失败
+LOGIN|dupuser|pwd1|0|SUCCESS
+SEND|dupuser|0|1.0|test_assign_again|SUCCESS
+LOGOUT|SUCCESS
+
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|cour_b|SUCCESS
+LOGOUT|SUCCESS
+
+LOGIN|cour_b|cour_b|1|SUCCESS
+COLLECT|PCL*|SUCCESS
+LOGOUT|SUCCESS
+
+# 包裹已是 PENDING_SIGN, 再次分配应返回 PARCEL_STATUS_INVALID
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|cour_b|PARCEL_STATUS_INVALID
+LOGOUT|SUCCESS
+
+# ---- 测试16: 重复签收已签收包裹 ----
+PRINT|===== 测试16: 重复签收 =====
+LOGIN|dupuser|pwd1|0|SUCCESS
+SIGN|PCL*|SUCCESS
+SIGN|PCL*|NO_RESULT
+LOGOUT|SUCCESS
+
+# ---- 测试17: 删除管理员 ----
+PRINT|===== 测试17: 删除管理员 =====
+LOGIN|admin|admin123|2|SUCCESS
+DELETE_USER|admin|DELETE_BLOCKED
+LOGOUT|SUCCESS
+
+# ---- 测试18: 删除不存在包裹 ----
+PRINT|===== 测试18: 删除不存在包裹 =====
+LOGIN|admin|admin123|2|SUCCESS
+DELETE_PARCEL|NONEXIST|PARCEL_NOT_FOUND
+LOGOUT|SUCCESS
+
 PRINT|===== 异常边界测试完成 =====

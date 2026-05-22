@@ -61,4 +61,18 @@ LOGOUT|SUCCESS
 PRINT|===== 测试9: 未登录不能 SEND =====
 SEND|cust_a|0|1.0|test|PERMISSION_DENIED
 
+# ---- 测试10: 客户 queryParcels 传他人作为 sender+receiver ----
+PRINT|===== 测试10: 客户查询越界sender/receiver =====
+LOGIN|cust_a|cust_a|0|SUCCESS
+# sender+receiver 都≠当前用户 -> INVALID_ARGS
+QUERY_PARCELS||other_sender|other_receiver||3|0|0|INVALID_ARGS|0
+LOGOUT|SUCCESS
+
+# ---- 测试11: 客户 queryUsers 传错误 type ----
+PRINT|===== 测试11: 客户queryUsers传错type =====
+LOGIN|cust_a|cust_a|0|SUCCESS
+# 客户查自己但 type=COURIER(1) -> INVALID_ARGS
+QUERY_USERS|cust_a|1|INVALID_ARGS|0
+LOGOUT|SUCCESS
+
 PRINT|===== 权限测试完成 =====

@@ -61,4 +61,74 @@ QUERY_BALANCE|5005.0
 GET_STATS|SUCCESS|4|1|0|0|1|5005.0
 LOGOUT|SUCCESS
 
+# ---- 阶段6: FRAGILE 包裹全流程 (price=8.0*1.0=8.0) ----
+PRINT|===== 阶段6: FRAGILE包裹 =====
+LOGIN|alice|pwd123|0|SUCCESS
+SEND|charlie|1|1.0|fragile_item|SUCCESS
+# alice: 190 - 8 = 182, 公司池: 5005 + 8 = 5013
+CHECK_BALANCE|182.0
+LOGOUT|SUCCESS
+
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|bob|SUCCESS
+LOGOUT|SUCCESS
+
+LOGIN|bob|pwd456|1|SUCCESS
+COLLECT|PCL*|SUCCESS
+# bob: 105 + 4 = 109, 公司池: 5013 - 4 = 5009
+CHECK_BALANCE|109.0
+LOGOUT|SUCCESS
+
+LOGIN|charlie|pwd789|0|SUCCESS
+SIGN|PCL*|SUCCESS
+LOGOUT|SUCCESS
+
+# ---- 阶段7: BOOK 包裹全流程 (price=2.0*3.0=6.0) ----
+PRINT|===== 阶段7: BOOK包裹 =====
+LOGIN|alice|pwd123|0|SUCCESS
+SEND|charlie|2|3.0|books|SUCCESS
+# alice: 182 - 6 = 176, 公司池: 5009 + 6 = 5015
+CHECK_BALANCE|176.0
+LOGOUT|SUCCESS
+
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|bob|SUCCESS
+LOGOUT|SUCCESS
+
+LOGIN|bob|pwd456|1|SUCCESS
+COLLECT|PCL*|SUCCESS
+# bob: 109 + 3 = 112, 公司池: 5015 - 3 = 5012
+CHECK_BALANCE|112.0
+LOGOUT|SUCCESS
+
+LOGIN|charlie|pwd789|0|SUCCESS
+SIGN|PCL*|SUCCESS
+LOGOUT|SUCCESS
+
+# ---- 阶段8: 修改密码成功路径 ----
+PRINT|===== 阶段8: 修改密码 =====
+LOGIN|charlie|pwd789|0|SUCCESS
+CHANGE_PWD|pwd789|newpwd|SUCCESS
+LOGOUT|SUCCESS
+LOGIN|charlie|newpwd|0|SUCCESS
+# 恢复原密码
+CHANGE_PWD|newpwd|pwd789|SUCCESS
+LOGOUT|SUCCESS
+
+# ---- 阶段9: 删除已签收包裹 ----
+PRINT|===== 阶段9: 删除已签收包裹 =====
+LOGIN|admin|admin123|2|SUCCESS
+DELETE_PARCEL|PCL*|SUCCESS
+# 删除了最后一个包裹(BOOK), 剩余2个(BOOK已删, NORMAL+FRAGILE=2个SIGNED)
+GET_STATS|SUCCESS|4|2|0|0|2|5012.0
+LOGOUT|SUCCESS
+
+# ---- 阶段10: 删除已完成用户 ----
+PRINT|===== 阶段10: 删除已完成用户 =====
+LOGIN|admin|admin123|2|SUCCESS
+DELETE_USER|charlie|SUCCESS
+GET_STATS|SUCCESS|3|2|0|0|2|5012.0
+DELETE_USER|nonexistent|USER_NOT_FOUND
+LOGOUT|SUCCESS
+
 PRINT|===== 全流程测试通过 =====
