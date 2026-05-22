@@ -91,8 +91,8 @@ void Server::start(const std::string& listenIp, int port) {
             for (auto it = m_userMap.begin(); it != m_userMap.end(); ) {
                 socket_t sock = it->first;
                 ClientHandler& client = it->second;
-                if (time(nullptr) - client.getLastActiveTime() > MAX_IDLE_TIME) {
-                    g_logger.info("Client " + std::to_string(sock) + " idle for " + std::to_string(MAX_IDLE_TIME) + " seconds, closing connection.");
+                if (time(nullptr) - client.getLastActiveTime() > m_maxIdleTime) {
+                    g_logger.info("Client " + std::to_string(sock) + " idle for " + std::to_string(m_maxIdleTime) + " seconds, closing connection.");
                     // 客户端超时，断开连接
                     CLOSE_SOCKET(sock);
                     client.handleLogout({});

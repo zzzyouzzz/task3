@@ -61,6 +61,10 @@ private:
     bool cmdCheckFile(const std::vector<std::string>& args);
     bool cmdCheckBalance(const std::vector<std::string>& args);
     bool cmdPrint(const std::vector<std::string>& args);
+    bool cmdRestartServer(const std::vector<std::string>& args);
+    bool cmdReconnect(const std::vector<std::string>& args);
+    bool cmdGenParcels(const std::vector<std::string>& args);
+    bool cmdConfig(const std::vector<std::string>& args);
 
     // Utilities
     std::string resolveParcelId(const std::string& raw);

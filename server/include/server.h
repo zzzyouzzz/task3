@@ -31,7 +31,6 @@
 #endif
 
 const int MAX_BUF = 4096;   // 接收缓冲区大小
-const int MAX_IDLE_TIME = 60 *3; // 最大挂机时间（秒）
 
 
 // ================== 服务器主类 ==================
@@ -43,8 +42,12 @@ private:
     std::atomic<int> m_currentRequestId;                // 当前请求 ID
 
 public:
+    int m_maxIdleTime = 180; // 最大挂机时间（秒），可由 setMaxIdleTime 或配置文件修改
+
     Server()
         : m_listenSocket(INVALID_SOCKET), m_running(false), m_currentRequestId(0) {}
+
+    void setMaxIdleTime(int seconds) { m_maxIdleTime = seconds; }
     
     ~Server() { stop(); }
 

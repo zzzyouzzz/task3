@@ -160,6 +160,7 @@ bool TestRunner::createServerConfig() {
         "port=8888\n"
         "log_level=FATAL\n"
         "auto_assign_courier=false\n"
+        "max_idle_time=180\n"
         "user_file=users.dat\n"
         "parcel_file=parcels.dat\n"
         "config_file=config.dat\n";
@@ -369,6 +370,10 @@ bool TestRunner::executeCommand(const std::string& line, int lineNum) {
     else if (cmd == "WAIT")          return cmdWait(args);
     else if (cmd == "CHECK_FILE")    return cmdCheckFile(args);
     else if (cmd == "CHECK_BALANCE") return cmdCheckBalance(args);
+    else if (cmd == "RESTART_SERVER") return cmdRestartServer(args);
+    else if (cmd == "RECONNECT")      return cmdReconnect(args);
+    else if (cmd == "GEN_PARCELS")    return cmdGenParcels(args);
+    else if (cmd == "CONFIG")         return cmdConfig(args);
     else if (cmd == "PRINT")         return cmdPrint(args);
     else {
         report(false, "未知命令: " + cmd, lineNum);
@@ -403,6 +408,7 @@ bool TestRunner::cmdLogin(const std::vector<std::string>& args) {
     if (ec == ErrorCode::SUCCESS) {
         m_currentUser = user;
         m_currentUserType = type;
+        m_comm.setAutoReconnectInfo(user, pass, type);
     }
     bool ok = expectErrorCode(ec, expected);
     report(ok, "LOGIN " + user + " as " + std::to_string(static_cast<int>(type)), 0);
@@ -670,6 +676,104 @@ bool TestRunner::cmdPrint(const std::vector<std::string>& args) {
     if (!args.empty()) {
         std::cout << "  [INFO] " << args[0] << "\n";
     }
+    return true;
+}
+
+// ======================== 新增命令 ========================
+
+bool TestRunner::cmdRestartServer(const std::vector<std::string>& args) {
+    // RESTART_SERVER|expectedCode
+    if (args.empty()) { report(false, "RESTART_SERVER: 参数不足", 0); return false; }
+    std::string expected = args[0];
+
+    m_comm.disconnect();
+    stopServer();
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    if (!startServer()) {
+        report(false, "RESTART_SERVER: 服务端启动失败", 0);
+        return false;
+    }
+    if (!waitForServerReady()) {
+        report(false, "RESTART_SERVER: 服务端未就绪", 0);
+        return false;
+    }
+    // 重建 TCP 连接（不登录），后续通过 LOGIN 或 RECONNECT 恢复会话
+    if (!m_comm.connectToServer(m_opts.clientIp, m_opts.clientPort)) {
+        report(false, "RESTART_SERVER: 重建连接失败", 0);
+        return false;
+    }
+    bool ok = expectErrorCode(ErrorCode::SUCCESS, expected);
+    report(ok, "RESTART_SERVER", 0);
+    return ok;
+}
+
+bool TestRunner::cmdReconnect(const std::vector<std::string>& args) {
+    // RECONNECT|expectedCode
+    if (args.empty()) { report(false, "RECONNECT: 参数不足", 0); return false; }
+    std::string expected = args[0];
+
+    bool ok = m_comm.reconnectAndRelogin();
+    if (!ok) {
+        report(false, "RECONNECT 失败", 0);
+        return false;
+    }
+    bool ecOk = expectErrorCode(ErrorCode::SUCCESS, expected);
+    report(ecOk, "RECONNECT", 0);
+    return ecOk;
+}
+
+bool TestRunner::cmdGenParcels(const std::vector<std::string>& args) {
+    // GEN_PARCELS|count|type|sender|receiver|weight|desc
+    if (args.size() < 6) { report(false, "GEN_PARCELS: 参数不足", 0); return false; }
+    int count = std::stoi(args[0]);
+    int type = std::stoi(args[1]);
+    std::string sender = args[2];
+    std::string receiver = args[3];
+    double weight = std::stod(args[4]);
+    std::string desc = args[5];
+
+    std::string parcelsPath = m_opts.workDir + "/parcels.dat";
+    std::ofstream ofs(parcelsPath, std::ios::app);
+    if (!ofs) { report(false, "GEN_PARCELS: 无法打开 parcels.dat", 0); return false; }
+
+    time_t now = time(nullptr);
+    for (int i = 0; i < count; ++i) {
+        std::ostringstream id;
+        id << "PCLGEN" << std::setw(4) << std::setfill('0') << (i + 1);
+        // type|id|sender|receiver|sendTime|recvTime|status|desc|weight|courier
+        ofs << type << "|" << id.str() << "|" << sender << "|" << receiver
+            << "|" << now << "|0|0|" << desc << "|" << weight << "|\n";
+    }
+    ofs.close();
+
+    report(true, "GEN_PARCELS count=" + std::to_string(count), 0);
+    return true;
+}
+
+bool TestRunner::cmdConfig(const std::vector<std::string>& args) {
+    // CONFIG|key|value
+    if (args.size() < 2) { report(false, "CONFIG: 参数不足", 0); return false; }
+    std::string key = args[0], value = args[1];
+    std::string configPath = m_opts.workDir + "/server_config.txt";
+    std::ifstream ifs(configPath);
+    if (!ifs) { report(false, "CONFIG: 无法打开 server_config.txt", 0); return false; }
+    std::vector<std::string> lines;
+    std::string line;
+    bool found = false;
+    while (std::getline(ifs, line)) {
+        if (line.find(key + "=") == 0) {
+            line = key + "=" + value;
+            found = true;
+        }
+        lines.push_back(line);
+    }
+    ifs.close();
+    if (!found) lines.push_back(key + "=" + value);
+    std::ofstream ofs(configPath);
+    if (!ofs) { report(false, "CONFIG: 无法写入 server_config.txt", 0); return false; }
+    for (const auto& l : lines) ofs << l << "\n";
+    ofs.close();
+    report(true, "CONFIG " + key + "=" + value, 0);
     return true;
 }
 

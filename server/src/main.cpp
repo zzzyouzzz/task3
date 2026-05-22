@@ -2,7 +2,7 @@
 
 // 从配置文件加载启动参数，忽略空行和 # 注释
 static bool loadStartupConfig(const std::string& filename, std::string& ip, int& port, std::string& logLevelName,
-                              std::string& userFile, std::string& parcelFile, std::string& configFile, bool& autoAssignCourier, bool& consoleOutput) {
+                              std::string& userFile, std::string& parcelFile, std::string& configFile, bool& autoAssignCourier, bool& consoleOutput, int& maxIdleTime) {
     std::ifstream file(filename);
     if (!file.is_open()) return false;
 
@@ -42,6 +42,10 @@ static bool loadStartupConfig(const std::string& filename, std::string& ip, int&
             } else if (output == "both") {
                 consoleOutput = true;
             }
+        } else if (key == "max_idle_time") {
+            try {
+                maxIdleTime = std::stoi(value);
+            } catch (...) {}
         }
     }
     return !ip.empty() && port > 0;
@@ -70,6 +74,7 @@ int main() {
     std::string configFile = "config.dat";
     bool autoAssignCourier = false;
     bool consoleOutput = true;
+    int maxIdleTime = 180;
 
     if (!g_logger.initialize("server.log", LOG_INFO, consoleOutput)) {
         std::cerr << "Failed to initialize logger!" << std::endl;
@@ -78,7 +83,7 @@ int main() {
     g_logger.info("Logger initialized with default INFO level");
 
     if (loadStartupConfig("server_config.txt", listenIp, listenPort, logLevelName,
-                          userFile, parcelFile, configFile, autoAssignCourier, consoleOutput)) {
+                          userFile, parcelFile, configFile, autoAssignCourier, consoleOutput, maxIdleTime)) {
         g_logger.info("Loaded server startup config from server_config.txt");
     } else {
         g_logger.warning("Failed to load server_config.txt, using default settings");
@@ -100,6 +105,7 @@ int main() {
     try {
         m_system = new LogisticsSystem(userFile, parcelFile, configFile, autoAssignCourier);
         server = new Server();
+        server->setMaxIdleTime(maxIdleTime);
     } catch (const std::exception& e) {
         g_logger.error("Failed to initialize logistics system: " + std::string(e.what()));
         return 1;

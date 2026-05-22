@@ -157,6 +157,8 @@ config_file = config.dat
 auto_assign_courier = false
 # 日志输出方式: console / file / both
 log_output = both
+# 最大空闲超时(秒): 客户端超过此时间无活动即断开连接
+max_idle_time = 180
 ```
 
 ### 客户端配置 (`client_config.txt`)
@@ -429,9 +431,12 @@ task3/
 │   ├── dataset_tests.cpp           # 数据集文件加载测试
 │   ├── test_runner.h               # 集成测试框架声明
 │   ├── test_runner.cpp             # 集成测试框架实现（server管理/命令解析/断言）
-│   ├── full_scenario.in            # 全流程 Happy Path 测试脚本（34项）
-│   ├── permission_test.in          # 权限验证测试脚本（40项）
-│   ├── edge_case_test.in           # 异常/边界测试脚本（59项）
+│   ├── full_scenario.in            # 全流程 Happy Path 测试脚本（82项）
+│   ├── permission_test.in          # 权限验证测试脚本（48项）
+│   ├── edge_case_test.in           # 异常/边界测试脚本（89项）
+│   ├── large_packet_test.in        # 大数据包传送测试脚本（43项）
+│   ├── reconnect_test.in           # 断线重连测试脚本（68项）
+│   ├── keepalive_test.in           # 连接保活/超时测试脚本（55项）
 │   └── data/                       # 测试数据
 │       ├── full_users.dat          # 预置完整用户数据
 │       ├── full_parcels.dat        # 预置完整包裹数据
@@ -509,6 +514,9 @@ ctest --output-on-failure
 ./output/tests/CommonTests.exe
 ./output/tests/DataSetTests.exe
 ./output/tests/IntegrationTest.exe --input=../tests/full_scenario.in --server=../output/server/server.exe
+./output/tests/IntegrationTest.exe --input=../tests/large_packet_test.in --server=../output/server/server.exe
+./output/tests/IntegrationTest.exe --input=../tests/reconnect_test.in --server=../output/server/server.exe
+./output/tests/IntegrationTest.exe --input=../tests/keepalive_test.in --server=../output/server/server.exe
 ```
 
 ### 测试覆盖
@@ -517,7 +525,7 @@ ctest --output-on-failure
 |---------|---------|
 | **CommonTests** | 协议编解码、日志级别解析、日志文件写入、请求-响应往返测试 |
 | **DataSetTests** | 预置数据集的完整加载校验（4 用户 + 3 快递 + 配置） |
-| **IntegrationTest** | 全流程自动化集成测试，共计 **219 项测试**，覆盖三大场景 |
+| **IntegrationTest** | 全流程自动化集成测试，共计 **385 项测试**，覆盖六大场景 |
 
 #### 集成测试场景
 
@@ -526,6 +534,9 @@ ctest --output-on-failure
 | `full_scenario.in` | 82 | 快递完整生命周期：NORMAL/FRAGILE/BOOK 三种包裹类型的完整流程（发件→分配→揽收→签收），资金流动验证（寄件人扣款→公司池收款→快递员佣金结算），`GET_STATS` 全局统计校验，修改密码成功路径，删除已签收包裹，删除已完成用户 |
 | `permission_test.in` | 48 | 11 种权限越界场景：客户越权分配/揽收/删除/查询越界，快递员越权签收/统计/发件，未登录操作拦截，客户 queryUsers 传错 type 等 |
 | `edge_case_test.in` | 89 | 18 种异常/边界场景：重复注册、错误密码、余额不足、充值负数、包裹/用户不存在、脏数据删除拦截、跨用户越权操作、重复登录、分配已揽收包裹、重复签收、删除管理员、删除不存在包裹等 |
+| `large_packet_test.in` | 43 | 大数据包传送：150 个预置包裹（响应 > 4096 字节），大数据量全生命周期业务操作，数据完整性验证 |
+| `reconnect_test.in` | 68 | 断线重连：服务器运行中重启 + `RECONNECT` 恢复会话，重连后业务连续性，3 轮多重启/重连，切换用户重连 |
+| `keepalive_test.in` | 55 | 连接保活/超时：`max_idle_time` 超时断开（3s），活动连接不被误断，超时断开后 RECONNECT 恢复，恢复默认 180s 超时 |
 
 #### 集成测试架构
 
