@@ -115,11 +115,10 @@ void Server::start(const std::string& listenIp, int port) {
 
                 // 设置客户端 socket 为非阻塞模式
                 #ifdef _WIN32
-                u_long ulTrue = 1;
-                ioctlsocket(clientSocket, FIONBIO, &ulTrue);
-                #endif
-                #ifdef __linux__
-                fcntl(clientSocket, F_SETFL, O_NONBLOCK);
+                    u_long ulTrue = 1;
+                    ioctlsocket(clientSocket, FIONBIO, &ulTrue);
+                #else
+                    fcntl(clientSocket, F_SETFL, O_NONBLOCK);
                 #endif
 
                 // 创建客户端连接进程
@@ -150,13 +149,14 @@ void Server::stop() {
     m_running = false;
     g_logger.info("Server stopping...");
     if (m_listenSocket != INVALID_SOCKET) CLOSE_SOCKET(m_listenSocket);
+    m_listenSocket = INVALID_SOCKET;
     for (auto client : m_userMap) {
         CLOSE_SOCKET(client.first);
     }
     m_userMap.clear();
-#ifdef _WIN32
-    WSACleanup();
-#endif
+    #ifdef _WIN32
+        WSACleanup();
+    #endif
     g_logger.info("Server stopped successfully");
 }
 
@@ -165,18 +165,23 @@ bool Server::handleClientRequest(ClientHandler& client, socket_t sock){
         char buffer[MAX_BUF];
         memset(buffer, 0, sizeof(buffer));
         int ret = recv(sock, buffer, sizeof(buffer)-1, 0);
-        if (ret >= 0){
-            if(ret == 0) return false;
-        } else {
+        if (ret >= 0){// 正常接收数据
+            if(ret == 0) {
+                g_logger.info("Client " + std::to_string(sock) + " disconnected.");
+                return false;// 客户端断开连接
+            }
+        } else {// 接收数据失败
             #ifdef _WIN32
-            ret = WSAGetLastError();
-            if (ret == WSAEWOULDBLOCK) return true;
-            else return false;
-            #endif
-            #ifdef __linux__
-            int err = errno;
-            if (err == EWOULDBLOCK || err == EAGAIN) return true;
-            else return false;
+                ret = WSAGetLastError();
+                if (ret == WSAEWOULDBLOCK) return true;// 非阻塞模式下，无数据可读
+                else {
+                    g_logger.error("Error receiving data from client " + std::to_string(sock) + ": " + std::to_string(ret));
+                    return false;// 其他错误
+                }
+            #else
+                int err = errno;
+                if (err == EWOULDBLOCK || err == EAGAIN) return true;
+                else return false;
             #endif
         }
         client.pushBuffer(std::string(buffer, ret));
@@ -188,11 +193,35 @@ bool Server::handleClientRequest(ClientHandler& client, socket_t sock){
 
         m_currentRequestId++;
 
-        if (send(sock, response.c_str(), static_cast<int>(response.size()), 0) == SOCKET_ERROR) {
-            g_logger.error("req=" + std::to_string(m_currentRequestId - 1) + " Error sending response");
-            return false;
+        const char* ptr = response.c_str();
+        size_t total = response.size();
+        size_t sent = 0;
+        while (sent < total) {
+            int ret = send(sock, ptr + sent, total - sent, 0);
+            if (ret > 0) sent += ret;
+            else {
+                #ifdef _WIN32
+                    int err = WSAGetLastError();
+                    if (err == WSAEWOULDBLOCK) {
+                        // 非阻塞模式下，发送缓冲区满了，稍后重试
+                        g_logger.debug("Client " + std::to_string(sock) + " send buffer full, retry in 10ms.");
+                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        continue;
+                    } 
+                #else
+                    if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                        // 非阻塞模式下，发送缓冲区满了，稍后重试
+                        g_logger.debug("Client " + std::to_string(sock) + " send buffer full, retry in 10ms.");
+                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        continue;
+                    }
+                #endif
+                // 其他错误
+                g_logger.error("req=" + std::to_string(m_currentRequestId - 1) + " Error sending response"); 
+                return false;
+            }
         }
     }
-    
+    return true; 
 }
 

@@ -12,3 +12,4 @@ auto_assign_courier=true
 user_file=users.dat
 parcel_file=parcels.dat
 config_file=config.dat
+log_output = both
