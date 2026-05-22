@@ -1,0 +1,91 @@
+# ==================================================
+# 大数据包传送测试
+# ==================================================
+# 目标: 验证 QUERY_PARCELS 返回大量包裹时（响应 > 4096 字节）
+#       客户端 recv 循环能否正确重组完整报文
+# ==================================================
+
+# ---- 阶段1: 生成 150 个预置包裹 ----
+PRINT|===== 阶段1: 生成大数据包环境 =====
+# 直接在 parcels.dat 中追加 150 条记录
+GEN_PARCELS|150|0|alice|charlie|1.0|bulk
+RESTART_SERVER|SUCCESS
+
+# 管理员登录验证数据完整性
+LOGIN|admin|admin123|2|SUCCESS
+# 初始: users=4, parcels=150, pending=150, collected=0, signed=0, pool=5000
+GET_STATS|SUCCESS|4|150|150|0|0|5000.0
+
+# ---- 阶段2: 大数据查询 ----
+PRINT|===== 阶段2: 大结果集查询 =====
+
+# 查询所有包裹 (大数据响应, >4096 字节)
+QUERY_PARCELS||alice|charlie||3|0|0|SUCCESS|150
+
+# 按单包裹 ID 查询（精确查找）
+QUERY_PARCELS|PCLGEN0001||||3|0|0|SUCCESS|1
+
+# 按状态查询（所有待揽收）
+QUERY_PARCELS|||||0|0|0|SUCCESS|150
+
+# 按寄件人+状态组合查询
+QUERY_PARCELS||alice|||0|0|0|SUCCESS|150
+
+# 不存在的 ID
+QUERY_PARCELS|NONEXIST||||3|0|0|SUCCESS|0
+
+LOGOUT|SUCCESS
+
+# ---- 阶段3: 大数据环境下正常业务操作 ----
+PRINT|===== 阶段3: 大数据下业务操作 =====
+
+# alice 发件
+LOGIN|alice|pwd123|0|SUCCESS
+SEND|charlie|0|2.0|large_data_test|SUCCESS
+CHECK_BALANCE|190.0
+LOGOUT|SUCCESS
+
+# 管理员分配
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|bob|SUCCESS
+# 管理员视角: 所有包裹 151 个
+QUERY_PARCELS||alice|charlie||3|0|0|SUCCESS|151
+# 查询单个包裹分配结果
+QUERY_PARCELS|PCL*|||bob|3|0|0|SUCCESS|1
+LOGOUT|SUCCESS
+
+# ---- 阶段4: 大数据下揽收 ----
+PRINT|===== 阶段4: 大数据下揽收 =====
+LOGIN|bob|pwd456|1|SUCCESS
+COLLECT|PCL*|SUCCESS
+CHECK_BALANCE|105.0
+LOGOUT|SUCCESS
+
+# ---- 阶段5: 大数据下签收 ----
+PRINT|===== 阶段5: 大数据下签收 =====
+LOGIN|charlie|pwd789|0|SUCCESS
+SIGN|PCL*|SUCCESS
+LOGOUT|SUCCESS
+
+# ---- 阶段6: 最终状态验证 ----
+PRINT|===== 阶段6: 最终状态验证 =====
+LOGIN|admin|admin123|2|SUCCESS
+# 150 生成包裹仍为 PENDING_COLLECTION(0), 新发包裹已签收(2)
+# GET_STATS: 4 users, 151 parcels, 150 pending, 0 collected, 1 signed, pool=5005
+GET_STATS|SUCCESS|4|151|150|0|1|5005.0
+# 再次全量查询验证（大数据量）
+QUERY_PARCELS||alice|charlie||3|0|0|SUCCESS|151
+# 查询已签收
+QUERY_PARCELS||alice|charlie||2|0|0|SUCCESS|1
+LOGOUT|SUCCESS
+
+# ---- 阶段7: 删除测试包裹后环境清理 ----
+PRINT|===== 阶段7: 清理大数据环境 =====
+LOGIN|admin|admin123|2|SUCCESS
+# 删除已签收的测试包裹
+DELETE_PARCEL|PCL*|SUCCESS
+# 150 生成包裹 + 0(删除后) = 150 待揽收
+GET_STATS|SUCCESS|4|150|150|0|0|5005.0
+LOGOUT|SUCCESS
+
+PRINT|===== 大数据包测试完成 =====

@@ -1,0 +1,103 @@
+# ==================================================
+# 连接保活/超时测试
+# ==================================================
+# 目标1: 服务端 MAX_IDLE_TIME 超时后断开空闲连接
+# 目标2: 活动连接不被误断开
+# 目标3: 超时断开后可通过 RECONNECT 恢复会话
+# ==================================================
+
+# ---- 阶段A: 空闲超时断开 + 重连恢复 ----
+PRINT|===== 阶段A: 空闲超时断开 =====
+
+# 先登录一次，保存重连凭据
+LOGIN|alice|pwd123|0|SUCCESS
+LOGOUT|SUCCESS
+
+# 修改 idle timeout 为 3 秒并重启服务端
+CONFIG|max_idle_time|3
+RESTART_SERVER|SUCCESS
+
+# 重连并登录为 alice
+RECONNECT|SUCCESS
+CHECK_BALANCE|200.0
+
+# 等待超过 3 秒空闲超时
+WAIT|5000
+
+# 服务端应已断开连接，LOGIN 应返回 INTERNAL_ERROR
+LOGIN|alice|pwd123|0|INTERNAL_ERROR
+
+# 重连恢复
+RECONNECT|SUCCESS
+CHECK_BALANCE|200.0
+LOGOUT|SUCCESS
+
+# ---- 阶段B: 活动连接不被超时断开 ----
+PRINT|===== 阶段B: 活动连接保持 =====
+
+# max_idle_time 仍为 3 秒，但每 2 秒操作一次，保持连接活跃
+LOGIN|alice|pwd123|0|SUCCESS
+
+WAIT|2000
+CHECK_BALANCE|200.0           # t=2: 活动, 重置计时器
+
+WAIT|2000
+CHECK_BALANCE|200.0           # t=4: 活动, 重置计时器 (实际 idle 最多 2s < 3s)
+
+WAIT|2000
+CHECK_BALANCE|200.0           # t=6
+
+WAIT|2000
+CHECK_BALANCE|200.0           # t=8
+
+WAIT|2000
+CHECK_BALANCE|200.0           # t=10: 全部成功, 活动阻止了超时
+
+LOGOUT|SUCCESS
+
+# ---- 阶段C: 超时断开后业务恢复 ----
+PRINT|===== 阶段C: 超时后业务恢复 =====
+
+LOGIN|bob|pwd456|1|SUCCESS
+CHECK_BALANCE|100.0
+WAIT|5000
+LOGIN|bob|pwd456|1|INTERNAL_ERROR
+RECONNECT|SUCCESS
+CHECK_BALANCE|100.0
+LOGOUT|SUCCESS
+
+# ---- 阶段D: 恢复默认 timeout 后完整流程 ----
+PRINT|===== 阶段D: 恢复默认超时 + 完整流程 =====
+
+CONFIG|max_idle_time|180
+RESTART_SERVER|SUCCESS
+
+# alice 发件
+LOGIN|alice|pwd123|0|SUCCESS
+SEND|charlie|0|2.0|keepalive_recovery|SUCCESS
+CHECK_BALANCE|190.0
+LOGOUT|SUCCESS
+
+# admin 分配
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|bob|SUCCESS
+LOGOUT|SUCCESS
+
+# bob 揽收
+LOGIN|bob|pwd456|1|SUCCESS
+COLLECT|PCL*|SUCCESS
+CHECK_BALANCE|105.0
+LOGOUT|SUCCESS
+
+# charlie 签收
+LOGIN|charlie|pwd789|0|SUCCESS
+SIGN|PCL*|SUCCESS
+LOGOUT|SUCCESS
+
+# admin 最终验证
+LOGIN|admin|admin123|2|SUCCESS
+GET_STATS|SUCCESS|4|1|0|0|1|5005.0
+DELETE_PARCEL|PCL*|SUCCESS
+LOGOUT|SUCCESS
+
+PRINT|===== 连接保活测试完成 =====

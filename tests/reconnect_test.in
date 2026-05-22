@@ -1,0 +1,115 @@
+# ==================================================
+# 断线重连测试
+# ==================================================
+# 目标: 验证服务器运行中重启后,
+#       Communication::reconnectAndRelogin() 能恢复会话
+# ==================================================
+
+# ---- 阶段1: 基础重连 ----
+PRINT|===== 阶段1: 基础重连 =====
+LOGIN|alice|pwd123|0|SUCCESS
+CHECK_BALANCE|200.0
+
+# 重启服务端
+RESTART_SERVER|SUCCESS
+# 重连+重新登录 (恢复 alice 会话)
+RECONNECT|SUCCESS
+# 验证余额不变
+CHECK_BALANCE|200.0
+LOGOUT|SUCCESS
+
+# ---- 阶段2: 重连后业务连续性 ----
+PRINT|===== 阶段2: 重连后业务连续性 =====
+LOGIN|alice|pwd123|0|SUCCESS
+SEND|charlie|0|2.0|reconnect_test|SUCCESS
+CHECK_BALANCE|190.0
+
+# 重启
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+# 发件后数据已持久化, 余额应为 190
+CHECK_BALANCE|190.0
+LOGOUT|SUCCESS
+
+# ---- 阶段3: 多重启/重连 (3轮) ----
+PRINT|===== 阶段3: 多重启/重连 =====
+LOGIN|admin|admin123|2|SUCCESS
+
+# 第1轮
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+# 管理员登录后验证统计数据
+GET_STATS|SUCCESS|4|1|1|0|0|5010.0
+
+# 第2轮
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+GET_STATS|SUCCESS|4|1|1|0|0|5010.0
+
+# 第3轮
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+GET_STATS|SUCCESS|4|1|1|0|0|5010.0
+
+LOGOUT|SUCCESS
+
+# ---- 阶段4: 重连后完整业务流程 ----
+PRINT|===== 阶段4: 重连后完整业务流程 =====
+
+# admin 分配
+LOGIN|admin|admin123|2|SUCCESS
+ASSIGN|PCL*|bob|SUCCESS
+# 重启后验证分配
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+QUERY_PARCELS||alice|charlie|bob|3|0|0|SUCCESS|1
+LOGOUT|SUCCESS
+
+# bob 揽收
+LOGIN|bob|pwd456|1|SUCCESS
+COLLECT|PCL*|SUCCESS
+CHECK_BALANCE|105.0
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+# 验证揽收后余额持久化
+CHECK_BALANCE|105.0
+LOGOUT|SUCCESS
+
+# charlie 签收
+LOGIN|charlie|pwd789|0|SUCCESS
+SIGN|PCL*|SUCCESS
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+# 验证签收成功
+LOGOUT|SUCCESS
+
+# 最终验证
+PRINT|===== 阶段4验证 =====
+LOGIN|admin|admin123|2|SUCCESS
+GET_STATS|SUCCESS|4|1|0|0|1|5005.0
+
+# 重连后删除
+DELETE_PARCEL|PCL*|SUCCESS
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+GET_STATS|SUCCESS|4|0|0|0|0|5005.0
+LOGOUT|SUCCESS
+
+# ---- 阶段5: 重连时切换用户 ----
+PRINT|===== 阶段5: 重连切换用户 =====
+LOGIN|alice|pwd123|0|SUCCESS
+CHECK_BALANCE|190.0
+RESTART_SERVER|SUCCESS
+# RECONNECT 恢复为 alice
+RECONNECT|SUCCESS
+CHECK_BALANCE|190.0
+LOGOUT|SUCCESS
+
+LOGIN|bob|pwd456|1|SUCCESS
+CHECK_BALANCE|105.0
+RESTART_SERVER|SUCCESS
+RECONNECT|SUCCESS
+CHECK_BALANCE|105.0
+LOGOUT|SUCCESS
+
+PRINT|===== 断线重连测试完成 =====
