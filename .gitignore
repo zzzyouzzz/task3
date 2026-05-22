@@ -22,6 +22,7 @@ Thumbs.db
 .vscode/
 *.suo
 *.user
+.claude/
 
 # 环境依赖
 node_modules/

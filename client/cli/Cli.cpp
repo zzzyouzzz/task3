@@ -48,6 +48,7 @@ bool LogisticsClient::readString(const std::string& prompt, std::string& value) 
             std::cout << "输入不能为空。\n";
             continue;
         }
+        for (char& c : value) if (c == '|') c = ';';
         return true;
     }
 }
