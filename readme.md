@@ -124,9 +124,9 @@ output/
 ├── server/
 │   └── server.exe              # 服务器程序
 └── tests/
-    ├── CommonTests.exe         # 公共模块单元测试
+    ├── CommonTests.exe         # 公共模块单元测试（协议、日志）
     ├── DataSetTests.exe        # 数据集加载完整性测试
-    └── IntegrationTest.exe     # 全流程自动化集成测试
+    └── IntegrationTest.exe     # 全流程自动化集成测试（脚本解释器模式）
 ```
 
 ---
@@ -227,6 +227,19 @@ port = 8888
 
 **文件**: `config.dat`
 
+### 文件格式：版本头
+
+所有数据文件首行为版本头 `V=版本号`（整数递增），用于事务一致性校验：
+
+```
+V=1
+<数据行 1>
+<数据行 2>
+...
+```
+
+启动时 `LogisticsSystem` 比较三个数据文件（users.dat / parcels.dat / config.dat）的版本号，若不匹配则记录警告。每次 `saveData()` 将版本号 +1 后同时写入三个文件，保证跨文件事务一致性。写操作采用**临时文件写入 + `rename()` 原子重命名**策略，防止写操作中途崩溃导致文件损坏。
+
 ### 数据生命周期
 
 ```
@@ -257,7 +270,7 @@ FileManager::loadUsers()  / loadParcels() / loadConfig()
 | 发送快递 | ✅ | ❌ | ❌ |
 | 签收快递 | ✅ | ❌ | ❌ |
 | 查询快递 | ✅（仅本人相关） | ✅（仅分配到的） | ✅（全部） |
-| 充值余额 | ✅ | ✅ | ❌ |
+| 充值余额 | ✅ | ❌ | ❌ |
 | 查询余额 | ✅ | ✅ | ✅（公司资金池） |
 | 修改密码 | ✅ | ✅ | ✅ |
 | 分配快递员 | ❌ | ❌ | ✅ |
@@ -270,15 +283,16 @@ FileManager::loadUsers()  / loadParcels() / loadConfig()
 ### 业务功能
 
 1. **用户注册** — 任何人可注册为客户或快递员，用户名唯一
-2. **用户登录** — 校验用户名、密码、角色三重匹配
-3. **发送快递** — 客户填写收件人、类型（普通/易碎/书籍）、重量/数量、物品描述，系统自动扣费并生成唯一单号
-4. **快递分配** — 管理员将待揽收快递分配给指定快递员（支持自动分配策略）
-5. **快递揽收** — 快递员确认揽收，从公司资金池结算 50% 运费作为佣金
-6. **快递签收** — 收件客户确认签收，记录签收时间
-7. **快递查询** — 多条件组合查询（单号/寄件人/收件人/快递员/状态/时间范围）
-8. **用户管理** — 管理员查询/删除用户（仅可删除已完成的用户）
-9. **余额管理** — 充值、查询余额、密码修改
-10. **统计报表** — 管理员查看全局统计数据（总包裹数/用户数/资金池余额）
+2. **用户登录/注销** — 校验用户名、密码、角色三重匹配；登录去重（禁止重复登录）
+3. **发送快递** — 客户填写收件人、类型（普通/易碎/书籍）、重量/数量、物品描述，系统自动扣费并生成唯一单号（格式 `PCL{时间戳}-{递增序号}`）
+4. **快递分配** — 管理员将待揽收快递分配给指定快递员；支持**自动分配策略**：系统选择当前负载最少的快递员
+5. **快递揽收** — 快递员批量揽收，从公司资金池结算 50% 运费作为佣金入快递员个人余额
+6. **快递签收** — 收件客户批量签收，记录签收时间
+7. **快递查询** — 多条件组合查询（单号/寄件人/收件人/快递员/状态/时间范围），不同角色可见范围不同
+8. **用户管理** — 管理员查询/删除用户（仅可删除已完成全部业务的用户，不可删除管理员自身）
+9. **余额管理** — 充值、查询余额（管理员查询公司资金池）、密码修改
+10. **快递删除** — 管理员删除已签收的快递记录
+11. **统计报表** — 管理员查看全局统计数据（总用户数/总包裹数/待揽收/已揽收/已签收/资金池余额）
 
 ---
 
@@ -299,17 +313,19 @@ FileManager::loadUsers()  / loadParcels() / loadConfig()
 命令|参数1|参数2|...\n
 
 # 响应格式
-RESPONSE|状态|错误码(可选)|数据1|数据2|...\n
+RESPONSE|状态码|数据1|数据2|...\n
 
 # 示例：登录请求
 LOGIN|alice|mypassword|0\n
 
-# 示例：登录成功响应
-RESPONSE|OK|alice|0\n
+# 示例：登录成功响应（状态码 0 = SUCCESS）
+RESPONSE|0|alice|0\n
 
-# 示例：登录失败响应
-RESPONSE|ERROR|9|Login failed\n
+# 示例：登录失败响应（状态码 9 = LOGIN_FAILED）
+RESPONSE|9|Login failed\n
 ```
+
+> 状态码采用数字枚举（`ErrorCode`），0 表示成功，非 0 表示对应的错误类型。
 
 ### 半包处理机制
 
@@ -320,7 +336,7 @@ RESPONSE|ERROR|9|Login failed\n
 服务端采用**累积缓冲区策略**处理：
 
 ```
-[建立连接] → [创建 Client_info]
+[建立连接] → [创建 ClientHandler]
      ↓
 [recv() 读取数据] → [追加到 buf 缓冲区]
      ↓
@@ -340,45 +356,49 @@ RESPONSE|ERROR|9|Login failed\n
 
 > **不对称设计分析**：在当前的同步请求-响应模式下，服务端对客户端请求的半包处理几乎不会被触发——客户端请求通常只有几十字节，远小于 TCP 分片阈值，且每次发送一个请求后即等待响应，不存在流水线发送。该缓存机制属于防御性设计，当前场景下英雄无用武之地。
 >
-> **反观客户端读取服务端响应则存在真正的风险**：`QUERY_PARCEL` 等查询操作的响应可能包含大量快递的序列化数据（轻松超过 4096 字节），远超单个 TCP 报文段大小（通常 1460 字节），必然被分片。然而客户端 `Communication.cpp` 目前采用单次 `recv()` 最多 4096 字节的简单读取方式，**没有累积缓冲区处理**——若响应被分片或多条响应粘合到达，将导致数据截断或解析错位。
+> **反观客户端读取服务端响应**：`QUERY_PARCEL` 等查询操作的响应可能包含大量快递的序列化数据，必然被 TCP 分片。客户端 `sendRequest` 通过 **循环 `recv()` + `\n` 边界检测**处理大包接收：自增拼接缓冲区直到收到换行符，确保完整报文到达后再解析。
 >
 > | 方向 | 数据大小 | 分片风险 | 当前处理 | 正确性 |
 > |------|---------|---------|---------|:------:|
 > | 客户端 → 服务端（请求） | 小（< 100 字节） | 极低 | 有累积缓冲区 | 防御性设计 |
-> | 服务端 → 客户端（响应） | 可能很大 | 高 | 单次 recv()，无缓存 | 待完善 |
+> | 服务端 → 客户端（响应） | 可能很大 | 高 | 循环 recv + \n 边界检测 | 已完善 |
 >
-> 服务端保留此设计没有坏处——每个连接仅多一个 `std::string` 的开销。若日后改为异步流水线或多请求复用模式，它自然派上用场。
+> 服务端保留此设计没有坏处——每个连接仅多一个 `std::string` 的开销。若日后改为异步流水线或多请求复用模式，它自然派有用场。
 
 ### 进程上下文设计
 
-服务端为每个客户端连接维护一个上下文结构 `Client_info`：
+服务端为每个客户端连接维护一个 `ClientHandler` 对象（已从最初的 `Client_info` 结构体演化为完整类）：
 
 ```cpp
-typedef struct client_info {
-    socket_t socket;        // 客户端 socket 文件描述符
-    User* user;             // 当前登录用户指针（nullptr 表示未登录）
-    std::string buf;        // 累积接收缓冲区，用于 TCP 半包重组
-} Client_info;
+class ClientHandler {
+    int requestId;              // 当前请求递增 ID（日志追踪）
+    time_t lastActiveTime;      // 最后活跃时间（空闲超时检测）
+    std::string m_currentUser;  // 当前登录用户名（空 = 未登录）
+    UserType m_userType;        // 当前登录用户类型
+    std::string buf;            // 累积接收缓冲区，用于 TCP 半包重组
+};
 ```
 
 设计意义：
-- **会话保持**: 记录每个连接的登录状态，区分已登录/未登录用户
+- **会话保持**: 记录每个连接的登录状态与用户类型，区分已登录/未登录用户
+- **空闲超时**: 记录最后活跃时间，配合 `max_idle_time` 配置自动断开僵尸连接
 - **半包缓存**: 解决 TCP 流式传输的分片问题，在收到完整 `\n` 终止报文前暂存数据
-- **每个连接一份**: 在单线程 select 模型中，各连接的状态天然隔离，不会相互干扰
+- **请求追踪**: 为每个请求分配递增 ID，日志中可追踪从收到到响应的完整链路
+- **权限校验**: 根据 `m_userType` 在命令路由时拦截非法请求（权限校验集中在控制层）
 
-> `Client_info` 本质是一个 **per-connection 状态聚合体**，它将属于同一个连接的数据（socket、登录用户、接收缓冲区）捆绑在一起，避免在多连接场景下状态错乱。其设计与线程挂起/恢复无关——在多线程模型下，这些字段同样是每个连接/每个会话自然的成员变量，并非用于「挂起时释放线程资源」的上下文保存机制。
+服务端通过 `std::map<socket_t, ClientHandler>` 管理所有连接，每个 socket 对应一个 `ClientHandler`——在单线程 select 模型中，各连接的状态天然隔离，不会相互干扰。
+
+> **与协程思想的呼应**：`select` + per-connection `ClientHandler` 在思路上与协程（coroutine）有异曲同工之处——它们都基于**合作式多任务（cooperative multitasking）**：
 >
-> **与协程思想的呼应**：`select` + per-connection `Client_info` 在思路上与协程（coroutine）有异曲同工之处——它们都基于**合作式多任务（cooperative multitasking）**：
->
-> | | select + Client_info | 协程 |
+> | | select + ClientHandler | 协程 |
 > |---|---|:---:|
-> | **并发单位** | 每个连接一个 `Client_info` | 每个 `co_await` 一个协程帧 |
+> | **并发单位** | 每个连接一个 `ClientHandler` | 每个 `co_await` 一个协程帧 |
 > | **挂起点** | 函数返回 → 回到 select 循环 | `co_await` → 挂起当前协程 |
 > | **恢复触发** | select 检测到 socket 可读 | I/O 完成 / 定时器到期 |
-> | **状态保存** | 手动管理：`Client_info` 结构体 | 自动管理：堆上分配的协程帧 |
+> | **状态保存** | 手动管理：`ClientHandler` 成员变量 | 自动管理：堆上分配的协程帧 |
 > | **调度器** | 手写的 select 主循环 | 运行时内置的 executor |
 >
-> 可以把当前的实现看作一个**「手动版协程」**——协程由运行时自动替你保存局部变量和执行位置，这里则通过 `Client_info` 手动保存每个连接的状态，由 select 循环自行调度。如果将来改用 C++20 coroutine，可以用同步的方式写异步代码，不再需要手动管理 `buf` 的累积状态。
+> 可以把当前的实现看作一个**「手动版协程」**——协程由运行时自动替你保存局部变量和执行位置，这里则通过 `ClientHandler` 手动保存每个连接的状态，由 select 循环自行调度。如果将来改用 C++20 coroutine，可以用同步的方式写异步代码，不再需要手动管理 `buf` 的累积状态。
 
 ---
 
@@ -387,69 +407,69 @@ typedef struct client_info {
 ```
 task3/
 ├── CMakeLists.txt                  # 顶层 CMake 构建配置
-├── common.h                        # 公共定义（协议、错误码、工具函数）
 ├── Common/                         # 公共基础库（静态库）
 │   ├── CMakeLists.txt
 │   ├── include/
 │   │   ├── common.h                # 协议常量、错误码、安全解析工具
-│   │   ├── User.h                  # 用户类体系（基类 + 派生）
-│   │   ├── Parcel.h                # 快递类体系（基类 + 派生）
-│   │   └── Logger.h                # 日志系统
+│   │   ├── User.h                  # 用户类体系（基类 + 派生：Customer/Courier/Administrator）
+│   │   ├── Parcel.h                # 快递类体系（基类 + 派生：NormalParcel/FragileParcel/BookParcel）
+│   │   └── Logger.h                # 日志系统（5 级别 + 5MB 自动轮转）
 │   └── src/
-│       ├── common.cpp              # Protocol 实现
-│       └── Logger.cpp              # 日志系统实现（含 5MB 自动轮转）
+│       ├── common.cpp              # Protocol 实现（buildRequest / parseRequest）
+│       └── Logger.cpp              # 日志系统完整实现
 ├── server/                         # 服务端（可执行程序）
 │   ├── CMakeLists.txt
 │   ├── include/
-│   │   ├── server.h                # 服务器主类 + Client_info 上下文
-│   │   ├── LogisticsSystem.h       # 业务逻辑核心类
-│   │   └── FileManager.h           # 文件持久化管理类
+│   │   ├── server.h                # 服务器主类（select 事件循环）
+│   │   ├── ClientHandler.h         # 每连接上下文（登录状态/累积缓冲区/请求处理/权限校验）
+│   │   ├── LogisticsSystem.h       # 业务逻辑核心类（持有全量数据 + 业务方法）
+│   │   └── FileManager.h           # 文件持久化管理类（版本头 + 原子重命名）
 │   └── src/
-│       ├── main.cpp                # 程序入口 + 信号处理
-│       ├── server.cpp              # 网络通信 + 请求分发
-│       ├── LogisticsSystem.cpp     # 业务逻辑实现
-│       └── FileManager.cpp         # 文件读写实现
+│       ├── main.cpp                # 程序入口 + 信号处理（Ctrl+C 优雅关闭）
+│       ├── server.cpp              # 网络通信（select + 非阻塞 socket）
+│       ├── ClientHandler.cpp       # 命令路由 + 权限校验 + handler 实现
+│       ├── LogisticsSystem.cpp     # 业务逻辑实现（用户/快递/计费/统计）
+│       └── FileManager.cpp         # 文件序列化/反序列化实现
 ├── client/
 │   ├── cli/                        # CLI 命令行客户端
 │   │   ├── CMakeLists.txt
 │   │   ├── Cli.h                   # 命令行界面类
-│   │   ├── Cli.cpp                 # 界面交互实现
+│   │   ├── Cli.cpp                 # UI 交互实现（菜单/输入/错误处理/自动重连）
 │   │   └── main.cpp                # 客户端入口
 │   ├── qt_ui/                      # Qt 图形界面客户端
 │   │   ├── CMakeLists.txt
-│   │   ├── include/                # Qt 界面头文件
+│   │   ├── include/                # Qt 界面头文件（LoginWindow/UserWindow/CourierWindow 等）
 │   │   └── src/                    # Qt 界面实现
 │   └── service/                    # 客户端通信服务层（静态库）
 │       ├── CMakeLists.txt
 │       ├── include/
-│       │   └── Communication.h     # 网络通信封装类
+│       │   └── Communication.h     # 网络通信封装类（含自动重连凭据管理）
 │       └── src/
-│           └── Communication.cpp   # 通信实现
+│           └── Communication.cpp   # 通信实现（累积缓冲区 + \n 边界检测 + reconnect）
 ├── tests/                          # 单元测试与集成测试
 │   ├── CMakeLists.txt
-│   ├── common_tests.cpp            # 公共模块测试（协议、日志）
-│   ├── dataset_tests.cpp           # 数据集文件加载测试
+│   ├── common_tests.cpp            # 公共模块测试（协议编解码、日志级别、文件写入）
+│   ├── dataset_tests.cpp           # 数据集文件加载校验（4 用户 + 3 快递 + 配置）
 │   ├── test_runner.h               # 集成测试框架声明
-│   ├── test_runner.cpp             # 集成测试框架实现（server管理/命令解析/断言）
-│   ├── full_scenario.in            # 全流程 Happy Path 测试脚本（82项）
-│   ├── permission_test.in          # 权限验证测试脚本（48项）
-│   ├── edge_case_test.in           # 异常/边界测试脚本（89项）
-│   ├── large_packet_test.in        # 大数据包传送测试脚本（43项）
-│   ├── reconnect_test.in           # 断线重连测试脚本（68项）
-│   ├── keepalive_test.in           # 连接保活/超时测试脚本（55项）
-│   └── data/                       # 测试数据
-│       ├── full_users.dat          # 预置完整用户数据
-│       ├── full_parcels.dat        # 预置完整包裹数据
-│       ├── full_config.dat         # 预置配置数据
-│       ├── test_users.dat          # 集成测试预制用户
-│       ├── test_parcels.dat        # 集成测试预制包裹（空）
-│       └── test_config.dat         # 集成测试初始化公司池 5000.0
+│   ├── test_runner.cpp             # 集成测试脚本解释器（子进程管理/命令解析/断言）
+│   ├── full_scenario.in            # 全流程 Happy Path 测试脚本
+│   ├── permission_test.in          # 权限验证测试脚本
+│   ├── edge_case_test.in           # 异常/边界测试脚本
+│   ├── large_packet_test.in        # 大数据包传送测试脚本
+│   ├── reconnect_test.in           # 断线重连测试脚本
+│   ├── keepalive_test.in           # 连接保活/超时测试脚本
+│   └── data/                       # 测试数据（预置用户/包裹/配置）
 └── output/                         # 构建输出
     ├── client/
     │   ├── client_config.txt
     ├── server/
-    │   └── server_config.txt
+    │   ├── server_config.txt
+    │   └── server.exe
     └── tests/
+        ├── CommonTests.exe
+        ├── DataSetTests.exe
+        ├── IntegrationTest.exe
+        └── ServerTests.exe
 ```
 
 ---
@@ -484,7 +504,7 @@ task3/
 
 ### 佣金结算
 
-快递员揽收快递时，从公司资金池（`m_adminTotalBalance`）中划拨 **50% 运费** 作为揽收佣金。
+快递员批量揽收快递时，从公司资金池（`m_adminTotalBalance`）中划拨 **50% 运费** 作为揽收佣金，即时入账快递员个人余额。若公司资金池余额不足，该包裹揽收跳过（`continue`）而非失败。
 
 ### 日志系统
 
@@ -496,10 +516,12 @@ task3/
 
 ### 数据持久化
 
-- 基于文本文件存储，每行一条记录
+- 基于文本文件存储，每行一条记录，首行为版本头 `V=版本号`
 - 用户数据: `users.dat`（`|` 分隔字段）
 - 快递数据: `parcels.dat`（`|` 分隔字段）
 - 配置数据: `config.dat`（仅存管理员总余额）
+- **事务保护**：每个数据文件带版本号，`saveData()` 同步递增三文件版本号，启动时校验一致性
+- **原子写**：先写入 `.tmp` 临时文件，再通过 `rename()` 原子重命名，防止写崩溃损坏原文件
 - 每次写操作后实时落盘（`flush()`），确保数据不丢失
 
 ---
@@ -549,6 +571,33 @@ ctest --output-on-failure
 5. 验证资金流向：`CHECK_BALANCE` 校验各角色余额，`GET_STATS` 校验全局统计
 6. 测试完成后终止 server 进程，清理临时目录，**不污染生产数据**
 
+#### 集成测试支持的命令
+
+| 命令 | 格式 | 说明 |
+|------|------|------|
+| `REGISTER` | `REGISTER\|user\|pass\|name\|phone\|addr\|type\|expectedCode` | 注册用户 |
+| `LOGIN` | `LOGIN\|user\|pass\|type\|expectedCode` | 登录 |
+| `SEND` | `SEND\|receiver\|type\|weight\|desc\|expectedCode` | 发送快递，成功时自动记录 `PCL*` |
+| `ASSIGN` | `ASSIGN\|parcelId\|courier\|expectedCode` | 分配快递员 |
+| `COLLECT` | `COLLECT\|id1,id2,...\|expectedCode` | 批量为快递员揽收 |
+| `SIGN` | `SIGN\|id1,id2,...\|expectedCode` | 批量签收快递 |
+| `RECHARGE` | `RECHARGE\|amount\|expectedCode` | 充值 |
+| `CHANGE_PWD` | `CHANGE_PWD\|oldPwd\|newPwd\|expectedCode` | 修改密码 |
+| `QUERY_PARCELS` | `QUERY_PARCELS\|id\|sender\|receiver\|courier\|status\|start\|end\|expectedCode\|expectedCount` | 查询快递并断言结果数 |
+| `QUERY_USERS` | `QUERY_USERS\|username\|type\|expectedCode\|expectedCount` | 查询用户并断言结果数 |
+| `QUERY_BALANCE` | `QUERY_BALANCE\|expectedValue` | 查询余额并断言数值 |
+| `CHECK_BALANCE` | `CHECK_BALANCE\|expectedValue` | 与 QUERY_BALANCE 同义 |
+| `DELETE_USER` | `DELETE_USER\|username\|expectedCode` | 删除用户 |
+| `DELETE_PARCEL` | `DELETE_PARCEL\|parcelId\|expectedCode` | 删除快递 |
+| `GET_STATS` | `GET_STATS\|expectedCode\|users\|parcels\|pending\|collected\|signed\|balance` | 获取统计并断言全字段 |
+| `LOGOUT` | `LOGOUT\|expectedCode` | 注销登录 |
+| `WAIT` | `WAIT\|ms` | 等待指定毫秒数 |
+| `RESTART_SERVER` | `RESTART_SERVER\|expectedCode` | 终止并重启服务端进程 |
+| `RECONNECT` | `RECONNECT\|expectedCode` | 断开后重连并自动登录 |
+| `GEN_PARCELS` | `GEN_PARCELS\|count\|type\|sender\|receiver\|weight\|desc` | 向 parcels.dat 追加预置包裹 |
+| `CONFIG` | `CONFIG\|key\|value` | 修改 server_config.txt 配置项 |
+| `PRINT` | `PRINT\|message` | 输出信息到测试日志 |
+
 #### 资金流动验证
 
 ```
@@ -582,6 +631,10 @@ ctest --output-on-failure
 | **安全数据解析** | `parseInt` / `parseDouble` / `parseLongLong` 带完整错误校验，拒绝非法格式 |
 | **请求追踪日志** | 每个请求分配唯一递增 ID，日志中可追踪从收到到响应的完整链路 |
 | **异常隔离** | 请求处理外层包裹 `try-catch`，防止单个请求异常导致整个服务崩溃 |
+| **事务一致性** | 数据文件带版本头（V=N），每次写操作采用临时文件 + `rename()` 原子重命名，saveData 三文件同步递增版本号 |
+| **自动重连** | 客户端 `Communication` 保存登录凭据，断线后通过 `reconnectAndRelogin()` 自动恢复会话 |
+| **空闲超时检测** | select 超时（1s）周期扫描全部客户端活跃时间，超过 `max_idle_time` 的僵尸连接自动断开 |
+| **连接保活** | 服务端 send 循环处理部分发送（非阻塞 EWOULDBLOCK 重试），单次 recv 后累积缓冲区处理半包/粘包 |
 | **优雅关闭** | 支持 Ctrl+C / Ctrl+Break 信号处理，安全释放所有资源 |
 
 ### 待改进方向
@@ -593,11 +646,10 @@ ctest --output-on-failure
 | **裸指针管理** | 低 | `m_users` / `m_parcels` 存储裸指针，手动 `new`/`delete`。已确认析构时正确释放，异常路径下仍有泄漏风险。建议改用 `std::unique_ptr` 自动管理生命周期 |
 | **查询快递可能重复** | 低 | `ClientHandler::handleQueryParcel` 中客户作为寄件人和收件人分别查询后合并结果未去重，同一用户同时为寄收件人时重复 |
 | **非阻塞 socket 跨平台** | 低 | `server.cpp` 中 `FIONBIO` / `O_NONBLOCK` 仅覆盖 Windows 和 Linux，macOS/FreeBSD 等平台未处理 |
-| **loadParcels 解析** | 低 | `FileManager::loadParcels` 在 `while(getline(iss, token, DELIMITER))` 循环后多出一条无参数 `getline(iss, token)`，多写入一个空字段 |
-| **测试数据路径脆弱** | 低 | `dataset_tests.cpp` 的 `findDataDir()` 通过枚举 5 个候选路径定位数据目录，依赖当前工作目录，在 CMake 构建目录下运行时容易定位失败 |
-| **并发演进** | 低 | 架构已预留上下文设计，未来可升级为多线程处理 |
+| **测试数据路径脆弱** | 低 | `dataset_tests.cpp` 的 `findDataDir()` 通过枚举多个候选路径定位数据目录，依赖当前工作目录 |
+| **并发演进** | 低 | 架构已预留上下文设计（`ClientHandler` per-connection），未来可升级为多线程处理 |
 
-> **已修复**: `deleteParcel` 未释放内存（P1）、`parseDouble` 缺 idx 校验（P2-3）、`Communication.cpp` 用 `stoi` 解析 time_t（P2-4）、根目录死代码清理、测试 CMake 引用缺失文件（P0）、客户端响应累积缓冲区 + `\n` 边界检测、服务端 send 循环处理部分发送、连接空闲超时断开（180s）、`handleRequst` 拼写修正、断线重连机制、saveData 临时文件 + `rename()` 原子替换 + 版本头事务保护。
+> **已修复**: `deleteParcel` 未释放内存（P1）、`parseDouble` 缺 idx 校验（P2-3）、`Communication.cpp` 用 `stoi` 解析 time_t（P2-4）、根目录死代码清理、测试 CMake 引用缺失文件（P0）、客户端响应累积缓冲区 + `\n` 边界检测、服务端 send 循环处理部分发送、连接空闲超时断开（180s）、`handleRequst` 拼写修正、断线重连机制、saveData 临时文件 + `rename()` 原子替换 + 版本头事务保护、`loadParcels` 多余 `getline` 空字段问题。
 
 ---
 

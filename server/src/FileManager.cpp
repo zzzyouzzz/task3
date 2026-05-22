@@ -131,8 +131,6 @@ std::map<std::string, Parcel*> FileManager::loadParcels(const std::string& filen
         std::vector<std::string> fields;
         std::string token;
         while (std::getline(iss, token, DELIMITER)) fields.push_back(token);
-        getline(iss, token);
-        fields.push_back(token);
         if (fields.size() < 10) continue;
         int type;
         if (!parseInt(fields[0], type)) {
